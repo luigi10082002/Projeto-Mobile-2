@@ -1,5 +1,14 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, 
+  KeyboardAvoidingView, 
+  Platform, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  StyleSheet, 
+  TouchableWithoutFeedback, 
+  Keyboard,
+  SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
   
 export function PMod() {
@@ -14,38 +23,53 @@ export function PMod() {
     }
   
     return (
-      <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
+      <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
   
-        <View style={styles.form}>
+          <View style={styles.form}>
+            
+            <TouchableOpacity onPress={readCode} style={styles.button}>
+              <Text style={styles.buttonText}>Scanner</Text>
+            </TouchableOpacity>
           
-          <TouchableOpacity onPress={readCode} style={styles.button}>
-            <Text style={styles.buttonText}>Scanner</Text>
-          </TouchableOpacity>
-        
 
-        <Text style={styles.label}>Código</Text>
-          <TextInput
-            style={styles.input}
-          />
+          <Text style={styles.label}>Código</Text>
+            <TextInput
+              style={styles.input}
+            />
 
-        <Text style={styles.label}>Quantidade</Text>
-          <TextInput
-            style={styles.input}
-          />
+          <Text style={styles.label}>Quantidade</Text>
+            <TextInput
+              style={styles.input}
+            />
 
-          <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
-            <Text style={styles.confirmText}>Confirmar</Text>
-          </TouchableOpacity>
+            <View style={styles.footer}>
+            <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
+              <Text style={styles.confirmText}>Confirmar</Text>
+            </TouchableOpacity>
+            </View>
 
-        </View>
+            </View>
+          
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
   
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-
+      width: '100%',
+      textAlign: 'center',
+  
+    },
+    content: {
+      flex: 1,
+      width: '100%',
     },
   
     form: {
@@ -58,7 +82,13 @@ export function PMod() {
       color: '#444',
       marginBottom: 8,
     },
-  
+
+    footer: {
+      width: '100%',
+      marginTop: 40,
+      paddingHorizontal: 20
+    },
+
     input: {
       borderWidth: 1,
       borderColor: '#fff',
@@ -83,20 +113,18 @@ export function PMod() {
     },
 
     buttoncon: {
-      height: 44,
-      width: 294,
+      height: 56,
       backgroundColor: '#4B7DFE',
-      alignItems: 'center',
       borderRadius: 5,
-      marginLeft: 4,
-      marginTop: 330,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   
     buttonText: {
       color: '#FFF',
       fontWeight: 'bold',
       fontSize: 12,
-      marginLeft: 10
+      marginRight: 8,
     },
 
     confirmText: {
@@ -104,9 +132,9 @@ export function PMod() {
       fontWeight: 'bold',
       alignItems: 'center',
       justifyContent: 'center',
-      fontSize: 20,
+      fontSize: 15,
       marginLeft: 10,
-      marginTop: 7,
+      marginTop: 10,
     },
   });
   

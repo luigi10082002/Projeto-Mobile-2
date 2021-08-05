@@ -92,15 +92,15 @@ import { useNavigation } from '@react-navigation/core';
       color: '#FFF',
       fontWeight: 'bold',
       fontSize: 12,
-      marginLeft: 10,
+      marginRight: 8,
     },
 
     confirmText: {
       color: '#FFF',
       fontWeight: 'bold',
-      fontSize: 20,
+      fontSize: 15,
       marginLeft: 10,
-      marginTop: 5,
+      marginTop: 10,
     },
   });
   
