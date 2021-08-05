@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/core';
   
     return (
       <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
-  
+        
         <View style={styles.form}>
           
           <TouchableOpacity onPress={readCode} style={styles.button}>
@@ -23,8 +23,8 @@ import { useNavigation } from '@react-navigation/core';
             style={styles.input}
             placeholder="Digite a quantidade do produto"
             laceholderTextColor="#999"
-
           />
+
         </View>
       </KeyboardAvoidingView>
     );

@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useNavigation } from '@react-navigation/core';
 
 
+export  function QRcode() {
 
-export default function QRcode({navigation}) {
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
   async function cancelScan() {
       
   
-    {navigation.navigate('Home')};
+    navigation.navigate('Home');
   }
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function QRcode({navigation}) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    //const num = data;
   };
 
   if (hasPermission === null) {
@@ -39,9 +42,10 @@ export default function QRcode({navigation}) {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
+       {scanned && 
       <TouchableOpacity onPress={cancelScan} style={styles.button}>
           <Text style={styles.buttonText}>Cancelar</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
     </View>
   );
 }
@@ -74,3 +78,4 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 });
+
