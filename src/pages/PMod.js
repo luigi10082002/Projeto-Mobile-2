@@ -1,13 +1,16 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, Platform, Image, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
   
 export function PMod() {
   const navigation = useNavigation();
-    async function readCode() {
-      
-  
+    
+    async function readCode() { 
       {navigation.navigate('QRcode')};
+    }
+
+    async function Confirm() {
+      {navigation.navigate('Home')};
     }
   
     return (
@@ -33,8 +36,11 @@ export function PMod() {
             style={styles.input}
             placeholder="Digite a quantidade do produto"
             laceholderTextColor="#999"
-
           />
+
+          <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
+            <Text style={styles.confirmText}>Confirmar</Text>
+          </TouchableOpacity>
 
         </View>
       </KeyboardAvoidingView>
@@ -79,12 +85,29 @@ export function PMod() {
       marginLeft: 222,
       marginTop: 79,
     },
+
+    buttoncon: {
+      height: 44,
+      width: 294,
+      backgroundColor: '#4B7DFE',
+      alignItems: 'center',
+      borderRadius: 5,
+      marginLeft: 4,
+      marginTop: 330,
+    },
   
     buttonText: {
       color: '#FFF',
       fontWeight: 'bold',
       fontSize: 12,
       marginLeft: 10
+    },
+
+    confirmText: {
+      color: '#FFF',
+      fontWeight: 'bold',
+      fontSize: 30,
+      marginLeft: 10,
     },
   });
   

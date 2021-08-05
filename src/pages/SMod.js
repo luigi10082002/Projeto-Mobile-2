@@ -5,8 +5,13 @@ import { useNavigation } from '@react-navigation/core';
   
   export function SMod() {
     const navigation = useNavigation();
+    
     async function readCode() {    
       {navigation.navigate('QRcode')};
+    }
+
+    async function Confirm() {
+      {navigation.navigate('Home')};
     }
   
     return (
@@ -24,6 +29,10 @@ import { useNavigation } from '@react-navigation/core';
             placeholder="Digite a quantidade do produto"
             laceholderTextColor="#999"
           />
+
+          <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
+            <Text style={styles.confirmText}>Confirmar</Text>
+          </TouchableOpacity>
 
         </View>
       </KeyboardAvoidingView>
@@ -59,6 +68,16 @@ import { useNavigation } from '@react-navigation/core';
       borderRadius: 2
     },
 
+    buttoncon: {
+      height: 44,
+      width: 294,
+      backgroundColor: '#4B7DFE',
+      alignItems: 'center',
+      borderRadius: 5,
+      marginLeft: 4,
+      marginTop: 420,
+    },
+
     button: {
       height: 28,
       width: 95,
@@ -74,7 +93,14 @@ import { useNavigation } from '@react-navigation/core';
       color: '#FFF',
       fontWeight: 'bold',
       fontSize: 12,
-      marginLeft: 10
+      marginLeft: 10,
+    },
+
+    confirmText: {
+      color: '#FFF',
+      fontWeight: 'bold',
+      fontSize: 30,
+      marginLeft: 10,
     },
   });
   

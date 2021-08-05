@@ -56,7 +56,8 @@ const AppRoutes = () => (
                 headerTintColor: '#fff',
                 headerTitleStyle: {
                   fontWeight: 'bold',
-                }
+                },
+                headerTitleAlign: 'center'
             }}
         />
         <stackRoutes.Screen 
