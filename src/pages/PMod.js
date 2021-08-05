@@ -26,16 +26,11 @@ export function PMod() {
         <Text style={styles.label}>Código</Text>
           <TextInput
             style={styles.input}
-            placeholder="Digite o código do produto"
-            placeholderTextColor="#999"
-
           />
 
         <Text style={styles.label}>Quantidade</Text>
           <TextInput
             style={styles.input}
-            placeholder="Digite a quantidade do produto"
-            laceholderTextColor="#999"
           />
 
           <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
@@ -66,7 +61,8 @@ export function PMod() {
   
     input: {
       borderWidth: 1,
-      borderColor: '#ddd',
+      borderColor: '#fff',
+      backgroundColor: '#CACACA',
       paddingHorizontal: 20,
       fontSize: 16,
       color: '#444',
@@ -106,8 +102,11 @@ export function PMod() {
     confirmText: {
       color: '#FFF',
       fontWeight: 'bold',
-      fontSize: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: 20,
       marginLeft: 10,
+      marginTop: 7,
     },
   });
   

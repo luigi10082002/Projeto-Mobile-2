@@ -26,8 +26,6 @@ import { useNavigation } from '@react-navigation/core';
           <Text style={styles.label}>Quantidade</Text>
           <TextInput
             style={styles.input}
-            placeholder="Digite a quantidade do produto"
-            laceholderTextColor="#999"
           />
 
           <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
@@ -59,7 +57,8 @@ import { useNavigation } from '@react-navigation/core';
   
     input: {
       borderWidth: 1,
-      borderColor: '#ddd',
+      borderColor: '#fff',
+      backgroundColor: '#CACACA',
       paddingHorizontal: 20,
       fontSize: 16,
       color: '#444',
@@ -99,8 +98,9 @@ import { useNavigation } from '@react-navigation/core';
     confirmText: {
       color: '#FFF',
       fontWeight: 'bold',
-      fontSize: 30,
+      fontSize: 20,
       marginLeft: 10,
+      marginTop: 5,
     },
   });
   
