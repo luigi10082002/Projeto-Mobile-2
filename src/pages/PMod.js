@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, KeyboardAvoidingView, Platform, Image, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
   
-  
-export function PMod({ navigation }) {
-
+export function PMod() {
+  const navigation = useNavigation();
     async function readCode() {
       
   

@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, KeyboardAvoidingView, Platform, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
-export function Home({ navigation }) {
-
+export function Home() {
+  const navigation = useNavigation();
   async function readCode() {
     
 
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 18,
     marginRight: 43,
-    marginTop: 189,
+    marginTop: 20,
   },
 
   buttonText: {

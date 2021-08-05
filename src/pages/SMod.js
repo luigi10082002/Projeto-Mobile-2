@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-  
-  
-  export function SMod({ navigation }) {
+import { useNavigation } from '@react-navigation/core';
 
-    async function readCode() {
-      
   
+  export function SMod() {
+    const navigation = useNavigation();
+    async function readCode() {    
       {navigation.navigate('QRcode')};
     }
   
