@@ -40,14 +40,8 @@ const AppRoutes = () => (
                 headerStyle: {
                   backgroundColor: '#4B7DFE',
                 },
-                headerTitleStyle: {
-                    textAlign: 'center',
-                    flex: 1,
-                },
                 headerTintColor: '#fff',
-                headerTitleStyle: {
-                fontWeight: 'bold',
-                }
+                headerTitleAlign: 'center'
             }}
         />
 
