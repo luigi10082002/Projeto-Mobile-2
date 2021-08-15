@@ -1,48 +1,97 @@
-import React from 'react';
-import { View, KeyboardAvoidingView, Platform, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Button, RadioButton } from 'react-native-paper';
+import { 
+  View, 
+  KeyboardAvoidingView, 
+  Platform, 
+  Text, 
+  TouchableOpacity, 
+  StyleSheet,
+  FlatList,
+  ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 export function Home() {
+  const [mod, setMod] = useState('1');
+
+  const buttons = [
+    { 
+      name: 'Módulo 1', 
+      id: '1'
+    },
+    { 
+      name: 'Módulo 2', 
+      id: '2'
+    },
+  ];
+
   const navigation = useNavigation();
-  async function readCode() {
-    
 
-    navigation.navigate('QRcode');
+  function setHandleMod(modelo) {
+    setMod(modelo)
+  };
+
+  function plus() { 
+    if (mod == 1) {
+      navigation.navigate('PMod');
+    }
+
+    else {
+      navigation.navigate('SMod');
+    }
   }
-
-  async function modOne() {
-    
-
-    navigation.navigate('PMod');
-  }
-
-  async function modTwo() {
-    
-
-    navigation.navigate('SMod');
-  }
-
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
 
       <View style={styles.form}>
         
-      <Text style={styles.text}>Olá</Text>
+        <View style={styles.user}>
+          <Text style={styles.txt}>Olá,</Text>
+          <Text style={styles.txtuser}>User</Text>
+        </View>
 
-      <TouchableOpacity onPress={readCode} style={styles.buttonqr}>
-          <Text style={styles.buttonText}>Scanner</Text>
-        </TouchableOpacity>
-      
+        <View style={styles.text}>
+          <Text style={styles.one}>Em qual modelo</Text>
+          <Text style={styles.two}>Você quer fazer o inventario?</Text>
+        </View>
+<ScrollView>
+        <View style={styles.formmod}>
 
-        <TouchableOpacity onPress={modOne} style={styles.buttonone}>
-          <Text style={styles.buttonText}>Mod 1</Text>
-        </TouchableOpacity>
+          
 
-        <TouchableOpacity onPress={modTwo} style={styles.buttontwo}>
-          <Text style={styles.buttonText}>Mod 2</Text>
-        </TouchableOpacity>
+            <FlatList
+              keyExtrector={item => item.id}
+              horizontal={'true'}
+              data={buttons}
+              renderItem={({ item }) => (
+                
+              <TouchableOpacity 
+              onPress={() => {setHandleMod(item.id)}}
+              style={styles.button}>
+              <Text style={styles.buttonText}>{item.name}</Text>
+              </TouchableOpacity>
 
+              )}
+            />        
+
+        </View>
+        
+        <View style={styles.listaProdutos}>
+          <Text style={styles.total}>Total de Produtos</Text>
+          <Text style={styles.num}>X</Text>
+        </View>
+
+        <View style={styles.prodlist}>
+          <View>
+            <Text style={styles.list}>Produtos listados</Text>
+          </View>
+
+            <Button onPress={plus} style={styles.add}>
+             <Text style={styles.buttonplustext}>+</Text>
+            </Button>
+        </View>
+        </ScrollView>
       </View>
     </KeyboardAvoidingView>
   );
@@ -51,79 +100,135 @@ export function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
 
   form: {
-    alignSelf: 'stretch',
-    paddingHorizontal: 30,
-    marginTop: 30,
-  },
-  
-  label: {
-    fontWeight: 'bold',
-    color: '#444',
-    marginBottom: 8,
+    width: 'auto',
+    height: 'auto',
+    
   },
 
-  text: {
-    width: 68,
-    height: 76,
-    marginTop: 50,
-    marginLeft: 10,
+  user: {
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      alignSelf: 'flex-start',
+      alignContent: 'space-around',
+      width: 'auto',
+      height: 'auto',
+      marginTop: '40%',
+      marginLeft: '10%',
+  },
+
+  txt: {
     fontSize: 30,
   },
 
+  txtuser: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+
+  text: {
+    flexDirection: 'column',
+    direction: 'ltr',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
+    alignContent: 'flex-start',
+    width: 'auto',
+    height: 'auto',
+    marginTop: '10%',
+    marginLeft: '10%',
+  },
+
+  one: {
+    fontWeight: 'bold',
+    width: 'auto',
+    height: 'auto',
+  },
+
+  two: {
+    width: 'auto',
+    height: 'auto',
+  },
+
+  listaProdutos: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    alignContent: 'space-around',
+    width: 'auto',
+    height: 'auto',
+    marginLeft: '10%',
+      
+  },
+
+  total: {
+    fontWeight: 'bold',
+    fontSize: 18
+  },
+
+  num: {
+    fontWeight: 'bold',
+    fontSize: 26,
+  },
+  
+  list: {
+    fontSize: 15,
+    marginLeft: '24%',
+    alignItems: 'stretch',
+  },
+
+  formmod: {
+   flexDirection: 'row',
+   width: 'auto',
+   height: 'auto',
+  },
+
   button: {
-    height: 28,
-    width: 95,
-    backgroundColor: '#4B7DFE',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    borderRadius: 13,
-    marginLeft: 222,
-    marginTop: 79,
-  },
-  buttonqr: {
-    height: 28,
-    width: 95,
-    backgroundColor: '#4B7DFE',
+    height: '58%',
+    width: '35%',
+    backgroundColor: '#E8E8E8',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 13,
-    marginLeft: 222,
-    marginTop: 60,
-  },
-  buttonone: {
-    height: 26,
-    width: 115,
-    backgroundColor: '#4B7DFE',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 18,
-    marginLeft: 42,
-    marginTop: 189,
-    alignSelf: 'stretch',
-    paddingHorizontal: 30,
-  },
-  buttontwo: {
-    height: 26,
-    width: 115,
-    backgroundColor: '#4B7DFE',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 18,
-    marginRight: 43,
-    marginTop: 20,
+    marginTop: '5%',
+    marginLeft: '13%',
   },
 
   buttonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 12,
-    marginLeft: 10,
+    color: '#606060'
   },
+
+  prodlist: {
+      flexDirection: 'row',
+      flex: 1, 
+      justifyContent: 'space-between',
+  },
+
+  add: {
+    backgroundColor: '#4B7DFE',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginRight: '5%',
+    width: '10%',
+    height: '60%',
+  },
+
+  buttonPlus: {
+    
+  },
+  
+  buttonplustext: {
+    fontSize: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#fff',
+  },
+  
 });
 
 export default Home;

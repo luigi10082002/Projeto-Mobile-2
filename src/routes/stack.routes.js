@@ -3,6 +3,7 @@ import React from 'react';
 import { enableScreens } from 'react-native-screens';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
+import { TabNavi } from './TabNavi';
 import { Home } from '../pages/Home';
 import { SMod } from '../pages/SMod';
 import { PMod } from '../pages/PMod';
@@ -14,18 +15,17 @@ const stackRoutes = createSharedElementStackNavigator();
 
 
 const AppRoutes = () => (
-    <stackRoutes.Navigator
-        //headerMode='none'
-        screenOptions={{
-            cardStyle: {
-                backgroundColor: '#fff'
-            },
-        }}
-    >
+        <stackRoutes.Navigator
+            screenOptions={{
+                cardStyle: {
+                    backgroundColor: '#fff'
+                },
+            }}
+        >
         
         <stackRoutes.Screen 
             name="Home"
-            component={Home}
+            component={TabNavi}
             options={{
                 headerShown: false
                 }
@@ -60,6 +60,7 @@ const AppRoutes = () => (
                 headerTitleAlign: 'center'
             }}
         />
+        
         <stackRoutes.Screen 
             name="QRcode"
             component={QRcode}

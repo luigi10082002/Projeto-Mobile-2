@@ -25,7 +25,7 @@ export  function QRcode() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     //const num = data;
   };
 
@@ -41,11 +41,10 @@ export  function QRcode() {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
-      />
-       {scanned && 
+      /> 
       <TouchableOpacity onPress={cancelScan} style={styles.button}>
           <Text style={styles.buttonText}>Cancelar</Text>
-      </TouchableOpacity>}
+      </TouchableOpacity>
     </View>
   );
 }
@@ -59,15 +58,23 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    height: 40,
-    width: 320,
+    //height: 40,
+    //width: 320,
+    //backgroundColor: '#4B7DFE',
+    //alignItems: 'center',
+    //borderRadius: 5,
+    //marginLeft: 20,
+    //marginRight: 20,
+    //marginBottom: 40,
+    //marginTop: 605,
+
+    height: 44,
+    width: 294,
     backgroundColor: '#FF0000',
     alignItems: 'center',
     borderRadius: 5,
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 40,
-    marginTop: 605,
+    marginLeft: '5%',
+    marginTop: '110%',
   },
 
   buttonText: {

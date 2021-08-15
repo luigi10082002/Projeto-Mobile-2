@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, 
+import { 
+  View, 
   KeyboardAvoidingView, 
   Platform, 
   Text, 
@@ -8,7 +9,8 @@ import { View,
   StyleSheet, 
   TouchableWithoutFeedback, 
   Keyboard,
-  SafeAreaView } from 'react-native';
+  SafeAreaView,
+  ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
   
 export function PMod() {
@@ -21,120 +23,124 @@ export function PMod() {
     async function Confirm() {
       {navigation.navigate('Home')};
     }
-  
-    return (
-      <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
 
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    //<TouchableWithoutFeedback onPress={Keyboard.dismiss}></TouchableWithoutFeedback>
   
-          <View style={styles.form}>
+return (
+  <SafeAreaView style={styles.container}>
+        
+    <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
+
+      <ScrollView>
+    
+        <View style={styles.form}>
+              
+          <TouchableOpacity onPress={readCode} style={styles.button}>
+             <Text style={styles.buttonText}>Scanner</Text>
+          </TouchableOpacity>
             
-            <TouchableOpacity onPress={readCode} style={styles.button}>
-              <Text style={styles.buttonText}>Scanner</Text>
-            </TouchableOpacity>
-          
 
           <Text style={styles.label}>Código</Text>
-            <TextInput
-              style={styles.input}
-            />
+            <TextInput style={styles.input}/>
 
           <Text style={styles.label}>Quantidade</Text>
-            <TextInput
-              style={styles.input}
-            />
+            <TextInput style={styles.input}/>
 
-            <View style={styles.footer}>
+          <View style={styles.footer}>
+                
             <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
               <Text style={styles.confirmText}>Confirmar</Text>
             </TouchableOpacity>
-            </View>
 
-            </View>
+          </View>
+
+        </View>
+
+      </ScrollView>
           
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-      </SafeAreaView>
-    );
-  }
+    </KeyboardAvoidingView>
+  </SafeAreaView>
+);
+}
   
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      width: '100%',
-      textAlign: 'center',
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%',
+    textAlign: 'center',
   
-    },
-    content: {
-      flex: 1,
-      width: '100%',
-    },
+  },
+
+  content: {
+    flex: 1,
+    width: '100%',
+  },
   
-    form: {
-      alignSelf: 'stretch',
-      paddingHorizontal: 30,
-      marginTop: 30,
-    },
-    label: {
-      fontWeight: 'bold',
-      color: '#444',
-      marginBottom: 8,
-    },
+  form: {
+    alignSelf: 'stretch',
+    paddingHorizontal: 30,
+    marginTop: 30,
+  },
 
-    footer: {
-      width: '100%',
-      marginTop: 40,
-      paddingHorizontal: 20
-    },
+  label: {
+    fontWeight: 'bold',
+    color: '#444',
+    marginBottom: 8,
+  },
 
-    input: {
-      borderWidth: 1,
-      borderColor: '#fff',
-      backgroundColor: '#CACACA',
-      paddingHorizontal: 20,
-      fontSize: 16,
-      color: '#444',
-      height: 44,
-      marginBottom: 20,
-      borderRadius: 2
-    },
+  footer: {
+    width: '100%',
+    paddingHorizontal: 4
+  },
 
-    button: {
-      height: 28,
-      width: 95,
-      backgroundColor: '#4B7DFE',
-      justifyContent: 'center',
-      alignItems: 'flex-end',
-      borderRadius: 13,
-      marginLeft: 222,
-      marginTop: 79,
-    },
+  input: {
+    borderWidth: 1,
+    borderColor: '#fff',
+    backgroundColor: '#CACACA',
+    paddingHorizontal: 20,
+    fontSize: 16,
+    color: '#444',
+    height: 44,
+    marginBottom: 20,
+    borderRadius: 2
+  },
 
-    buttoncon: {
-      height: 56,
-      backgroundColor: '#4B7DFE',
-      borderRadius: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
+  button: {
+    height: 28,
+    width: 95,
+    backgroundColor: '#4B7DFE',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    borderRadius: 13,
+    marginLeft: 222,
+    marginTop: 79,
+  },
+
+  buttoncon: {
+    height: 44,
+    width: 294,
+    backgroundColor: '#4B7DFE',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginRight: '50%',
+    marginTop: '100%',
+  },
   
-    buttonText: {
-      color: '#FFF',
-      fontWeight: 'bold',
-      fontSize: 12,
-      marginRight: 8,
-    },
+  buttonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 12,
+    marginRight: 8,
+  },
 
-    confirmText: {
-      color: '#FFF',
-      fontWeight: 'bold',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 15,
-      marginLeft: 10,
-      marginTop: 10,
+  confirmText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 15,
+    marginLeft: 10,
+    marginTop: 10,
     },
   });
   
