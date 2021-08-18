@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, RadioButton } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { 
   View, 
   KeyboardAvoidingView, 
@@ -10,6 +10,9 @@ import {
   FlatList,
   ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+
+import qtd1 from './PMod'
+import qtd2 from './SMod'
 
 export function Home() {
   const [mod, setMod] = useState('1');
@@ -26,6 +29,10 @@ export function Home() {
   ];
 
   const navigation = useNavigation();
+
+  function QtdTotal() {
+    const  Total = qtd1 + qtd2
+  }
 
   function setHandleMod(modelo) {
     setMod(modelo)
@@ -55,14 +62,12 @@ export function Home() {
           <Text style={styles.one}>Em qual modelo</Text>
           <Text style={styles.two}>Você quer fazer o inventario?</Text>
         </View>
-<ScrollView>
-        <View style={styles.formmod}>
 
-          
+      <ScrollView horizontal>
+        <View style={styles.formmod}>
 
             <FlatList
               keyExtrector={item => item.id}
-              horizontal={'true'}
               data={buttons}
               renderItem={({ item }) => (
                 
@@ -76,6 +81,7 @@ export function Home() {
             />        
 
         </View>
+      </ScrollView>
         
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
@@ -89,10 +95,12 @@ export function Home() {
 
             <Button onPress={plus} style={styles.add}>
              <Text style={styles.buttonplustext}>+</Text>
-            </Button>
+            </Button> 
+            
         </View>
-        </ScrollView>
+
       </View>
+
     </KeyboardAvoidingView>
   );
 }
@@ -194,7 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 13,
-    marginTop: '5%',
+    marginTop: '2%',
     marginLeft: '13%',
   },
 

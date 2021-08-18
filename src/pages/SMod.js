@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, 
   KeyboardAvoidingView, 
@@ -6,27 +6,28 @@ import {
   Text, 
   TextInput, 
   TouchableOpacity, 
-  StyleSheet, 
-  TouchableWithoutFeedback, 
-  Keyboard,
+  StyleSheet,
   SafeAreaView,
-  ScrollView } from 'react-native';
+  ScrollView, 
+  AsyncStorage } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
   
 export function SMod() {
   const navigation = useNavigation();
-    
+
+  const [cod, setCod] = useState([]); 
+  const [info, setInfo] = useState([]);
+
     async function readCode() { 
-      {navigation.navigate('QRcode')};
+      {navigation.navigate('SQRcode')};
     }
 
     async function Confirm() {
       {navigation.navigate('Home')};
     }
-
-    //<TouchableWithoutFeedback onPress={Keyboard.dismiss}></TouchableWithoutFeedback>
   
 return (
+  //MESMO PRODUTO
   <SafeAreaView style={styles.container}>
         
     <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -40,7 +41,13 @@ return (
           </TouchableOpacity>
 
           <Text style={styles.label}>Quantidade</Text>
-            <TextInput style={styles.input}/>
+            <TextInput 
+            style={styles.input}
+            autoCorrect={false}
+            value={cod}
+            onChangeText={setCod}
+          />
+
 
           <View style={styles.footer}>
                 
@@ -118,8 +125,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B7DFE',
     alignItems: 'center',
     borderRadius: 5,
-    marginRight: '50%',
-    flexDirection: 
+    marginLeft: '5%',
+    marginTop: '100%',
   },
   
   buttonText: {

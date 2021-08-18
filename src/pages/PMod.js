@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, 
   KeyboardAvoidingView, 
@@ -7,60 +7,70 @@ import {
   TextInput, 
   TouchableOpacity, 
   StyleSheet, 
-  TouchableWithoutFeedback, 
-  Keyboard,
   SafeAreaView,
-  ScrollView } from 'react-native';
+  ScrollView, } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
   
 export function PMod() {
+
   const navigation = useNavigation();
+
+  async function Confirm() {
+    
+    {navigation.navigate('Home')};
+  }
+
     
     async function readCode() { 
-      {navigation.navigate('QRcode')};
+      {navigation.navigate('PQRcode')};
     }
-
-    async function Confirm() {
-      {navigation.navigate('Home')};
-    }
-
-    //<TouchableWithoutFeedback onPress={Keyboard.dismiss}></TouchableWithoutFeedback>
   
-return (
-  <SafeAreaView style={styles.container}>
-        
-    <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
+  return (
+    //DIFERENTES PRODUTOS
+    <SafeAreaView style={styles.container}>
+          
+      <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
 
-      <ScrollView>
-    
-        <View style={styles.form}>
-              
-          <TouchableOpacity onPress={readCode} style={styles.button}>
-             <Text style={styles.buttonText}>Scanner</Text>
-          </TouchableOpacity>
-            
-
-          <Text style={styles.label}>Código</Text>
-            <TextInput style={styles.input}/>
-
-          <Text style={styles.label}>Quantidade</Text>
-            <TextInput style={styles.input}/>
-
-          <View style={styles.footer}>
+        <ScrollView>
+      
+          <View style={styles.form}>
                 
-            <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
-              <Text style={styles.confirmText}>Confirmar</Text>
+            <TouchableOpacity onPress={readCode} style={styles.button}>
+              <Text style={styles.buttonText}>Scanner</Text>
             </TouchableOpacity>
+              
+
+            <Text style={styles.label}>Código</Text>
+              <TextInput 
+              style={styles.input}
+              autoCorrect={false}
+              //value={cod}
+              //onChangeText={setCod}
+              />
+
+            <Text style={styles.label}>Quantidade</Text>
+              <TextInput 
+              style={styles.input}
+              autoCorrect={false}
+              //value={qtd1}
+              //onChangeText={setQtd1}
+            />
+
+            <View style={styles.footer}>
+                  
+              <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>
+                <Text style={styles.confirmText}>Confirmar</Text>
+              </TouchableOpacity>
+
+            </View>
 
           </View>
 
-        </View>
-
-      </ScrollView>
-          
-    </KeyboardAvoidingView>
-  </SafeAreaView>
-);
+        </ScrollView>
+            
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }
   
 const styles = StyleSheet.create({
@@ -122,8 +132,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B7DFE',
     alignItems: 'center',
     borderRadius: 5,
-    marginRight: '50%',
-    marginTop: '100%',
+    marginLeft: '5%',
+    marginTop: '90%',
   },
   
   buttonText: {
