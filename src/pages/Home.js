@@ -8,15 +8,12 @@ import {
   TouchableOpacity, 
   StyleSheet,
   FlatList,
-  ScrollView } from 'react-native';
+  AsyncStorage } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-
-import qtd1 from './PMod'
-import qtd2 from './SMod'
 
 export function Home() {
   const [mod, setMod] = useState('1');
-
+  const [Prod, setProd] = useState([]);
   const buttons = [
     { 
       name: 'Módulo 1', 
@@ -28,11 +25,19 @@ export function Home() {
     },
   ];
 
-  const navigation = useNavigation();
+  useEffect(() => {
+    async function loadSpots() {
+      const prod = await AsyncStorage.getItem('prod')
+     const stoge = prod? JSON.parse(prod) : [];
+      setProd(stoge);
+     
+    }
 
-  function QtdTotal() {
-    const  Total = qtd1 + qtd2
-  }
+    loadSpots();
+  }, []);
+
+
+  const navigation = useNavigation();
 
   function setHandleMod(modelo) {
     setMod(modelo)
@@ -48,9 +53,26 @@ export function Home() {
     }
   }
 
+  async function List() {
+    const prod = await AsyncStorage.getItem('prod')
+
+    console.log(prod)
+  }
+
+  async function modOne() {
+    
+
+    navigation.navigate('PMod');
+  }
+
+  async function modTwo() {
+    
+
+    navigation.navigate('SMod');
+  }
+
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
-
       <View style={styles.form}>
         
         <View style={styles.user}>
@@ -63,10 +85,10 @@ export function Home() {
           <Text style={styles.two}>Você quer fazer o inventario?</Text>
         </View>
 
-      <ScrollView horizontal>
         <View style={styles.formmod}>
 
             <FlatList
+              //horizontal={true}
               keyExtrector={item => item.id}
               data={buttons}
               renderItem={({ item }) => (
@@ -78,14 +100,13 @@ export function Home() {
               </TouchableOpacity>
 
               )}
-            />        
+            />  
 
         </View>
-      </ScrollView>
         
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
-          <Text style={styles.num}>X</Text>
+          <Text style={styles.num}>{Prod.length}</Text>
         </View>
 
         <View style={styles.prodlist}>
@@ -93,14 +114,12 @@ export function Home() {
             <Text style={styles.list}>Produtos listados</Text>
           </View>
 
-            <Button onPress={plus} style={styles.add}>
-             <Text style={styles.buttonplustext}>+</Text>
-            </Button> 
-            
+          <Button onPress={plus} style={styles.add}>
+            <Text style={styles.buttonplustext}>+</Text>
+          </Button> 
+
         </View>
-
       </View>
-
     </KeyboardAvoidingView>
   );
 }
@@ -117,15 +136,15 @@ const styles = StyleSheet.create({
   },
 
   user: {
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start',
-      alignSelf: 'flex-start',
-      alignContent: 'space-around',
-      width: 'auto',
-      height: 'auto',
-      marginTop: '40%',
-      marginLeft: '10%',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
+    alignContent: 'space-around',
+    width: 'auto',
+    height: 'auto',
+    marginTop: '20%',
+    marginLeft: '5%',
   },
 
   txt: {
@@ -146,19 +165,8 @@ const styles = StyleSheet.create({
     alignContent: 'flex-start',
     width: 'auto',
     height: 'auto',
-    marginTop: '10%',
-    marginLeft: '10%',
-  },
-
-  one: {
-    fontWeight: 'bold',
-    width: 'auto',
-    height: 'auto',
-  },
-
-  two: {
-    width: 'auto',
-    height: 'auto',
+    marginTop: '5%',
+    marginLeft: '5%',
   },
 
   listaProdutos: {
@@ -168,9 +176,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     alignContent: 'space-around',
     width: 'auto',
-    height: 'auto',
-    marginLeft: '10%',
-      
+    height: '30%',
+    marginLeft: '5%',
   },
 
   total: {
@@ -211,9 +218,11 @@ const styles = StyleSheet.create({
   },
 
   prodlist: {
-      flexDirection: 'row',
-      flex: 1, 
-      justifyContent: 'space-between',
+    flexDirection: 'row',
+    flex: 1, 
+    justifyContent: 'space-between',
+    width: '41%',
+    height: '5%',
   },
 
   add: {
@@ -221,13 +230,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    marginRight: '5%',
-    width: '10%',
-    height: '60%',
-  },
-
-  buttonPlus: {
-    
+    width: '40%',
+    height: '70%',
+    marginLeft: '80%'
   },
   
   buttonplustext: {
@@ -238,5 +243,6 @@ const styles = StyleSheet.create({
   },
   
 });
+
 
 export default Home;

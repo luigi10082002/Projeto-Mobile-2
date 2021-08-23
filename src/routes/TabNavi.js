@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import Home  from '../pages/Home';
-import settingsScreen from '../components/settingsScreen';
+import settingsScreen from '../components/settings';
 
 const Tab = createBottomTabNavigator();
 

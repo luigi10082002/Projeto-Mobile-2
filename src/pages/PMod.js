@@ -8,18 +8,50 @@ import {
   TouchableOpacity, 
   StyleSheet, 
   SafeAreaView,
-  ScrollView, } from 'react-native';
+  ScrollView,
+  AsyncStorage } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
   
 export function PMod() {
-
   const navigation = useNavigation();
 
+  //const [info, setInfo] = useState([])
+  const [prod, setProd] = useState([])
+
+  const [qtd, setQtd] = useState(0)
+  const [cod, setCod] = useState('')
+
   async function Confirm() {
+    //Armazena as informações de cod e qtd
     
+    //fazer um filter para pesquisar se ja existe no array e capturar o qtd somendo com a nova
+    //depois setQtd o novo valor mais o anterior
+
+  
+    const newInfo ={
+      cod,
+      qtd,
+    }
+
+    const index = prod.findIndex(element => element.cod == cod)
+    
+    if (index >= 0) {
+      
+      console.log(prod[index].qtd)
+      prod[index].qtd = parseInt(prod[index].qtd) + parseInt(qtd)
+    
+      setProd(prod)
+    } 
+    
+    else {
+      setProd ([...prod, newInfo]) 
+    }
+    //console.log(prod)
+
+    await AsyncStorage.setItem('prod', prod)
+   
     {navigation.navigate('Home')};
   }
-
     
     async function readCode() { 
       {navigation.navigate('PQRcode')};
@@ -43,17 +75,16 @@ export function PMod() {
             <Text style={styles.label}>Código</Text>
               <TextInput 
               style={styles.input}
-              autoCorrect={false}
-              //value={cod}
-              //onChangeText={setCod}
-              />
+              autoCorrect={false}              
+              onChangeText={setCod}
+            />
 
             <Text style={styles.label}>Quantidade</Text>
               <TextInput 
               style={styles.input}
-              autoCorrect={false}
-              //value={qtd1}
-              //onChangeText={setQtd1}
+              autoCorrect={false}            
+              onChangeText={setQtd}
+
             />
 
             <View style={styles.footer}>
@@ -133,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginLeft: '5%',
-    marginTop: '90%',
+    marginTop: '60%',
   },
   
   buttonText: {

@@ -11,19 +11,41 @@ import {
   ScrollView, 
   AsyncStorage } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import { set } from 'react-native-reanimated';
   
 export function SMod() {
   const navigation = useNavigation();
 
-  const [cod, setCod] = useState([]); 
-  const [info, setInfo] = useState([]);
+  const [prod, setProd] = useState([])
+
+  const [qtd, setQtd] = useState(0)
+  const [cod, setCod] = useState()
 
     async function readCode() { 
       {navigation.navigate('SQRcode')};
     }
 
     async function Confirm() {
-      {navigation.navigate('Home')};
+      const newInfo = {
+        cod, 
+        qtd
+      }
+
+      const index = prod.findIndex(element => element.cod == cod)
+
+      if (index >= 0) {
+        console.log(prod[index].qtd)
+        prod[index].qtd = parseInt(prod[index].qtd) +1
+
+        setProd(prod)
+      }
+
+      else {
+        setProd ([...prod, newInfo])
+      }
+      console.log(prod)
+
+      //{navigation.navigate('Home')};
     }
   
 return (
@@ -44,7 +66,6 @@ return (
             <TextInput 
             style={styles.input}
             autoCorrect={false}
-            value={cod}
             onChangeText={setCod}
           />
 

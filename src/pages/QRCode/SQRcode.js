@@ -3,8 +3,7 @@ import {
   Text, 
   View, 
   StyleSheet, 
-  TouchableOpacity,
-  AsyncStorage } from 'react-native';
+  TouchableOpacity, } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useNavigation } from '@react-navigation/core';
 
@@ -12,8 +11,6 @@ export function SQRcode() {
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [qtd, setQtd] = useState(1); 
-  const [info, setInfo] = useState();
 
   async function cancelScan() {
       
@@ -26,29 +23,11 @@ export function SQRcode() {
       setHasPermission(status === 'granted');
     })();
   }, []);
-
-  useEffect(() => {
-    AsyncStorage.getItem('info').then(storagedInfo => {
-      const ProdArray = storagedInfo.split(',').map(tech => tech.trim());
-
-      setTechs(techsArray);
-    })
-  }, []);
   
     const handleBarCodeScanned = ({ type, data }) => {
-      setScanned(false);    
-    
-      if (type === type) {   
-        setQtd(qtd+1); 
-      }
-
-      setInfo ([
-        { 
-          cod: data, 
-          produto: type,
-          qtd: qtd,
-        },
-      ]);
+      setScanned(false);
+      
+      alert(type, data);
   }
 
     if (hasPermission === null) {
