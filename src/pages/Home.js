@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from 'react-native-paper';
 import { 
   View, 
   KeyboardAvoidingView, 
   Platform, 
-  Text, 
-  TouchableOpacity, 
+  Text,  
   StyleSheet,
   FlatList,
-  AsyncStorage } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+  ScrollView, } from 'react-native';
+import AsyncStorage  from '@react-native-async-storage/async-storage';
+import { RectButton } from 'react-native-gesture-handler';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 export function Home() {
-  const [mod, setMod] = useState('1');
-  const [Prod, setProd] = useState([]);
-  const buttons = [
+  const [modulo, setModelo] = useState('1');
+  const [Produto, setProduto] = useState([]);
+  const modelos = [
     { 
       name: 'Módulo 1', 
       id: '1'
@@ -25,26 +26,28 @@ export function Home() {
     },
   ];
 
-  useEffect(() => {
-    async function loadSpots() {
-      const prod = await AsyncStorage.getItem('prod')
-     const stoge = prod? JSON.parse(prod) : [];
-      setProd(stoge);
-     
-    }
-
+  useFocusEffect(useCallback(() => {
     loadSpots();
-  }, []);
+  },[]));
+
+  async function loadSpots(){
+        
+    const response = await AsyncStorage.getItem('@Produtos');
+    const storage = response ? JSON.parse(response) : [];
+   
+    setProduto(storage);
+  }
+  
 
 
   const navigation = useNavigation();
 
   function setHandleMod(modelo) {
-    setMod(modelo)
+    setModelo(modelo)
   };
 
   function plus() { 
-    if (mod == 1) {
+    if (modulo == 1) {
       navigation.navigate('PMod');
     }
 
@@ -53,23 +56,7 @@ export function Home() {
     }
   }
 
-  async function List() {
-    const prod = await AsyncStorage.getItem('prod')
-
-    console.log(prod)
-  }
-
-  async function modOne() {
-    
-
-    navigation.navigate('PMod');
-  }
-
-  async function modTwo() {
-    
-
-    navigation.navigate('SMod');
-  }
+ 
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
@@ -87,38 +74,62 @@ export function Home() {
 
         <View style={styles.formmod}>
 
-            <FlatList
-              //horizontal={true}
-              keyExtrector={item => item.id}
-              data={buttons}
-              renderItem={({ item }) => (
-                
-              <TouchableOpacity 
-              onPress={() => {setHandleMod(item.id)}}
-              style={styles.button}>
-              <Text style={styles.buttonText}>{item.name}</Text>
-              </TouchableOpacity>
-
-              )}
-            />  
+            <FlatList 
+                data={modelos}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={({ item }) => (  
+                    <RectButton
+                            style={[
+                                styles.containermodutos,
+                                modulo === item.id && styles.containerActive
+                            ]}
+                          onPress={() => setHandleMod(item.id)}
+                    >
+                        <Text style={[
+                            styles.textmodulo,
+                            modulo === item.id  && styles.textActive
+                        ]}>
+                            { item.name }
+                        </Text>
+                    </RectButton>                  
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.modelotList}
+              />
 
         </View>
         
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
-          <Text style={styles.num}>{Prod.length}</Text>
+          <Text style={styles.num}>{Produto.length}</Text>
         </View>
 
         <View style={styles.prodlist}>
           <View>
             <Text style={styles.list}>Produtos listados</Text>
-          </View>
-
-          <Button onPress={plus} style={styles.add}>
-            <Text style={styles.buttonplustext}>+</Text>
-          </Button> 
+            </View>
+            <Button onPress={plus} style={styles.add}>
+              <Text style={styles.buttonplustext}>+</Text>
+            </Button>
 
         </View>
+
+        {/*exemplo de listagem com storage apartir dai e com vc*/}
+        <ScrollView style={styles.Produtos}>
+
+        <View >
+        <FlatList
+          data={Produto}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+              <Text>{item.produto}</Text>
+          )}
+          showsVerticalScrollIndicator={false}/>
+          Se
+        </View>
+        </ScrollView>
+
       </View>
     </KeyboardAvoidingView>
   );
@@ -176,7 +187,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     alignContent: 'space-around',
     width: 'auto',
-    height: '30%',
+    height: 'auto',
     marginLeft: '5%',
   },
 
@@ -193,13 +204,14 @@ const styles = StyleSheet.create({
   list: {
     fontSize: 15,
     marginLeft: '24%',
-    alignItems: 'stretch',
+    alignItems: 'center',
   },
 
   formmod: {
    flexDirection: 'row',
    width: 'auto',
    height: 'auto',
+   marginLeft: '13%'
   },
 
   button: {
@@ -219,20 +231,22 @@ const styles = StyleSheet.create({
 
   prodlist: {
     flexDirection: 'row',
-    flex: 1, 
     justifyContent: 'space-between',
-    width: '41%',
+    alignItems: 'stretch',
+    width: '100%',
     height: '5%',
+    marginRight: '90%',
   },
+
 
   add: {
     backgroundColor: '#4B7DFE',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    width: '40%',
-    height: '70%',
-    marginLeft: '80%'
+    width: '15%',
+    height: '100%',
+    marginRight: '5%'
   },
   
   buttonplustext: {
@@ -242,6 +256,33 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   
+  /*css do bottom modulos */
+containermodutos: {
+  backgroundColor: "#DEDEDE",
+  width: 140,
+  height: 40,   
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 12,
+  marginHorizontal: 5,
+},
+containerActive: {        
+  backgroundColor: "#BDDEFD"
+},
+textmodulo: {
+  color: "#BBBBBB",
+},
+textActive: {
+  color: "#2F80ED",
+},
+
+Produtos: {
+  backgroundColor: '#606060',
+  width: '85%',
+  height: '70%',
+  alignSelf: 'center',
+  marginTop: '5%',
+},
 });
 
 

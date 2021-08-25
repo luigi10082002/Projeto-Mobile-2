@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import Home  from '../pages/Home';
-import settingsScreen from '../components/settings';
+import settingsScreen from '../components/settingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,8 +44,8 @@ export const TabNavi = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
 	},
 });
 

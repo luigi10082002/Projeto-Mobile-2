@@ -15,11 +15,10 @@ import { useNavigation } from '@react-navigation/core';
 export function PMod() {
   const navigation = useNavigation();
 
-  //const [info, setInfo] = useState([])
-  const [prod, setProd] = useState([])
+  const [prod, setProduto] = useState([])
 
   const [qtd, setQtd] = useState(0)
-  const [cod, setCod] = useState('')
+  const [cod, setCodigo] = useState('')
 
   async function Confirm() {
     //Armazena as informações de cod e qtd
@@ -28,7 +27,7 @@ export function PMod() {
     //depois setQtd o novo valor mais o anterior
 
   
-    const newInfo ={
+    const newProduto ={
       cod,
       qtd,
     }
@@ -40,13 +39,12 @@ export function PMod() {
       console.log(prod[index].qtd)
       prod[index].qtd = parseInt(prod[index].qtd) + parseInt(qtd)
     
-      setProd(prod)
+      setProduto(prod)
     } 
     
     else {
-      setProd ([...prod, newInfo]) 
+      setProduto ([...prod, newProduto]) 
     }
-    //console.log(prod)
 
     await AsyncStorage.setItem('prod', prod)
    
@@ -76,7 +74,7 @@ export function PMod() {
               <TextInput 
               style={styles.input}
               autoCorrect={false}              
-              onChangeText={setCod}
+              onChangeText={setCodigo}
             />
 
             <Text style={styles.label}>Quantidade</Text>

@@ -8,44 +8,40 @@ import {
   TouchableOpacity, 
   StyleSheet,
   SafeAreaView,
-  ScrollView, 
-  AsyncStorage } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
-import { set } from 'react-native-reanimated';
+  ScrollView } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage  from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid'; 
   
 export function SMod() {
   const navigation = useNavigation();
 
-  const [prod, setProd] = useState([])
-
-  const [qtd, setQtd] = useState(0)
-  const [cod, setCod] = useState()
+  const [prod, setProduto] = useState([])
+  const [codigo, setCodigo] = useState()
 
     async function readCode() { 
       {navigation.navigate('SQRcode')};
     }
 
     async function Confirm() {
-      const newInfo = {
-        cod, 
-        qtd
+      const newProd = {
+        id: uuid.v4(), 
+        produto: codigo,
+        qtd: 1
+      };
+
+       //verifica se tem alguma coisa na storage 
+      const storage = await AsyncStorage.getItem('@Produtos');
+      const Prod = storage ? JSON.parse(storage) : [];
+
+      const index = prod.findIndex(element => element.produto == codigo)
+      
+      if(index >= 0){
+         Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+      }else{    
+        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
       }
-
-      const index = prod.findIndex(element => element.cod == cod)
-
-      if (index >= 0) {
-        console.log(prod[index].qtd)
-        prod[index].qtd = parseInt(prod[index].qtd) +1
-
-        setProd(prod)
-      }
-
-      else {
-        setProd ([...prod, newInfo])
-      }
-      console.log(prod)
-
-      //{navigation.navigate('Home')};
     }
   
 return (
@@ -62,11 +58,11 @@ return (
              <Text style={styles.buttonText}>Scanner</Text>
           </TouchableOpacity>
 
-          <Text style={styles.label}>Quantidade</Text>
+          <Text style={styles.label}>Código</Text>
             <TextInput 
             style={styles.input}
             autoCorrect={false}
-            onChangeText={setCod}
+            onChangeText={setCodigo}
           />
 
 
