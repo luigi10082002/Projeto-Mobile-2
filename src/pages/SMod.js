@@ -8,17 +8,15 @@ import {
   TouchableOpacity, 
   StyleSheet,
   SafeAreaView,
-  ScrollView, 
-  AsyncStorage } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
-import { set } from 'react-native-reanimated';
-  
+  ScrollView} from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage  from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid'; // gerador de ip para colocar no novos produtos adicion
+
 export function SMod() {
   const navigation = useNavigation();
 
   const [prod, setProd] = useState([])
-
-  const [qtd, setQtd] = useState(0)
   const [cod, setCod] = useState()
 
     async function readCode() { 
@@ -26,14 +24,21 @@ export function SMod() {
     }
 
     async function Confirm() {
-      const newInfo = {
-        cod, 
-        qtd
-      }
+      const newProd = {
+        id: uuid.v4(),
+        produto: cod,
+        qtd: 1
+      };
 
-      const index = prod.findIndex(element => element.cod == cod)
 
-      if (index >= 0) {
+      //verifica se tem alguma coisa na storage se
+      const storage = await AsyncStorage.getItem('@Produtos');
+      const Prod = storage ? JSON.parse(storage) : [];
+
+      const index = prod.findIndex(element => element.produto == cod)
+
+      //em ves de add no array vamos adicionar na storage
+      /*if (index >= 0) {
         console.log(prod[index].qtd)
         prod[index].qtd = parseInt(prod[index].qtd) +1
 
@@ -42,7 +47,15 @@ export function SMod() {
 
       else {
         setProd ([...prod, newInfo])
+      }*/
+
+      if(index >= 0){
+         Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+      }else{    
+        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
       }
+
       console.log(prod)
 
       //{navigation.navigate('Home')};

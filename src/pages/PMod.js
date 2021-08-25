@@ -14,20 +14,12 @@ import { useNavigation } from '@react-navigation/core';
   
 export function PMod() {
   const navigation = useNavigation();
-
-  //const [info, setInfo] = useState([])
   const [prod, setProd] = useState([])
 
   const [qtd, setQtd] = useState(0)
   const [cod, setCod] = useState('')
 
-  async function Confirm() {
-    //Armazena as informações de cod e qtd
-    
-    //fazer um filter para pesquisar se ja existe no array e capturar o qtd somendo com a nova
-    //depois setQtd o novo valor mais o anterior
-
-  
+  async function Confirm() {  
     const newInfo ={
       cod,
       qtd,

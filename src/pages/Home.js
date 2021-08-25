@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from 'react-native-paper';
 import { 
   View, 
   KeyboardAvoidingView, 
   Platform, 
   Text, 
-  TouchableOpacity, 
   StyleSheet,
-  FlatList,
-  AsyncStorage } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+  FlatList } from 'react-native';
+import AsyncStorage  from '@react-native-async-storage/async-storage';
+import { RectButton } from 'react-native-gesture-handler';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 export function Home() {
   const [mod, setMod] = useState('1');
   const [Prod, setProd] = useState([]);
-  const buttons = [
+
+  const modelos = [
     { 
       name: 'Módulo 1', 
       id: '1'
@@ -25,18 +26,18 @@ export function Home() {
     },
   ];
 
-  useEffect(() => {
-    async function loadSpots() {
-      const prod = await AsyncStorage.getItem('prod')
-     const stoge = prod? JSON.parse(prod) : [];
-      setProd(stoge);
-     
-    }
-
+  useFocusEffect(useCallback(() => {
     loadSpots();
-  }, []);
+  },[]));
 
-
+  async function loadSpots(){
+        
+    const response = await AsyncStorage.getItem('@Produtos');
+    const storage = response ? JSON.parse(response) : [];
+   
+    setProd(storage);
+  }
+  
   const navigation = useNavigation();
 
   function setHandleMod(modelo) {
@@ -53,23 +54,6 @@ export function Home() {
     }
   }
 
-  async function List() {
-    const prod = await AsyncStorage.getItem('prod')
-
-    console.log(prod)
-  }
-
-  async function modOne() {
-    
-
-    navigation.navigate('PMod');
-  }
-
-  async function modTwo() {
-    
-
-    navigation.navigate('SMod');
-  }
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
@@ -87,20 +71,30 @@ export function Home() {
 
         <View style={styles.formmod}>
 
-            <FlatList
-              //horizontal={true}
-              keyExtrector={item => item.id}
-              data={buttons}
-              renderItem={({ item }) => (
-                
-              <TouchableOpacity 
-              onPress={() => {setHandleMod(item.id)}}
-              style={styles.button}>
-              <Text style={styles.buttonText}>{item.name}</Text>
-              </TouchableOpacity>
+              <FlatList 
+                data={modelos}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={({ item }) => (  
+                    <RectButton
+                            style={[
+                                styles.containermodutos,
+                                mod === item.id && styles.containerActive
+                            ]}
+                          onPress={() => setHandleMod(item.id)}
+                    >
+                        <Text style={[
+                            styles.textmodulo,
+                            mod === item.id  && styles.textActive
+                        ]}>
+                            { item.name }
+                        </Text>
+                    </RectButton>                  
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.modelotList}
+              />
 
-              )}
-            />  
 
         </View>
         
@@ -119,6 +113,16 @@ export function Home() {
           </Button> 
 
         </View>
+
+        <FlatList
+          data={Prod}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+              <Text>{item.produto}</Text>
+          )}
+          showsVerticalScrollIndicator={false} />
+
+
       </View>
     </KeyboardAvoidingView>
   );
@@ -241,6 +245,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: '#fff',
   },
+
+  modeloList: {
+    height: 40,
+    justifyContent: 'center',
+    paddingBottom: 5,
+    marginLeft: 30,
+    marginVertical: 15,
+    paddingRight: 30
+},
+
+/*css do bottom modulos */
+containermodutos: {
+  backgroundColor: "#F0F0F0",
+  width: 140,
+  height: 40,   
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 12,
+  marginHorizontal: 5
+},
+containerActive: {        
+  backgroundColor: "#BDDEFD"
+},
+textmodulo: {
+  color: "#DDE3F0",
+},
+textActive: {
+  color: "#2F80ED",
+}
   
 });
 
