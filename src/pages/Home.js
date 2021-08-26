@@ -41,11 +41,11 @@ export function Home() {
   const navigation = useNavigation();
 
   function setHandleMod(modelo) {
-    setMod(modelo)
+    setModelo(modelo)
   };
 
   function plus() { 
-    if (mod == 1) {
+    if (modulo == 1) {
       navigation.navigate('PMod');
     }
 
@@ -54,6 +54,11 @@ export function Home() {
     }
   }
 
+  const scrollY = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler(event => {
+        scrollY.value = event.contentOffset.y;
+    });
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
@@ -97,31 +102,70 @@ export function Home() {
 
 
         </View>
-        
+
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
-          <Text style={styles.num}>{Prod.length}</Text>
+          <Text style={styles.num}>{Produto.length}</Text>
         </View>
 
         <View style={styles.prodlist}>
           <View>
             <Text style={styles.list}>Produtos listados</Text>
-          </View>
-
-          <Button onPress={plus} style={styles.add}>
-            <Text style={styles.buttonplustext}>+</Text>
-          </Button> 
+            </View>
+            <Button onPress={plus} style={styles.add}>
+              <Text style={styles.buttonplustext}>+</Text>
+            </Button>
 
         </View>
 
+        <View style={styles.legenda}>
+          <Text style={styles.prod}>Produto</Text>
+          <Text style={styles.qtd}>Quantidade</Text>
+        </View>
+
+        {/*exemplo de listagem com storage apartir dai e com vc*/}
+        <Animated.ScrollView
+                        style={{ width: '100%' }}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingTop: 1 }}
+                        onScroll={scrollHandler}
+                        scrollEventThrottle={16} // 1000 / 60 = 16. (1 segundo / 60 que é a quantidade de frames por segundo para ter uma animação de 60 frames)
+                    >
+
+
+        <View style={styles.swipeButton}>
         <FlatList
-          data={Prod}
+          data={Produto}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-              <Text>{item.produto}</Text>
+            <>
+            <Swipeable
+              overshootRight={false}
+              renderRightActions={()=>(
+                <Animated.View>
+                    <View>
+                    </View>
+                </Animated.View>
+              )}
+            >
+            <RectButton
+              style={styles.legendaProdutos}
+            >
+                <Text style={styles.textSwipe}>
+                  {item.produto}
+                </Text>
+                <View style={styles.details}>
+                  <Text style={styles.textSwipeB}>
+                    {item.qtd}
+                  </Text>
+                </View>
+              </RectButton>
+              </Swipeable>
+            </>
           )}
-          showsVerticalScrollIndicator={false} />
-
+          showsVerticalScrollIndicator={false}/>
+        </View>
+        </Animated.ScrollView>
 
       </View>
     </KeyboardAvoidingView>
@@ -180,7 +224,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     alignContent: 'space-around',
     width: 'auto',
-    height: '30%',
+    height: 'auto',
     marginLeft: '5%',
   },
 
@@ -197,13 +241,14 @@ const styles = StyleSheet.create({
   list: {
     fontSize: 15,
     marginLeft: '24%',
-    alignItems: 'stretch',
+    alignItems: 'center',
   },
 
   formmod: {
    flexDirection: 'row',
    width: 'auto',
    height: 'auto',
+   marginLeft: '13%'
   },
 
   button: {
@@ -223,20 +268,22 @@ const styles = StyleSheet.create({
 
   prodlist: {
     flexDirection: 'row',
-    flex: 1, 
     justifyContent: 'space-between',
-    width: '41%',
+    alignItems: 'stretch',
+    width: '100%',
     height: '5%',
+    marginRight: '90%',
   },
+
 
   add: {
     backgroundColor: '#4B7DFE',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    width: '40%',
-    height: '70%',
-    marginLeft: '80%'
+    width: '15%',
+    height: '50%',
+    marginRight: '5%'
   },
   
   buttonplustext: {
@@ -273,8 +320,75 @@ textmodulo: {
 },
 textActive: {
   color: "#2F80ED",
-}
+},
   
+  /*css do bottom modulos */
+containermodulos: {
+  backgroundColor: "#DEDEDE",
+  width: 140,
+  height: 40,   
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 12,
+  marginHorizontal: 5,
+},
+containerActive: {        
+  backgroundColor: "#BDDEFD"
+},
+textmodulo: {
+  color: "#BBBBBB",
+},
+textActive: {
+  color: "#2F80ED",
+},
+
+Produtos: {
+  //backgroundColor: '#606060',
+  width: '85%',
+  height: '70%',
+  alignSelf: 'center',
+},
+
+textSwipe: {
+  alignSelf: 'center',
+}, 
+
+legenda: {
+  flexDirection: 'row',
+  marginLeft: '10%',
+  width: 'auto',
+  height: 'auto',
+},
+
+prod: {
+ fontSize: 18
+},
+
+qtd: {
+  fontSize: 18,
+  marginLeft: '45%'
+},
+
+legendaProdutos: {
+  backgroundColor: '#BDDEFD',
+  flexDirection: 'row',
+  borderRadius: 10,
+  fontSize: 10,
+  margin: '5%',
+  width: '85%',
+  height: '70%',
+  marginTop: '2%'
+},
+
+textSwipe: {
+  fontSize: 18,
+  marginLeft: '4%',
+},
+
+textSwipeB: {
+  fontSize: 18,
+  marginLeft: '77%',
+},
 });
 
 
