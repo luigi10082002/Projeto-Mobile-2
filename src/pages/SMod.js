@@ -11,22 +11,13 @@ import {
   ScrollView } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
-<<<<<<< HEAD
 import uuid from 'react-native-uuid'; 
-=======
-//import uuid from 'react-native-uuid'; aqui vc tem instalar yarnd add react-native-uuid // gerador de ip para colocar no novos produtos adicion
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
   
 export function SMod() {
   const navigation = useNavigation();
 
-<<<<<<< HEAD
   const [produto, setProduto] = useState([])
   const [codigo, setCodigo] = useState()
-=======
-  const [prod, setProd] = useState([])
-  const [cod, setCod] = useState()
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
 
     async function readCode() { 
       {navigation.navigate('SQRcode')};
@@ -34,13 +25,8 @@ export function SMod() {
 
     async function Confirm() {
       const newProd = {
-<<<<<<< HEAD
         id: uuid.v4(), 
         produto: codigo,
-=======
-        //id: uuid.v4(), apois intalar vc despomenta isso
-        produto: cod,
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
         qtd: 1
       };
 
@@ -48,30 +34,13 @@ export function SMod() {
       const storage = await AsyncStorage.getItem('@Produtos');
       const Prod = storage ? JSON.parse(storage) : [];
 
-<<<<<<< HEAD
-      const index = produto.findIndex(element => element.produto == codigo)
-=======
-      const index = prod.findIndex(element => element.produto == cod)
-      
-      //em ves de add no array vamos adicionar na storage
-      /*const index = prod.findIndex(element => element.cod == cod)
-
-      if (index >= 0) {
-        console.log(prod[index].qtd)
-        prod[index].qtd = parseInt(prod[index].qtd) +1
-
-        setProd(prod)
-      }
-
-      else {
-        setProd ([...prod, newInfo])
-      }*/
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
+      const index = Prod.findIndex(element => element.produto == codigo)
       
       if(index >= 0){
-         Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+         Prod[index].qtd  = parseInt(Prod[index].qtd) + 1;  
          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
-      }else{    
+      }
+      else{    
         await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
       }
     }
@@ -96,7 +65,6 @@ return (
             autoCorrect={false}
             onChangeText={setCodigo}
           />
-
 
           <View style={styles.footer}>
                 
@@ -175,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginLeft: '5%',
-    marginTop: '100%',
+    marginTop: '90%',
   },
   
   buttonText: {

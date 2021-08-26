@@ -9,8 +9,9 @@ import {
   StyleSheet, 
   SafeAreaView,
   ScrollView,
-  AsyncStorage } from 'react-native';
+  AsyncStorage, } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import uuid from 'react-native-uuid'; 
   
 export function PMod() {
   const navigation = useNavigation();
@@ -20,35 +21,41 @@ export function PMod() {
   const [qtd, setQtd] = useState(0)
   const [codigo, setCodigo] = useState()
 
-  async function Confirm() {
-    //const [prod, setProduto] = useState([])
-    //const [codigo, setCodigo] = useState()
-
     async function readCode() { 
       {navigation.navigate('SQRcode')};
     }
 
     async function Confirm() {
       const newProd = {
-        id: codigo, 
+        id: uuid.v4(),
+        //id de identificação do produto
         produto: codigo,
-        qtd: 1
+        //código do produto
+        qtd: qtd
+        //quantidade do produto 
       };
 
-       //verifica se tem alguma coisa na storage 
-      const storage = await AsyncStorage.getItem('@Produtos');
-      const Prod = storage ? JSON.parse(storage) : [];
+      //Verifica se tem alguma coisa na storage
 
-      const index = produto.findIndex(element => element.produto == codigo)
+      const storage = await AsyncStorage.getItem('@Produtos');
+      //guarda no array produtos
+      const Prod = storage ? JSON.parse(storage) : [];
+      //guarda o array storage no Prod
+
+      const index = Prod.findIndex(element => element.produto == codigo)
+      //index recebe o codigo dos protudos 
       
       if(index >= 0){
-         Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+         Prod[index].qtd = parseInt(Prod[index].qtd) + parseInt(qtd);
          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
-      }else{    
-        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
+
+         //soma a quantidade de produtos mais a nova quantidade de produtos caso o produto exista
       }
+      else {
+      await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
     }
-  }
+    }
+  
     
     async function readCode() { 
       {navigation.navigate('PQRcode')};
@@ -83,7 +90,7 @@ export function PMod() {
               onChangeText={setQtd}
 
             />
-
+            
             <View style={styles.footer}>
                   
               <TouchableOpacity onPress={Confirm} style={styles.buttoncon}>

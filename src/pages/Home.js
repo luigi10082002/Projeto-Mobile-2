@@ -6,24 +6,17 @@ import {
   Platform, 
   Text,  
   StyleSheet,
-<<<<<<< HEAD
-  FlatList,
-  ScrollView, } from 'react-native';
-=======
-  FlatList } from 'react-native';
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
+  FlatList} from 'react-native';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
-import { RectButton } from 'react-native-gesture-handler';
+import { RectButton, Swipeable } from 'react-native-gesture-handler';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import Animated, { 
+  useAnimatedScrollHandler,
+  useSharedValue } from 'react-native-reanimated';
 
 export function Home() {
-<<<<<<< HEAD
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
-=======
-  const [mod, setMod] = useState('1');
-  const [Prod, setProd] = useState([]);
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
   const modelos = [
     { 
       name: 'Módulo 1', 
@@ -44,15 +37,9 @@ export function Home() {
     const response = await AsyncStorage.getItem('@Produtos');
     const storage = response ? JSON.parse(response) : [];
    
-<<<<<<< HEAD
     setProduto(storage);
-=======
-    setProd(storage);
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
   }
   
-
-
   const navigation = useNavigation();
 
   function setHandleMod(modelo) {
@@ -69,7 +56,11 @@ export function Home() {
     }
   }
 
- 
+  const scrollY = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler(event => {
+        scrollY.value = event.contentOffset.y;
+    });
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
@@ -86,29 +77,20 @@ export function Home() {
         </View>
 
         <View style={styles.formmod}>
-
             <FlatList 
                 data={modelos}
                 keyExtractor={(item) => String(item.id)}
                 renderItem={({ item }) => (  
                     <RectButton
-                            style={[
-                                styles.containermodutos,
-<<<<<<< HEAD
-                                modulo === item.id && styles.containerActive
-=======
-                                mod === item.id && styles.containerActive
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
-                            ]}
-                          onPress={() => setHandleMod(item.id)}
+                        style={[
+                          styles.containermodulos,
+                          modulo === item.id && styles.containerActive
+                        ]}
+                      onPress={() => setHandleMod(item.id)}
                     >
                         <Text style={[
                             styles.textmodulo,
-<<<<<<< HEAD
                             modulo === item.id  && styles.textActive
-=======
-                            mod === item.id  && styles.textActive
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
                         ]}>
                             { item.name }
                         </Text>
@@ -118,9 +100,8 @@ export function Home() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.modelotList}
               />
-
         </View>
-        
+
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
           <Text style={styles.num}>{Produto.length}</Text>
@@ -136,35 +117,55 @@ export function Home() {
 
         </View>
 
-        {/*exemplo de listagem com storage apartir dai e com vc*/}
-        <ScrollView style={styles.Produtos}>
+        <View style={styles.legenda}>
+          <Text style={styles.prod}>Produto</Text>
+          <Text style={styles.qtd}>Quantidade</Text>
+        </View>
 
-        <View >
+        {/*exemplo de listagem com storage apartir dai e com vc*/}
+        <Animated.ScrollView
+                        style={{ width: '100%' }}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingTop: 1 }}
+                        onScroll={scrollHandler}
+                        scrollEventThrottle={16} // 1000 / 60 = 16. (1 segundo / 60 que é a quantidade de frames por segundo para ter uma animação de 60 frames)
+                    >
+
+
+        <View style={styles.swipeButton}>
         <FlatList
           data={Produto}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-              <Text>{item.produto}</Text>
+            <>
+            <Swipeable
+              overshootRight={false}
+              renderRightActions={()=>(
+                <Animated.View>
+                    <View>
+                    </View>
+                </Animated.View>
+              )}
+            >
+            <RectButton
+              style={styles.legendaProdutos}
+            >
+                <Text style={styles.textSwipe}>
+                  {item.produto}
+                </Text>
+                <View style={styles.details}>
+                  <Text style={styles.textSwipeB}>
+                    {item.qtd}
+                  </Text>
+                </View>
+              </RectButton>
+              </Swipeable>
+            </>
           )}
           showsVerticalScrollIndicator={false}/>
-          Se
         </View>
-<<<<<<< HEAD
-        </ScrollView>
+        </Animated.ScrollView>
 
-=======
-
-        {/*exemplo de listagem com storage apartir dai e com vc*/}
-        <View>
-        <FlatList
-          data={Prod}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-              <Text>{item.produto}</Text>
-          )}
-          showsVerticalScrollIndicator={false} />
-        </View>
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
       </View>
     </KeyboardAvoidingView>
   );
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     width: '15%',
-    height: '100%',
+    height: '50%',
     marginRight: '5%'
   },
   
@@ -292,28 +293,19 @@ const styles = StyleSheet.create({
   },
   
   /*css do bottom modulos */
-containermodutos: {
-<<<<<<< HEAD
+containermodulos: {
   backgroundColor: "#DEDEDE",
-=======
-  backgroundColor: "#F0F0F0",
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
   width: 140,
   height: 40,   
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: 12,
-<<<<<<< HEAD
   marginHorizontal: 5,
-=======
-  marginHorizontal: 5
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
 },
 containerActive: {        
   backgroundColor: "#BDDEFD"
 },
 textmodulo: {
-<<<<<<< HEAD
   color: "#BBBBBB",
 },
 textActive: {
@@ -321,20 +313,52 @@ textActive: {
 },
 
 Produtos: {
-  backgroundColor: '#606060',
+  //backgroundColor: '#606060',
   width: '85%',
   height: '70%',
   alignSelf: 'center',
-  marginTop: '5%',
 },
-=======
-  color: "#DDE3F0",
+
+textSwipe: {
+  alignSelf: 'center',
+}, 
+
+legenda: {
+  flexDirection: 'row',
+  marginLeft: '10%',
+  width: 'auto',
+  height: 'auto',
 },
-textActive: {
-  color: "#2F80ED",
-}
-  
->>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
+
+prod: {
+ fontSize: 18
+},
+
+qtd: {
+  fontSize: 18,
+  marginLeft: '45%'
+},
+
+legendaProdutos: {
+  backgroundColor: '#BDDEFD',
+  flexDirection: 'row',
+  borderRadius: 10,
+  fontSize: 10,
+  margin: '5%',
+  width: '85%',
+  height: '70%',
+  marginTop: '2%'
+},
+
+textSwipe: {
+  fontSize: 18,
+  marginLeft: '4%',
+},
+
+textSwipeB: {
+  fontSize: 18,
+  marginLeft: '77%',
+},
 });
 
 
