@@ -6,15 +6,24 @@ import {
   Platform, 
   Text,  
   StyleSheet,
+<<<<<<< HEAD
   FlatList,
   ScrollView, } from 'react-native';
+=======
+  FlatList } from 'react-native';
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 export function Home() {
+<<<<<<< HEAD
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
+=======
+  const [mod, setMod] = useState('1');
+  const [Prod, setProd] = useState([]);
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
   const modelos = [
     { 
       name: 'Módulo 1', 
@@ -35,7 +44,11 @@ export function Home() {
     const response = await AsyncStorage.getItem('@Produtos');
     const storage = response ? JSON.parse(response) : [];
    
+<<<<<<< HEAD
     setProduto(storage);
+=======
+    setProd(storage);
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
   }
   
 
@@ -81,13 +94,21 @@ export function Home() {
                     <RectButton
                             style={[
                                 styles.containermodutos,
+<<<<<<< HEAD
                                 modulo === item.id && styles.containerActive
+=======
+                                mod === item.id && styles.containerActive
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
                             ]}
                           onPress={() => setHandleMod(item.id)}
                     >
                         <Text style={[
                             styles.textmodulo,
+<<<<<<< HEAD
                             modulo === item.id  && styles.textActive
+=======
+                            mod === item.id  && styles.textActive
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
                         ]}>
                             { item.name }
                         </Text>
@@ -128,8 +149,22 @@ export function Home() {
           showsVerticalScrollIndicator={false}/>
           Se
         </View>
+<<<<<<< HEAD
         </ScrollView>
 
+=======
+
+        {/*exemplo de listagem com storage apartir dai e com vc*/}
+        <View>
+        <FlatList
+          data={Prod}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+              <Text>{item.produto}</Text>
+          )}
+          showsVerticalScrollIndicator={false} />
+        </View>
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
       </View>
     </KeyboardAvoidingView>
   );
@@ -258,18 +293,27 @@ const styles = StyleSheet.create({
   
   /*css do bottom modulos */
 containermodutos: {
+<<<<<<< HEAD
   backgroundColor: "#DEDEDE",
+=======
+  backgroundColor: "#F0F0F0",
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
   width: 140,
   height: 40,   
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: 12,
+<<<<<<< HEAD
   marginHorizontal: 5,
+=======
+  marginHorizontal: 5
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
 },
 containerActive: {        
   backgroundColor: "#BDDEFD"
 },
 textmodulo: {
+<<<<<<< HEAD
   color: "#BBBBBB",
 },
 textActive: {
@@ -283,6 +327,14 @@ Produtos: {
   alignSelf: 'center',
   marginTop: '5%',
 },
+=======
+  color: "#DDE3F0",
+},
+textActive: {
+  color: "#2F80ED",
+}
+  
+>>>>>>> d2c924337954a41b711f67ceef5fe22071a2465b
 });
 
 
