@@ -15,40 +15,39 @@ import { useNavigation } from '@react-navigation/core';
 export function PMod() {
   const navigation = useNavigation();
 
-  const [prod, setProduto] = useState([])
+  const [produto, setProduto] = useState([])
 
   const [qtd, setQtd] = useState(0)
-  const [cod, setCodigo] = useState('')
+  const [codigo, setCodigo] = useState()
 
   async function Confirm() {
-    //Armazena as informações de cod e qtd
-    
-    //fazer um filter para pesquisar se ja existe no array e capturar o qtd somendo com a nova
-    //depois setQtd o novo valor mais o anterior
+    //const [prod, setProduto] = useState([])
+    //const [codigo, setCodigo] = useState()
 
-  
-    const newProduto ={
-      cod,
-      qtd,
+    async function readCode() { 
+      {navigation.navigate('SQRcode')};
     }
 
-    const index = prod.findIndex(element => element.cod == cod)
-    
-    if (index >= 0) {
+    async function Confirm() {
+      const newProd = {
+        id: codigo, 
+        produto: codigo,
+        qtd: 1
+      };
+
+       //verifica se tem alguma coisa na storage 
+      const storage = await AsyncStorage.getItem('@Produtos');
+      const Prod = storage ? JSON.parse(storage) : [];
+
+      const index = produto.findIndex(element => element.produto == codigo)
       
-      console.log(prod[index].qtd)
-      prod[index].qtd = parseInt(prod[index].qtd) + parseInt(qtd)
-    
-      setProduto(prod)
-    } 
-    
-    else {
-      setProduto ([...prod, newProduto]) 
+      if(index >= 0){
+         Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+      }else{    
+        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
+      }
     }
-
-    await AsyncStorage.setItem('prod', prod)
-   
-    {navigation.navigate('Home')};
   }
     
     async function readCode() { 

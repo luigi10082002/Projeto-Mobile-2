@@ -16,7 +16,7 @@ import uuid from 'react-native-uuid';
 export function SMod() {
   const navigation = useNavigation();
 
-  const [prod, setProduto] = useState([])
+  const [produto, setProduto] = useState([])
   const [codigo, setCodigo] = useState()
 
     async function readCode() { 
@@ -34,7 +34,7 @@ export function SMod() {
       const storage = await AsyncStorage.getItem('@Produtos');
       const Prod = storage ? JSON.parse(storage) : [];
 
-      const index = prod.findIndex(element => element.produto == codigo)
+      const index = produto.findIndex(element => element.produto == codigo)
       
       if(index >= 0){
          Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
