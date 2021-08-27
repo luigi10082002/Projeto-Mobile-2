@@ -14,6 +14,9 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue } from 'react-native-reanimated';
 
+  import Modules  from '../components/modules'
+  import AddBtn from '../components/addBtn'
+
 export function Home() {
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
@@ -76,31 +79,7 @@ export function Home() {
           <Text style={styles.two}>Você quer fazer o inventario?</Text>
         </View>
 
-        <View style={styles.formmod}>
-            <FlatList 
-                data={modelos}
-                keyExtractor={(item) => String(item.id)}
-                renderItem={({ item }) => (  
-                    <RectButton
-                        style={[
-                          styles.containermodulos,
-                          modulo === item.id && styles.containerActive
-                        ]}
-                      onPress={() => setHandleMod(item.id)}
-                    >
-                        <Text style={[
-                            styles.textmodulo,
-                            modulo === item.id  && styles.textActive
-                        ]}>
-                            { item.name }
-                        </Text>
-                    </RectButton>                  
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.modelotList}
-              />
-        </View>
+        <Modules></Modules>
 
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
@@ -111,10 +90,7 @@ export function Home() {
           <View>
             <Text style={styles.list}>Produtos listados</Text>
             </View>
-            <Button onPress={plus} style={styles.add}>
-              <Text style={styles.buttonplustext}>+</Text>
-            </Button>
-
+            <AddBtn></AddBtn>
         </View>
 
         <View style={styles.legenda}>
@@ -243,12 +219,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  formmod: {
-   flexDirection: 'row',
-   width: 'auto',
-   height: 'auto',
-   marginLeft: '13%'
-  },
+  
 
   button: {
     height: '58%',
@@ -275,15 +246,7 @@ const styles = StyleSheet.create({
   },
 
 
-  add: {
-    backgroundColor: '#4B7DFE',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-    width: '15%',
-    height: '50%',
-    marginRight: '5%'
-  },
+  
   
   buttonplustext: {
     fontSize: 25,
@@ -293,24 +256,6 @@ const styles = StyleSheet.create({
   },
   
   /*css do bottom modulos */
-containermodulos: {
-  backgroundColor: "#DEDEDE",
-  width: 140,
-  height: 40,   
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 12,
-  marginHorizontal: 5,
-},
-containerActive: {        
-  backgroundColor: "#BDDEFD"
-},
-textmodulo: {
-  color: "#BBBBBB",
-},
-textActive: {
-  color: "#2F80ED",
-},
 
 Produtos: {
   //backgroundColor: '#606060',

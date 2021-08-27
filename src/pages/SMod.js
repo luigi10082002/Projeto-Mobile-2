@@ -55,9 +55,7 @@ return (
     
         <View style={styles.form}>
               
-          <TouchableOpacity onPress={readCode} style={styles.button}>
-             <Text style={styles.buttonText}>Scanner</Text>
-          </TouchableOpacity>
+          <QrBtn></QrBtn>
 
           <Text style={styles.label}>Código</Text>
             <TextInput 
@@ -125,17 +123,6 @@ const styles = StyleSheet.create({
     borderRadius: 2
   },
 
-  button: {
-    height: 28,
-    width: 95,
-    backgroundColor: '#4B7DFE',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    borderRadius: 13,
-    marginLeft: 222,
-    marginTop: 79,
-  },
-
   buttoncon: {
     height: 44,
     width: 294,
@@ -146,13 +133,6 @@ const styles = StyleSheet.create({
     marginTop: '90%',
   },
   
-  buttonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 12,
-    marginRight: 8,
-  },
-
   confirmText: {
     color: '#FFF',
     fontWeight: 'bold',
