@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { Button } from 'react-native-paper';
 import { 
   View, 
   Text, 
@@ -9,6 +8,7 @@ import AsyncStorage  from '@react-native-async-storage/async-storage';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+<<<<<<< HEAD
 import Animated, { 
   useAnimatedScrollHandler,
   useSharedValue } from 'react-native-reanimated';
@@ -18,6 +18,30 @@ import { modelos } from '../lib/Modelos';
 export function Home() {
   const [mod, setModelo] = useState('1');
   const [Produto, setProd] = useState([]);
+=======
+//import Animated, { 
+  //useAnimatedScrollHandler,
+  //useSharedValue } from 'react-native-reanimated';
+
+  import Modules  from '../components/modules'
+  import AddBtn from '../components/addBtn'
+
+export function Home() {
+  const navigation = useNavigation();
+
+  const [modulo, setModelo] = useState('1');
+  const [Produto, setProduto] = useState([]);
+  const modelos = [
+    { 
+      name: 'Módulo 1', 
+      id: '1'
+    },
+    { 
+      name: 'Módulo 2', 
+      id: '2'
+    },
+  ];
+>>>>>>> d4bb9200988e1093abd3d735fcf5bcb17559701b
 
   useFocusEffect(useCallback(() => {
     loadSpots();
@@ -31,7 +55,6 @@ export function Home() {
     setProd(storage);
   }
   
-  const navigation = useNavigation();
 
   function setHandleMod(modelo) {
     setModelo(modelo)
@@ -45,10 +68,18 @@ export function Home() {
     }
   }
 
+<<<<<<< HEAD
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler(event => {
       scrollY.value = event.contentOffset.y;
   });
+=======
+  //const scrollY = useSharedValue(0);
+
+    //const scrollHandler = useAnimatedScrollHandler(event => {
+        //scrollY.value = event.contentOffset.y;
+    //});
+>>>>>>> d4bb9200988e1093abd3d735fcf5bcb17559701b
 
   return (
     
@@ -64,6 +95,7 @@ export function Home() {
           <Text style={styles.two}>Você quer fazer o inventario?</Text>
         </View>
 
+<<<<<<< HEAD
         <View style={styles.formmod}>
 
               <FlatList 
@@ -92,6 +124,9 @@ export function Home() {
 
 
         </View>
+=======
+        <Modules></Modules>
+>>>>>>> d4bb9200988e1093abd3d735fcf5bcb17559701b
 
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
@@ -102,10 +137,7 @@ export function Home() {
           <View>
             <Text style={styles.list}>Produtos listados</Text>
             </View>
-            <Button onPress={plus} style={styles.add}>
-              <Text style={styles.buttonplustext}>+</Text>
-            </Button>
-
+            <AddBtn></AddBtn>
         </View>
 
 
@@ -146,6 +178,7 @@ export function Home() {
         
                       )}
                     >
+<<<<<<< HEAD
                       <RectButton
                         style={styles.containerbuttomremover}
                       >
@@ -162,6 +195,41 @@ export function Home() {
                   )}
             showsVerticalScrollIndicator={false} />
           </View>
+=======
+
+        <View style={styles.swipeButton}>
+        <FlatList
+          data={Produto}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <>
+            <Swipeable
+              overshootRight={false}
+              renderRightActions={()=>(
+                <Animated.View>
+                    <View>
+                    </View>
+                </Animated.View>
+              )}
+            >
+            <RectButton
+              style={styles.legendaProdutos}
+            >
+                <Text style={styles.textSwipe}>
+                  {item.produto}
+                </Text>
+                <View style={styles.details}>
+                  <Text style={styles.textSwipeB}>
+                    {item.qtd}
+                  </Text>
+                </View>
+              </RectButton>
+              </Swipeable>
+            </>
+          )}
+          showsVerticalScrollIndicator={false}/>
+        </View>
+>>>>>>> d4bb9200988e1093abd3d735fcf5bcb17559701b
         </Animated.ScrollView>
       </View>
   );
@@ -239,13 +307,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  formmod: {
-   flexDirection: 'row',
-   width: 'auto',
-   height: 'auto',
-   marginLeft: '13%'
-  },
-
   button: {
     height: '58%',
     width: '35%',
@@ -271,15 +332,7 @@ const styles = StyleSheet.create({
   },
 
 
-  add: {
-    backgroundColor: '#4B7DFE',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-    width: '15%',
-    height: '50%',
-    marginRight: '5%'
-  },
+  
   
   buttonplustext: {
     fontSize: 25,
@@ -318,24 +371,6 @@ textActive: {
 },
   
   /*css do bottom modulos */
-containermodulos: {
-  backgroundColor: "#DEDEDE",
-  width: 140,
-  height: 40,   
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 12,
-  marginHorizontal: 5,
-},
-containerActive: {        
-  backgroundColor: "#BDDEFD"
-},
-textmodulo: {
-  color: "#BBBBBB",
-},
-textActive: {
-  color: "#2F80ED",
-},
 
 Produtos: {
   //backgroundColor: '#606060',
@@ -443,6 +478,5 @@ buttonRemove: {
 } 
 
 });
-
 
 export default Home;

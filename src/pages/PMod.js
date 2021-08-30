@@ -11,7 +11,9 @@ import {
   ScrollView,
   AsyncStorage, } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import uuid from 'react-native-uuid'; 
+import uuid from 'react-native-uuid';
+
+import QrBtn from '../components/QrBtn'
   
 export function PMod() {
   const navigation = useNavigation();
@@ -70,9 +72,7 @@ export function PMod() {
       
           <View style={styles.form}>
                 
-            <TouchableOpacity onPress={readCode} style={styles.button}>
-              <Text style={styles.buttonText}>Scanner</Text>
-            </TouchableOpacity>
+            <QrBtn></QrBtn>
               
 
             <Text style={styles.label}>Código</Text>
