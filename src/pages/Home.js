@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { Button } from 'react-native-paper';
 import { 
   View, 
   KeyboardAvoidingView, 
@@ -10,14 +9,16 @@ import {
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import { RectButton, Swipeable } from 'react-native-gesture-handler';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import Animated, { 
-  useAnimatedScrollHandler,
-  useSharedValue } from 'react-native-reanimated';
+//import Animated, { 
+  //useAnimatedScrollHandler,
+  //useSharedValue } from 'react-native-reanimated';
 
   import Modules  from '../components/modules'
   import AddBtn from '../components/addBtn'
 
 export function Home() {
+  const navigation = useNavigation();
+
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
   const modelos = [
@@ -43,7 +44,6 @@ export function Home() {
     setProduto(storage);
   }
   
-  const navigation = useNavigation();
 
   function setHandleMod(modelo) {
     setModelo(modelo)
@@ -59,11 +59,11 @@ export function Home() {
     }
   }
 
-  const scrollY = useSharedValue(0);
+  //const scrollY = useSharedValue(0);
 
-    const scrollHandler = useAnimatedScrollHandler(event => {
-        scrollY.value = event.contentOffset.y;
-    });
+    //const scrollHandler = useAnimatedScrollHandler(event => {
+        //scrollY.value = event.contentOffset.y;
+    //});
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
@@ -107,7 +107,6 @@ export function Home() {
                         scrollEventThrottle={16} // 1000 / 60 = 16. (1 segundo / 60 que é a quantidade de frames por segundo para ter uma animação de 60 frames)
                     >
 
-
         <View style={styles.swipeButton}>
         <FlatList
           data={Produto}
@@ -141,7 +140,6 @@ export function Home() {
           showsVerticalScrollIndicator={false}/>
         </View>
         </Animated.ScrollView>
-
       </View>
     </KeyboardAvoidingView>
   );
@@ -218,8 +216,6 @@ const styles = StyleSheet.create({
     marginLeft: '24%',
     alignItems: 'center',
   },
-
-  
 
   button: {
     height: '58%',
@@ -305,6 +301,5 @@ textSwipeB: {
   marginLeft: '77%',
 },
 });
-
 
 export default Home;

@@ -7,7 +7,7 @@ import {
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'; 
 
-export function confirmBtn() {
+export function ConfirmBtn() {
   async function Confirm() {
     const newProd = {
       id: uuid.v4(), 
@@ -67,3 +67,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     },
 })
+
+export default ConfirmBtn;
