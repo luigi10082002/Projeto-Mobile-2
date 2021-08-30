@@ -19,9 +19,9 @@ export function Modules() {
     },
   ];
   
-  //function setHandleMod(modelo) {
-    //setModelo(modelo)
-  //};
+  function setHandleMod(modelo) {
+    setModelo(modelo)
+  };
 
   return (
     <View style={styles.formmod}>
@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 'auto',
     height: 'auto',
-    marginLeft: '13%'
+    marginLeft: '13%',
+    marginTop: '50%',
   },
 
   /*css do bottom modulos */

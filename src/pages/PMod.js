@@ -12,14 +12,14 @@ import {
   AsyncStorage, } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import uuid from 'react-native-uuid';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import QrBtn from '../components/QrBtn'
+import { Modules } from '../components/modules';
   
 export function PMod() {
   const navigation = useNavigation();
 
-  const [produto, setProduto] = useState([])
-
+  const [prod, setProd] = useState([])
   const [qtd, setQtd] = useState(0)
   const [codigo, setCodigo] = useState()
 
@@ -70,18 +70,24 @@ export function PMod() {
       <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
 
         <ScrollView>
-      
+
+        <Modules/>
+
           <View style={styles.form}>
                 
-            <QrBtn></QrBtn>
-              
+            <Text style={styles.text}>Código</Text>
 
-            <Text style={styles.label}>Código</Text>
+            <View style={styles.label}>
               <TextInput 
-              style={styles.input}
+              style={styles.inputOne}
               autoCorrect={false}              
               onChangeText={setCodigo}
             />
+
+              <TouchableOpacity>
+                <Icon style={styles.icon} name='qrcode-scan' size={42}/>
+              </TouchableOpacity>
+            </View>
 
             <Text style={styles.label}>Quantidade</Text>
               <TextInput 
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 
-  label: {
+  text: {
     fontWeight: 'bold',
     color: '#444',
     marginBottom: 8,
@@ -138,7 +144,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4
   },
 
+  label: {
+    flexDirection: 'row',
+  },
+
   input: {
+    borderWidth: 1,
+    borderColor: '#fff',
+    backgroundColor: '#CACACA',
+    paddingHorizontal: 20,
+    fontSize: 16,
+    color: '#444',
+    height: 44,
+    marginBottom: 20,
+    borderRadius: 2
+  },
+
+  inputOne: {
     borderWidth: 1,
     borderColor: '#fff',
     backgroundColor: '#CACACA',

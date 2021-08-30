@@ -8,16 +8,18 @@ import {
   TouchableOpacity, 
   StyleSheet,
   SafeAreaView,
-  ScrollView } from 'react-native';
+  ScrollView} from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid'; 
-  
+import uuid from 'react-native-uuid'; // gerador de ip para colocar no novos produtos adicionados
+
+import { Modules } from '../components/modules';
+
 export function SMod() {
   const navigation = useNavigation();
 
-  const [produto, setProduto] = useState([])
-  const [codigo, setCodigo] = useState()
+  const [prod, setProd] = useState([])
+  const [cod, setCodigo] = useState()
 
     async function readCode() { 
       {navigation.navigate('SQRcode')};
@@ -25,24 +27,40 @@ export function SMod() {
 
     async function Confirm() {
       const newProd = {
-        id: uuid.v4(), 
-        produto: codigo,
+        id: uuid.v4(),
+        produto: cod,
         qtd: 1
       };
 
-       //verifica se tem alguma coisa na storage 
+
+      //verifica se tem alguma coisa na storage se
       const storage = await AsyncStorage.getItem('@Produtos');
       const Prod = storage ? JSON.parse(storage) : [];
 
-      const index = Prod.findIndex(element => element.produto == codigo)
-      
-      if(index >= 0){
-         Prod[index].qtd  = parseInt(Prod[index].qtd) + 1;  
-         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+      const index = prod.findIndex(element => element.produto == cod)
+
+      //em ves de add no array vamos adicionar na storage
+      /*if (index >= 0) {
+        console.log(prod[index].qtd)
+        prod[index].qtd = parseInt(prod[index].qtd) +1
+
+        setProd(prod)
       }
-      else{    
+
+      else {
+        setProd ([...prod, newInfo])
+      }*/
+
+      if(index >= 0){
+         Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+      }else{    
         await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
       }
+
+      console.log(prod)
+
+      //{navigation.navigate('Home')};
     }
   
 return (
@@ -52,17 +70,24 @@ return (
     <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
 
       <ScrollView>
+
+      <Modules/>
     
         <View style={styles.form}>
               
-          <QrBtn></QrBtn>
+          <Text style={styles.text}>Código</Text>
 
-          <Text style={styles.label}>Código</Text>
-            <TextInput 
-            style={styles.input}
-            autoCorrect={false}
-            onChangeText={setCodigo}
-          />
+            <View style={styles.label}>
+              <TextInput 
+              style={styles.inputOne}
+              autoCorrect={false}              
+              onChangeText={setCodigo}
+            />
+
+              <TouchableOpacity>
+                <Icon style={styles.icon} name='qrcode-scan' size={42}/>
+              </TouchableOpacity>
+            </View>
 
           <View style={styles.footer}>
                 
@@ -100,10 +125,14 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 
-  label: {
+  text: {
     fontWeight: 'bold',
     color: '#444',
     marginBottom: 8,
+  },
+
+  label: {
+    flexDirection: 'row',
   },
 
   footer: {
