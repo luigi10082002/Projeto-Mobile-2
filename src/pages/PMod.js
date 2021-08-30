@@ -15,25 +15,13 @@ import uuid from 'react-native-uuid';
   
 export function PMod() {
   const navigation = useNavigation();
-<<<<<<< HEAD
   const [prod, setProd] = useState([])
-=======
-
-  const [produto, setProduto] = useState([])
->>>>>>> 85a14481840ecfb2c3cb563199b0f40f5a26fb0b
 
   const [qtd, setQtd] = useState(0)
   const [codigo, setCodigo] = useState()
 
-<<<<<<< HEAD
-  async function Confirm() {  
-    const newInfo ={
-      cod,
-      qtd,
-=======
     async function readCode() { 
       {navigation.navigate('SQRcode')};
->>>>>>> 85a14481840ecfb2c3cb563199b0f40f5a26fb0b
     }
 
     async function Confirm() {

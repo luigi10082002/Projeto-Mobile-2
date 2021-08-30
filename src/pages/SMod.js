@@ -8,7 +8,6 @@ import {
   TouchableOpacity, 
   StyleSheet,
   SafeAreaView,
-<<<<<<< HEAD
   ScrollView} from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
@@ -18,19 +17,7 @@ export function SMod() {
   const navigation = useNavigation();
 
   const [prod, setProd] = useState([])
-  const [cod, setCod] = useState()
-=======
-  ScrollView } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import AsyncStorage  from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid'; 
-  
-export function SMod() {
-  const navigation = useNavigation();
-
-  const [produto, setProduto] = useState([])
-  const [codigo, setCodigo] = useState()
->>>>>>> 85a14481840ecfb2c3cb563199b0f40f5a26fb0b
+  const [cod, setCodigo] = useState()
 
     async function readCode() { 
       {navigation.navigate('SQRcode')};
@@ -38,7 +25,6 @@ export function SMod() {
 
     async function Confirm() {
       const newProd = {
-<<<<<<< HEAD
         id: uuid.v4(),
         produto: cod,
         qtd: 1
@@ -73,26 +59,6 @@ export function SMod() {
       console.log(prod)
 
       //{navigation.navigate('Home')};
-=======
-        id: uuid.v4(), 
-        produto: codigo,
-        qtd: 1
-      };
-
-       //verifica se tem alguma coisa na storage 
-      const storage = await AsyncStorage.getItem('@Produtos');
-      const Prod = storage ? JSON.parse(storage) : [];
-
-      const index = Prod.findIndex(element => element.produto == codigo)
-      
-      if(index >= 0){
-         Prod[index].qtd  = parseInt(Prod[index].qtd) + 1;  
-         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
-      }
-      else{    
-        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
-      }
->>>>>>> 85a14481840ecfb2c3cb563199b0f40f5a26fb0b
     }
   
 return (

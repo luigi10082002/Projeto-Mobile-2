@@ -2,29 +2,22 @@ import React, { useState, useCallback } from 'react';
 import { Button } from 'react-native-paper';
 import { 
   View, 
-  KeyboardAvoidingView, 
-  Platform, 
   Text, 
   StyleSheet,
   FlatList } from 'react-native';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import { RectButton } from 'react-native-gesture-handler';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-
+import Animated, { 
+  useAnimatedScrollHandler,
+  useSharedValue } from 'react-native-reanimated';
+import { Feather } from '@expo/vector-icons';
+import { modelos } from '../lib/Modelos';
+  
 export function Home() {
-  const [mod, setMod] = useState('1');
-  const [Prod, setProd] = useState([]);
-
-  const modelos = [
-    { 
-      name: 'Módulo 1', 
-      id: '1'
-    },
-    { 
-      name: 'Módulo 2', 
-      id: '2'
-    },
-  ];
+  const [mod, setModelo] = useState('1');
+  const [Produto, setProd] = useState([]);
 
   useFocusEffect(useCallback(() => {
     loadSpots();
@@ -45,23 +38,20 @@ export function Home() {
   };
 
   function plus() { 
-    if (modulo == 1) {
+    if (mod == 1) {
       navigation.navigate('PMod');
-    }
-
-    else {
+    }else {
       navigation.navigate('SMod');
     }
   }
 
   const scrollY = useSharedValue(0);
-
-    const scrollHandler = useAnimatedScrollHandler(event => {
-        scrollY.value = event.contentOffset.y;
-    });
+  const scrollHandler = useAnimatedScrollHandler(event => {
+      scrollY.value = event.contentOffset.y;
+  });
 
   return (
-    <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
+    
       <View style={styles.form}>
         
         <View style={styles.user}>
@@ -118,57 +108,62 @@ export function Home() {
 
         </View>
 
-        <View style={styles.legenda}>
-          <Text style={styles.prod}>Produto</Text>
-          <Text style={styles.qtd}>Quantidade</Text>
-        </View>
 
+        <View style={styles.legenda}>
+            <View>
+                <Text style={styles.prodlisttitle}> Produtos</Text>
+            </View>
+            <View>
+                <Text style={styles.prodlisttitle}> qtd</Text>
+            </View>                    
+        </View>
         {/*exemplo de listagem com storage apartir dai e com vc*/}
         <Animated.ScrollView
-                        style={{ width: '100%' }}
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ paddingTop: 1 }}
-                        onScroll={scrollHandler}
-                        scrollEventThrottle={16} // 1000 / 60 = 16. (1 segundo / 60 que é a quantidade de frames por segundo para ter uma animação de 60 frames)
+            style={{ width: '100%' }}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingTop: 1 }}
+            onScroll={scrollHandler}
+            scrollEventThrottle={16} // 1000 / 60 = 16. (1 segundo / 60 que é a quantidade de frames por segundo para ter uma animação de 60 frames)
+        >
+          <View style={styles.swiper}>
+              <FlatList
+                  data={Produto}
+                  keyExtractor={(item) => String(item.id)}
+                  renderItem={({ item }) => (
+                    <Swipeable
+                      overshootRight={false}
+                      renderRightActions={() => (
+                        <Animated.View>
+                            <View>
+                                <RectButton
+                                    style={styles.buttonRemove}
+                                    onPress={()=>{}} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
+                                >
+                                    <Feather name="trash" size={24} color='#FFF'/>
+                                </RectButton>
+                            </View>
+                        </Animated.View>
+        
+                      )}
                     >
-
-
-        <View style={styles.swipeButton}>
-        <FlatList
-          data={Produto}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <>
-            <Swipeable
-              overshootRight={false}
-              renderRightActions={()=>(
-                <Animated.View>
-                    <View>
-                    </View>
-                </Animated.View>
-              )}
-            >
-            <RectButton
-              style={styles.legendaProdutos}
-            >
-                <Text style={styles.textSwipe}>
-                  {item.produto}
-                </Text>
-                <View style={styles.details}>
-                  <Text style={styles.textSwipeB}>
-                    {item.qtd}
-                  </Text>
-                </View>
-              </RectButton>
-              </Swipeable>
-            </>
-          )}
-          showsVerticalScrollIndicator={false}/>
-        </View>
+                      <RectButton
+                        style={styles.containerbuttomremover}
+                      >
+                        <Text style={styles.title}>
+                          {item.produto}
+                        </Text>
+                        <View style={styles.details}>
+                          <Text style={styles.qtd}>
+                              {item.qtd}
+                          </Text>
+                        </View>
+                      </RectButton>
+                    </Swipeable>    
+                  )}
+            showsVerticalScrollIndicator={false} />
+          </View>
         </Animated.ScrollView>
-
       </View>
-    </KeyboardAvoidingView>
   );
 }
 
@@ -354,10 +349,12 @@ textSwipe: {
 }, 
 
 legenda: {
-  flexDirection: 'row',
-  marginLeft: '10%',
-  width: 'auto',
-  height: 'auto',
+  width:'100%',
+  flexDirection:'row',
+  justifyContent:"space-between",
+  alignItems:'center',
+  paddingVertical:5,
+  paddingHorizontal: 32,
 },
 
 prod: {
@@ -389,6 +386,62 @@ textSwipeB: {
   fontSize: 18,
   marginLeft: '77%',
 },
+
+
+//swipe 
+swiper: {
+  flex: 1,
+  width: '100%'
+},
+swiperTitle: {
+  fontSize: 24,
+  color: '#DDE3F0',
+  marginVertical: 20
+},
+
+//buttom remover swipe
+containerbuttomremover: {
+  width: '100%',
+  height: 40,
+  paddingHorizontal: 10,
+  paddingVertical: 15,
+  borderRadius: 5,
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  marginVertical: 2,
+  marginLeft: 2,
+  marginRight: 2
+},
+title: {
+  flex: 1,
+  marginLeft: 32,
+  fontSize: 17,
+  color: '#738078'
+},
+details: {
+  alignItems: 'flex-end',
+  right:20 
+},
+qtd: {
+  marginTop: 5,
+  fontSize: 16,
+  color: '#738078',
+  right: 5
+},
+buttonRemove: {
+  width: 100,
+  height: 30,
+  backgroundColor: '#E83F5B',
+  marginTop: 8,
+  borderRadius: 5,
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'relative',
+  right: 20,
+  paddingLeft: 15
+} 
+
 });
 
 
