@@ -8,19 +8,27 @@ import AsyncStorage  from '@react-native-async-storage/async-storage';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+
 import Animated, { 
   useAnimatedScrollHandler,
   useSharedValue } from 'react-native-reanimated';
 import { Feather } from '@expo/vector-icons';
+import { modelos } from '../lib/Modelos';
+  
+export function Home() {
+  const [mod, setModelo] = useState('1');
+  const [Produto, setProd] = useState([]);
+
 
 import AddBtn from '../components/addBtn';
 import Modules from '../components/modules';
   
-export function Home() {
   const navigation = useNavigation();
 
-  const [mod, setModelo] = useState('1');
-  const [Produto, setProd] = useState([]);
+  
+  const [modulo, setModelo] = useState('1');
+  const [Produto, setProduto] = useState([]);
+  
 
   useFocusEffect(useCallback(() => {
     loadSpots();
@@ -52,9 +60,17 @@ export function Home() {
       scrollY.value = event.contentOffset.y;
   });
 
+
   async function removeProduto() {
     await AsyncStorage.removeItem(item.id);
   }
+
+  const scrollY = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler(event => {
+        scrollY.value = event.contentOffset.y;
+    });
+
 
   return (
     
@@ -82,6 +98,9 @@ export function Home() {
               contentContainerStyle={styles.modelotList}
           />
         </View>
+       
+        
+
 
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
@@ -133,6 +152,7 @@ export function Home() {
         
                       )}
                     >
+
                       <RectButton
                         style={styles.containerbuttomremover}
                       >
@@ -149,6 +169,10 @@ export function Home() {
                   )}
             showsVerticalScrollIndicator={false} />
           </View>
+
+
+        
+
         </Animated.ScrollView>
       </View>
   );
@@ -266,6 +290,38 @@ const styles = StyleSheet.create({
     paddingRight: 30
 },
 
+/*css do bottom modulos */
+containermodutos: {
+  backgroundColor: "#F0F0F0",
+  width: 140,
+  height: 40,   
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 12,
+  marginHorizontal: 5
+},
+containerActive: {        
+  backgroundColor: "#BDDEFD"
+},
+textmodulo: {
+  color: "#DDE3F0",
+},
+textActive: {
+  color: "#2F80ED",
+},
+  
+  /*css do bottom modulos */
+
+
+  modeloList: {
+    height: 40,
+    justifyContent: 'center',
+    paddingBottom: 5,
+    marginLeft: 30,
+    marginVertical: 15,
+    paddingRight: 30
+},
+
   /*css do bottom modulos */
   containermodutos: {
     backgroundColor: "#F0F0F0",
@@ -294,6 +350,14 @@ const styles = StyleSheet.create({
     height: '70%',
     alignSelf: 'center',
   },
+legenda: {
+  width:'100%',
+  flexDirection:'row',
+  justifyContent:"space-between",
+  alignItems:'center',
+  paddingVertical:5,
+  paddingHorizontal: 32,
+},
 
   textSwipe: {
     alignSelf: 'center',
@@ -393,7 +457,68 @@ const styles = StyleSheet.create({
     position: 'relative',
     right: 20,
     paddingLeft: 15
-  } 
+  },
+
+
+textSwipeB: {
+  fontSize: 18,
+  marginLeft: '77%',
+},
+
+
+//swipe 
+swiper: {
+  flex: 1,
+  width: '100%'
+},
+swiperTitle: {
+  fontSize: 24,
+  color: '#DDE3F0',
+  marginVertical: 20
+},
+
+//buttom remover swipe
+containerbuttomremover: {
+  width: '100%',
+  height: 40,
+  paddingHorizontal: 10,
+  paddingVertical: 15,
+  borderRadius: 5,
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  marginVertical: 2,
+  marginLeft: 2,
+  marginRight: 2
+},
+title: {
+  flex: 1,
+  marginLeft: 32,
+  fontSize: 17,
+  color: '#738078'
+},
+details: {
+  alignItems: 'flex-end',
+  right:20 
+},
+qtd: {
+  marginTop: 5,
+  fontSize: 16,
+  color: '#738078',
+  right: 5
+},
+buttonRemove: {
+  width: 100,
+  height: 30,
+  backgroundColor: '#E83F5B',
+  marginTop: 8,
+  borderRadius: 5,
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'relative',
+  right: 20,
+  paddingLeft: 15
+} 
 
 });
 
