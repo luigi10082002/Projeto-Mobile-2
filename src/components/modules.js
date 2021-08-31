@@ -6,49 +6,26 @@ import {
   FlatList} from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-export function Modules() {
-  const [modulo, setModelo] = useState('1');
-  const modelos = [
-    { 
-      name: 'Módulo 1', 
-      id: '1'
-    },
-    { 
-      name: 'Módulo 2', 
-      id: '2'
-    },
-  ];
-  
-  function setHandleMod(modelo) {
-    setModelo(modelo)
-  };
+
+export function Modules({...res, modelo}) {
 
   return (
-    <View style={styles.formmod}>
-      <FlatList 
-        data={modelos}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (  
+        
         <RectButton
           style={[
             styles.containermodulos,
-            modulo === item.id && styles.containerActive
+            modelo === item.id && styles.containerActive
           ]}
-            onPress={() => setHandleMod(item.id)}
+           {...res}
         >
           <Text style={[
             styles.textmodulo,
-            modulo === item.id  && styles.textActive
+            modelo === item.id  && styles.textActive
           ]}>
           { item.name }
           </Text>
-        </RectButton>                  
-        )}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.modelotList}
-      />
-    </View>
+        </RectButton>
+      
   );
 }
 
@@ -58,7 +35,7 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: 'auto',
     marginLeft: '13%',
-    marginTop: '50%',
+    marginTop: '2%',
   },
 
   /*css do bottom modulos */

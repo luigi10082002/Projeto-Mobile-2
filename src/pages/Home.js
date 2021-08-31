@@ -12,9 +12,13 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue } from 'react-native-reanimated';
 import { Feather } from '@expo/vector-icons';
-import { modelos } from '../lib/Modelos';
+
+import AddBtn from '../components/addBtn';
+import Modules from '../components/modules';
   
 export function Home() {
+  const navigation = useNavigation();
+
   const [mod, setModelo] = useState('1');
   const [Produto, setProd] = useState([]);
 
@@ -48,6 +52,10 @@ export function Home() {
       scrollY.value = event.contentOffset.y;
   });
 
+  async function removeProduto() {
+    await AsyncStorage.removeItem(item.id);
+  }
+
   return (
     
       <View style={styles.form}>
@@ -63,32 +71,16 @@ export function Home() {
         </View>
 
         <View style={styles.formmod}>
-
-              <FlatList 
-                data={modelos}
-                keyExtractor={(item) => String(item.id)}
-                renderItem={({ item }) => (  
-                    <RectButton
-                            style={[
-                                styles.containermodutos,
-                                mod === item.id && styles.containerActive
-                            ]}
-                          onPress={() => setHandleMod(item.id)}
-                    >
-                        <Text style={[
-                            styles.textmodulo,
-                            mod === item.id  && styles.textActive
-                        ]}>
-                            { item.name }
-                        </Text>
-                    </RectButton>                  
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.modelotList}
-              />
-
-
+          <FlatList 
+            data={modelos}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (  
+              <Modules onpress={setHandleMod(item.id)} modelo={mod}/>
+              )}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.modelotList}
+          />
         </View>
 
         <View style={styles.listaProdutos}>
@@ -100,7 +92,7 @@ export function Home() {
           <View>
             <Text style={styles.list}>Produtos listados</Text>
             </View>
-            <AddBtn></AddBtn>
+            <AddBtn onPress={plus} />
         </View>
 
 
@@ -256,10 +248,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '5%',
     marginRight: '90%',
-  },
-
-
-  
+  }, 
   
   buttonplustext: {
     fontSize: 25,
@@ -277,132 +266,134 @@ const styles = StyleSheet.create({
     paddingRight: 30
 },
 
-/*css do bottom modulos */
-containermodutos: {
-  backgroundColor: "#F0F0F0",
-  width: 140,
-  height: 40,   
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 12,
-  marginHorizontal: 5
-},
-containerActive: {        
-  backgroundColor: "#BDDEFD"
-},
-textmodulo: {
-  color: "#DDE3F0",
-},
-textActive: {
-  color: "#2F80ED",
-},
-  
   /*css do bottom modulos */
+  containermodutos: {
+    backgroundColor: "#F0F0F0",
+    width: 140,
+    height: 40,   
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
+    marginHorizontal: 5
+  },
+  containerActive: {        
+    backgroundColor: "#BDDEFD"
+  },
+  textmodulo: {
+    color: "#DDE3F0",
+  },
+  textActive: {
+    color: "#2F80ED",
+  },
+    
+    /*css do bottom modulos */
 
-Produtos: {
-  //backgroundColor: '#606060',
-  width: '85%',
-  height: '70%',
-  alignSelf: 'center',
-},
+  Produtos: {
+    //backgroundColor: '#606060',
+    width: '85%',
+    height: '70%',
+    alignSelf: 'center',
+  },
 
-textSwipe: {
-  alignSelf: 'center',
-}, 
+  textSwipe: {
+    alignSelf: 'center',
+  }, 
 
-legenda: {
-  width:'100%',
-  flexDirection:'row',
-  justifyContent:"space-between",
-  alignItems:'center',
-  paddingVertical:5,
-  paddingHorizontal: 32,
-},
+  legenda: {
+    width:'100%',
+    flexDirection:'row',
+    justifyContent:"space-between",
+    alignItems:'center',
+    paddingVertical:5,
+    paddingHorizontal: 32,
+    marginTop: '5%'
+  },
 
-prod: {
- fontSize: 18
-},
+  prod: {
+  fontSize: 18
+  },
 
-qtd: {
-  fontSize: 18,
-  marginLeft: '45%'
-},
+  qtd: {
+    fontSize: 18,
+    marginLeft: '45%'
+  },
 
-legendaProdutos: {
-  backgroundColor: '#BDDEFD',
-  flexDirection: 'row',
-  borderRadius: 10,
-  fontSize: 10,
-  margin: '5%',
-  width: '85%',
-  height: '70%',
-  marginTop: '2%'
-},
+  legendaProdutos: {
+    backgroundColor: '#BDDEFD',
+    flexDirection: 'row',
+    borderRadius: 10,
+    fontSize: 10,
+    margin: '5%',
+    width: '85%',
+    height: '70%',
+    marginTop: '2%'
+  },
 
-textSwipe: {
-  fontSize: 18,
-  marginLeft: '4%',
-},
+  textSwipe: {
+    fontSize: 18,
+    marginLeft: '4%',
+  },
 
-textSwipeB: {
-  fontSize: 18,
-  marginLeft: '77%',
-},
+  textSwipeB: {
+    fontSize: 18,
+    marginLeft: '77%',
+  },
 
+  //swipe 
+  swiper: {
+    flex: 1,
+    width: '90%',
+    marginLeft: '5%',
+    borderRadius: 8,
+  },
+  swiperTitle: {
+    fontSize: 24,
+    color: '#DDE3F0',
+    marginVertical: 20
+  },
 
-//swipe 
-swiper: {
-  flex: 1,
-  width: '100%'
-},
-swiperTitle: {
-  fontSize: 24,
-  color: '#DDE3F0',
-  marginVertical: 20
-},
-
-//buttom remover swipe
-containerbuttomremover: {
-  width: '100%',
-  height: 40,
-  paddingHorizontal: 10,
-  paddingVertical: 15,
-  borderRadius: 5,
-  flexDirection: 'row',
-  alignItems: 'center',
-  backgroundColor: '#fff',
-  marginVertical: 2,
-  marginLeft: 2,
-  marginRight: 2
-},
-title: {
-  flex: 1,
-  marginLeft: 32,
-  fontSize: 17,
-  color: '#738078'
-},
-details: {
-  alignItems: 'flex-end',
-  right:20 
-},
-qtd: {
-  marginTop: 5,
-  fontSize: 16,
-  color: '#738078',
-  right: 5
-},
-buttonRemove: {
-  width: 100,
-  height: 30,
-  backgroundColor: '#E83F5B',
-  marginTop: 8,
-  borderRadius: 5,
-  justifyContent: 'center',
-  alignItems: 'center',
-  position: 'relative',
-  right: 20,
-  paddingLeft: 15
-} 
+  //buttom remover swipe
+  containerbuttomremover: {
+    width: '100%',
+    height: 40,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    marginVertical: 2,
+    marginLeft: 2,
+    marginRight: 2
+  },
+  title: {
+    flex: 1,
+    marginLeft: 32,
+    fontSize: 17,
+    color: '#738078'
+  },
+  details: {
+    alignItems: 'flex-end',
+    right:20 
+  },
+  qtd: {
+    marginTop: 5,
+    fontSize: 16,
+    color: '#738078',
+    right: 5
+  },
+  buttonRemove: {
+    width: 100,
+    height: 30,
+    backgroundColor: '#E83F5B',
+    marginTop: 8,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    right: 20,
+    paddingLeft: 15
+  } 
 
 });
 

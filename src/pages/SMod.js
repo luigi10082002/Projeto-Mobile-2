@@ -85,7 +85,7 @@ return (
             />
 
               <TouchableOpacity>
-                <Icon style={styles.icon} name='qrcode-scan' size={42}/>
+                <Icon name='qrcode-scan' size={42} color={'#CACACA'}/>
               </TouchableOpacity>
             </View>
 

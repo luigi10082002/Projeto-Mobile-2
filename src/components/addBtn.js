@@ -1,41 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
 import { 
   Text,  
   StyleSheet} from 'react-native';
 
-export function AddBtn() {
-  const navigation = useNavigation();
 
-  const [modulo, setModelo] = useState('1');
-  const modelos = [
-    { 
-      name: 'Módulo 1', 
-      id: '1'
-    },
-    { 
-      name: 'Módulo 2', 
-      id: '2'
-    },
-  ];
-
-  function setHandleMod(modelo) {
-    setModelo(modelo)
-  };
-  
-  function plus() { 
-    if (modulo == 1) {
-      navigation.navigate('PMod');
-    }
-
-    else {
-      navigation.navigate('SMod');
-    }
-  }
-  
+export function AddBtn({...res}) {
   return(
-    <Button onPress={plus} style={styles.add}>
+    <Button {...res} style={styles.add}>
       <Text style={styles.buttonplustext}>+</Text>
     </Button>
 )

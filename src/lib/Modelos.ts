@@ -1,4 +1,4 @@
-const modelos = [
+export const modelos = [
   { 
     name: 'Módulo 1', 
     id: '1'
