@@ -94,9 +94,10 @@ export function Home() {
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.modelotList}
-          />
-        
+          /> 
         </View>
+       
+        
 
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
