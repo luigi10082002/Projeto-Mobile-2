@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
-import { 
-  View, 
+import React from 'react';
+import {  
   Text,  
-  StyleSheet,
-  FlatList} from 'react-native';
+  StyleSheet} from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
 
-export function Modules({...res, modelo}) {
+export function Modules({title,
+  active = false,
+  ...rest}) {
 
   return (
-        
-        <RectButton
-          style={[
+        <RectButton  
+         style={[
             styles.containermodulos,
-            modelo === item.id && styles.containerActive
+            active && styles.containerActive
           ]}
-           {...res}
+          {...rest}
         >
           <Text style={[
             styles.textmodulo,
-            modelo === item.id  && styles.textActive
+            active  && styles.textActive
           ]}>
-          { item.name }
+          { title }
           </Text>
         </RectButton>
       

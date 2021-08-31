@@ -15,17 +15,12 @@ import Animated, {
 import { Feather } from '@expo/vector-icons';
 import { modelos } from '../lib/Modelos';
   
-export function Home() {
-  const [mod, setModelo] = useState('1');
-  const [Produto, setProd] = useState([]);
-
-
 import AddBtn from '../components/addBtn';
 import Modules from '../components/modules';
   
+export function Home() {
   const navigation = useNavigation();
 
-  
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
   
@@ -39,26 +34,23 @@ import Modules from '../components/modules';
     const response = await AsyncStorage.getItem('@Produtos');
     const storage = response ? JSON.parse(response) : [];
    
-    setProd(storage);
+    setProduto(storage);
   }
   
 
   function setHandleMod(modelo) {
-    setModelo(modelo)
+    setModelo(modelo);
+    console.log('aqui')
   };
 
   function plus() { 
-    if (mod == 1) {
+    if (modulo == 1) {
       navigation.navigate('PMod');
     }else {
       navigation.navigate('SMod');
     }
   }
 
-  const scrollY = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler(event => {
-      scrollY.value = event.contentOffset.y;
-  });
 
 
   async function removeProduto() {
@@ -66,10 +58,9 @@ import Modules from '../components/modules';
   }
 
   const scrollY = useSharedValue(0);
-
-    const scrollHandler = useAnimatedScrollHandler(event => {
-        scrollY.value = event.contentOffset.y;
-    });
+  const scrollHandler = useAnimatedScrollHandler(event => {
+      scrollY.value = event.contentOffset.y;
+  });
 
 
   return (
@@ -91,7 +82,11 @@ import Modules from '../components/modules';
             data={modelos}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (  
-              <Modules onpress={setHandleMod(item.id)} modelo={mod}/>
+                <Modules 
+                  title={item.name}
+                  active={item.id === modulo}
+                  onPress={() => setHandleMod(item.id)}                        
+                /> 
               )}
               horizontal
               showsHorizontalScrollIndicator={false}
