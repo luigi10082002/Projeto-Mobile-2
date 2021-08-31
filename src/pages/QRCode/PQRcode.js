@@ -51,7 +51,8 @@ export function PQRcode() {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
-      /> 
+      />
+       
       <TouchableOpacity onPress={cancelScan} style={styles.button}>
           <Text style={styles.buttonText}>Cancelar</Text>
       </TouchableOpacity>

@@ -8,18 +8,22 @@ import {
   TouchableOpacity, 
   StyleSheet,
   SafeAreaView,
-  ScrollView} from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import AsyncStorage  from '@react-native-async-storage/async-storage';
+  ScrollView, 
+  FlatList,
+  AsyncStorage} from 'react-native';
+import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import uuid from 'react-native-uuid'; // gerador de ip para colocar no novos produtos adicionados
 
 import { Modules } from '../components/modules';
+import { modelos } from '../lib/Modelos';
 
 export function SMod() {
   const navigation = useNavigation();
-
+  const route = useRoute();
   const [prod, setProd] = useState([])
-  const [cod, setCodigo] = useState()
+  const [codigo, setCodigo] = useState()
+  const [modulo, setModelo] = useState(route.params.id);
 
     async function readCode() { 
       {navigation.navigate('SQRcode')};
@@ -28,7 +32,7 @@ export function SMod() {
     async function Confirm() {
       const newProd = {
         id: uuid.v4(),
-        produto: cod,
+        produto: codigo,
         qtd: 1
       };
 
@@ -37,31 +41,42 @@ export function SMod() {
       const storage = await AsyncStorage.getItem('@Produtos');
       const Prod = storage ? JSON.parse(storage) : [];
 
-      const index = prod.findIndex(element => element.produto == cod)
+      const index = Prod.findIndex(element => element.produto == codigo)
 
-      //em ves de add no array vamos adicionar na storage
-      /*if (index >= 0) {
-        console.log(prod[index].qtd)
-        prod[index].qtd = parseInt(prod[index].qtd) +1
-
-        setProd(prod)
-      }
-
-      else {
-        setProd ([...prod, newInfo])
-      }*/
+      //em vez de add no array vamos adicionar na storage
 
       if(index >= 0){
          Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
-      }else{    
+      }
+      else{    
         await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
       }
 
-      console.log(prod)
-
-      //{navigation.navigate('Home')};
+      console.log(index)
     }
+
+    async function readCode() { 
+      {navigation.navigate('PQRcode')};
+    }
+
+    function setHandleMod(modelo) {
+      setModelo(modelo);
+
+      if (modelo == 2) {
+        
+        navigation.navigate('SMod', {
+          screen: 'SMod',
+          id:'2'
+        });
+      }
+      else {
+        navigation.navigate('PMod', {
+          screen: 'PMod',
+          id:'1'
+        });
+      }
+    };
   
 return (
   //MESMO PRODUTO
@@ -71,7 +86,23 @@ return (
 
       <ScrollView>
 
-      <Modules/>
+      <View style={styles.formmod}>
+          <FlatList 
+            data={modelos}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (  
+                <Modules 
+                  title={item.name}
+                  active={item.id === modulo}
+                  onPress={() => setHandleMod(item.id)}                        
+                /> 
+              )}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.modelotList}
+          />
+        
+        </View>
     
         <View style={styles.form}>
               
@@ -79,13 +110,13 @@ return (
 
             <View style={styles.label}>
               <TextInput 
-              style={styles.inputOne}
+              style={styles.input}
               autoCorrect={false}              
               onChangeText={setCodigo}
             />
 
               <TouchableOpacity>
-                <Icon name='qrcode-scan' size={42} color={'#CACACA'}/>
+                <Icon name='qrcode-scan' style={styles.icon}/>
               </TouchableOpacity>
             </View>
 
@@ -111,7 +142,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     textAlign: 'center',
-  
   },
 
   content: {
@@ -122,7 +152,15 @@ const styles = StyleSheet.create({
   form: {
     alignSelf: 'stretch',
     paddingHorizontal: 30,
-    marginTop: 30,
+    marginTop: '10%',
+  },
+
+  formmod: {
+    flexDirection: 'row',
+    width: 'auto',
+    height: 'auto',
+    marginLeft: '13%',
+    marginTop: '20%',
   },
 
   text: {
@@ -148,6 +186,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#444',
     height: 44,
+    width: '90%',
     marginBottom: 20,
     borderRadius: 2
   },
@@ -159,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginLeft: '5%',
-    marginTop: '90%',
+    marginTop: '100%',
   },
   
   confirmText: {
@@ -170,6 +209,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: 10,
     marginTop: 10,
+    },
+
+    icon: {
+      fontSize: 43,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      backgroundColor: '#CACACA',
+      width:'auto',
+      height:'auto',
+      borderRadius: 5
     },
   });
   

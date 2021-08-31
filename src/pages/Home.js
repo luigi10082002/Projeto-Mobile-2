@@ -23,7 +23,7 @@ export function Home() {
 
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
-  
+
 
   useFocusEffect(useCallback(() => {
     loadSpots();
@@ -36,24 +36,27 @@ export function Home() {
    
     setProduto(storage);
   }
-  
 
   function setHandleMod(modelo) {
     setModelo(modelo);
-    console.log('aqui')
+    
   };
 
   function plus() { 
     if (modulo == 1) {
-      navigation.navigate('PMod');
+      navigation.navigate('PMod', {
+        screen: 'PMod',
+        id:'1'
+      });
     }else {
-      navigation.navigate('SMod');
+      navigation.navigate('SMod', {
+        screen: 'SMod',
+        id:'2'
+      });
     }
   }
 
-
-
-  async function removeProduto() {
+  async function handleRemove() {
     await AsyncStorage.removeItem(item.id);
   }
 
@@ -92,10 +95,8 @@ export function Home() {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.modelotList}
           />
-        </View>
-       
         
-
+        </View>
 
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
@@ -112,15 +113,18 @@ export function Home() {
 
         <View style={styles.legenda}>
             <View>
-                <Text style={styles.prodlisttitle}> Produtos</Text>
+                <Text style={styles.prodlisttitle}>Produtos</Text>
             </View>
             <View>
-                <Text style={styles.prodlisttitle}> qtd</Text>
+                <Text style={styles.prodlisttitle}>Quantidade</Text>
             </View>                    
         </View>
         {/*exemplo de listagem com storage apartir dai e com vc*/}
         <Animated.ScrollView
-            style={{ width: '100%' }}
+            style={{ 
+              width: '90%',
+              alignSelf: 'center'
+            }}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingTop: 1 }}
             onScroll={scrollHandler}
@@ -164,10 +168,6 @@ export function Home() {
                   )}
             showsVerticalScrollIndicator={false} />
           </View>
-
-
-        
-
         </Animated.ScrollView>
       </View>
   );
@@ -181,7 +181,14 @@ const styles = StyleSheet.create({
   form: {
     width: 'auto',
     height: 'auto',
-    
+  },
+
+  formmod: {
+    flexDirection: 'row',
+    width: 'auto',
+    height: 'auto',
+    marginLeft: '13%',
+    marginTop: '2%',
   },
 
   user: {
@@ -241,7 +248,7 @@ const styles = StyleSheet.create({
   
   list: {
     fontSize: 15,
-    marginLeft: '24%',
+    marginLeft: '18%',
     alignItems: 'center',
   },
 
@@ -286,27 +293,26 @@ const styles = StyleSheet.create({
 },
 
 /*css do bottom modulos */
-containermodutos: {
-  backgroundColor: "#F0F0F0",
-  width: 140,
-  height: 40,   
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 12,
-  marginHorizontal: 5
-},
-containerActive: {        
-  backgroundColor: "#BDDEFD"
-},
-textmodulo: {
-  color: "#DDE3F0",
-},
-textActive: {
-  color: "#2F80ED",
-},
+  containermodutos: {
+    backgroundColor: "#F0F0F0",
+    width: 140,
+    height: 40,   
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
+    marginHorizontal: 5
+  },
+  containerActive: {        
+    backgroundColor: "#BDDEFD"
+  },
+  textmodulo: {
+    color: "#DDE3F0",
+  },
+  textActive: {
+    color: "#2F80ED",
+  },
   
   /*css do bottom modulos */
-
 
   modeloList: {
     height: 40,
@@ -340,19 +346,19 @@ textActive: {
     /*css do bottom modulos */
 
   Produtos: {
-    //backgroundColor: '#606060',
     width: '85%',
     height: '70%',
     alignSelf: 'center',
   },
-legenda: {
-  width:'100%',
-  flexDirection:'row',
-  justifyContent:"space-between",
-  alignItems:'center',
-  paddingVertical:5,
-  paddingHorizontal: 32,
-},
+
+  legenda: {
+    width:'100%',
+    flexDirection:'row',
+    justifyContent:"space-between",
+    alignItems:'center',
+    paddingVertical:5,
+    paddingHorizontal: 32,
+  },
 
   textSwipe: {
     alignSelf: 'center',
@@ -403,7 +409,6 @@ legenda: {
     flex: 1,
     width: '90%',
     marginLeft: '5%',
-    borderRadius: 8,
   },
   swiperTitle: {
     fontSize: 24,
@@ -455,65 +460,64 @@ legenda: {
   },
 
 
-textSwipeB: {
-  fontSize: 18,
-  marginLeft: '77%',
-},
-
+  textSwipeB: {
+    fontSize: 18,
+    marginLeft: '77%',
+  },
 
 //swipe 
-swiper: {
-  flex: 1,
-  width: '100%'
-},
-swiperTitle: {
-  fontSize: 24,
-  color: '#DDE3F0',
-  marginVertical: 20
-},
+  swiper: {
+    flex: 1,
+    width: '100%'
+  },
+  swiperTitle: {
+    fontSize: 24,
+    color: '#DDE3F0',
+    marginVertical: 20
+  },
 
-//buttom remover swipe
-containerbuttomremover: {
-  width: '100%',
-  height: 40,
-  paddingHorizontal: 10,
-  paddingVertical: 15,
-  borderRadius: 5,
-  flexDirection: 'row',
-  alignItems: 'center',
-  backgroundColor: '#fff',
-  marginVertical: 2,
-  marginLeft: 2,
-  marginRight: 2
-},
-title: {
-  flex: 1,
-  marginLeft: 32,
-  fontSize: 17,
-  color: '#738078'
-},
-details: {
-  alignItems: 'flex-end',
-  right:20 
-},
-qtd: {
-  marginTop: 5,
-  fontSize: 16,
-  color: '#738078',
-  right: 5
-},
-buttonRemove: {
-  width: 100,
-  height: 30,
-  backgroundColor: '#E83F5B',
-  marginTop: 8,
-  borderRadius: 5,
-  justifyContent: 'center',
-  alignItems: 'center',
-  position: 'relative',
-  right: 20,
-  paddingLeft: 15
-} 
+  //buttom remover swipe
+  containerbuttomremover: {
+    width: '100%',
+    height: 40,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    marginVertical: 2,
+    marginLeft: 2,
+    marginRight: 2
+  },
+  title: {
+    flex: 1,
+    marginLeft: 32,
+    fontSize: 17,
+    color: '#738078'
+  },
+  details: {
+    alignItems: 'flex-end',
+    right:20 
+  },
+  qtd: {
+    marginTop: 5,
+    fontSize: 16,
+    color: '#738078',
+    right: 5
+  },
+  buttonRemove: {
+    width: 100,
+    height: 30,
+    backgroundColor: '#E83F5B',
+    marginTop: 8,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    right: 20,
+    paddingLeft: 15
+  } 
 
 });
 

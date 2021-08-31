@@ -24,18 +24,11 @@ export function Modules({title,
           { title }
           </Text>
         </RectButton>
-      
   );
 }
 
 const styles = StyleSheet.create({
-  formmod: {
-    flexDirection: 'row',
-    width: 'auto',
-    height: 'auto',
-    marginLeft: '13%',
-    marginTop: '2%',
-  },
+  
 
   /*css do bottom modulos */
   containermodulos: {
@@ -46,19 +39,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 12,
     marginHorizontal: 5,
-},
+  },
 
   containerActive: {        
     backgroundColor: "#BDDEFD"
-},
+  },
 
   textmodulo:{
     color: "#BBBBBB",
-},
+  },
 
   textActive: {
     color: "#2F80ED",
-},
+  },
 
 });
 

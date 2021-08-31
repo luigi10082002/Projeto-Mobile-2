@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { 
   View, 
   KeyboardAvoidingView, 
@@ -9,19 +9,31 @@ import {
   StyleSheet, 
   SafeAreaView,
   ScrollView,
-  AsyncStorage, } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+  AsyncStorage,
+  FlatList } from 'react-native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/core';
 import uuid from 'react-native-uuid';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Modules } from '../components/modules';
+//import { Button } from 'react-native-paper';
+import { modelos } from '../lib/Modelos';
   
 export function PMod() {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const paramMod = route.params.id;
   const [prod, setProd] = useState([])
   const [qtd, setQtd] = useState(0)
   const [codigo, setCodigo] = useState()
+  const [modulo, setModelo] = useState(route.params.id);
+
+  console.log(route.params);
+  console.log(modulo);
+
+  useFocusEffect(useCallback(() => {
+    setModelo(paramMod);
+  },[paramMod]));  
 
     async function readCode() { 
       {navigation.navigate('SQRcode')};
@@ -40,29 +52,41 @@ export function PMod() {
       //Verifica se tem alguma coisa na storage
 
       const storage = await AsyncStorage.getItem('@Produtos');
-      //guarda no array produtos
       const Prod = storage ? JSON.parse(storage) : [];
-      //guarda o array storage no Prod
 
       const index = Prod.findIndex(element => element.produto == codigo)
-      //index recebe o codigo dos protudos 
       
       if(index >= 0){
          Prod[index].qtd = parseInt(Prod[index].qtd) + parseInt(qtd);
          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
 
-         //soma a quantidade de produtos mais a nova quantidade de produtos caso o produto exista
       }
       else {
       await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
     }
     }
   
-    
     async function readCode() { 
       {navigation.navigate('PQRcode')};
     }
-  
+
+    function setHandleMod(modelo) {
+      setModelo(modelo);
+
+      if (modelo == 2) {
+        
+        navigation.navigate('SMod', {
+          screen: 'SMod',
+          id:'2'
+        });
+      }
+      else {
+        navigation.navigate('PMod', {
+          screen: 'PMod',
+          id:'1'
+        });
+      }
+};
   return (
     //DIFERENTES PRODUTOS
     <SafeAreaView style={styles.container}>
@@ -71,7 +95,23 @@ export function PMod() {
 
         <ScrollView>
 
-        <Modules/>
+        <View style={styles.formmod}>
+          <FlatList 
+            data={modelos}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (  
+                <Modules 
+                  title={item.name}
+                  active={item.id === modulo}
+                  onPress={() => setHandleMod(item.id)}                        
+                /> 
+              )}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.modelotList}
+          />
+        
+        </View>
 
           <View style={styles.form}>
                 
@@ -83,10 +123,10 @@ export function PMod() {
               autoCorrect={false}              
               onChangeText={setCodigo}
             />
-
               <TouchableOpacity>
-              <Icon name='qrcode-scan' size={42} color={'#CACACA'}/>
+                <Icon name='qrcode-scan' style={styles.icon}/>
               </TouchableOpacity>
+              
             </View>
 
             <Text style={styles.label}>Quantidade</Text>
@@ -130,7 +170,15 @@ const styles = StyleSheet.create({
   form: {
     alignSelf: 'stretch',
     paddingHorizontal: 30,
-    marginTop: 30,
+    marginTop: '10%',
+  },
+
+  formmod: {
+    flexDirection: 'row',
+    width: 'auto',
+    height: 'auto',
+    marginLeft: '13%',
+    marginTop: '20%',
   },
 
   text: {
@@ -156,6 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#444',
     height: 44,
+    width: '100%',
     marginBottom: 20,
     borderRadius: 2
   },
@@ -168,6 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#444',
     height: 44,
+    width: '87%',
     marginBottom: 20,
     borderRadius: 2
   },
@@ -190,7 +240,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginLeft: '5%',
-    marginTop: '60%',
+    marginTop: '70%',
   },
   
   buttonText: {
@@ -209,6 +259,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     },
-  });
-  
+
+    icon: {
+      fontSize: 43,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      backgroundColor: '#CACACA',
+      width:'auto',
+      height:'auto',
+      borderRadius: 5
+    },
+    
+});
+
   export default PMod;
