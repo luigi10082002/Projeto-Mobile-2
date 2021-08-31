@@ -91,7 +91,7 @@ export function Home() {
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.modelotList}
-          />
+          /> 
         </View>
        
         
