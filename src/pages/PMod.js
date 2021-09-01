@@ -11,19 +11,18 @@ import {
   ScrollView,
   AsyncStorage,
   FlatList } from 'react-native';
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/core';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import uuid from 'react-native-uuid';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Modules } from '../components/modules';
-//import { Button } from 'react-native-paper';
+import { QrBtn } from '../components/QrBtn'
 import { modelos } from '../lib/Modelos';
   
 export function PMod() {
   const navigation = useNavigation();
   const route = useRoute();
   const paramMod = route.params.id;
-  const [prod, setProd] = useState([])
+
   const [qtd, setQtd] = useState(0)
   const [codigo, setCodigo] = useState()
   const [modulo, setModelo] = useState(route.params.id);
@@ -36,7 +35,7 @@ export function PMod() {
   },[paramMod]));  
 
     async function readCode() { 
-      {navigation.navigate('SQRcode')};
+      {navigation.navigate('QRcode')};
     }
 
     async function Confirm() {
@@ -67,7 +66,7 @@ export function PMod() {
     }
   
     async function readCode() { 
-      {navigation.navigate('PQRcode')};
+      {navigation.navigate('QRcode')};
     }
 
     function setHandleMod(modelo) {
@@ -123,9 +122,8 @@ export function PMod() {
               autoCorrect={false}              
               onChangeText={setCodigo}
             />
-              <TouchableOpacity>
-                <Icon name='qrcode-scan' style={styles.icon}/>
-              </TouchableOpacity>
+              <QrBtn
+              onPress={readCode}/>
               
             </View>
 
@@ -136,6 +134,11 @@ export function PMod() {
               onChangeText={setQtd}
 
             />
+
+            <TouchableOpacity
+            onPress={readCode}>
+              <Text>Leitor</Text>
+            </TouchableOpacity>
             
             <View style={styles.footer}>
                   
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 'auto',
     height: 'auto',
-    marginLeft: '13%',
+    marginLeft: '9%',
     marginTop: '20%',
   },
 
@@ -239,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B7DFE',
     alignItems: 'center',
     borderRadius: 5,
-    marginLeft: '5%',
+    marginLeft: '0%',
     marginTop: '70%',
   },
   

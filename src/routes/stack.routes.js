@@ -6,8 +6,7 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import { TabNavi } from './TabNavi';
 import { SMod } from '../pages/SMod';
 import { PMod } from '../pages/PMod';
-import { PQRcode } from '../pages/QRCode/PQRcode';
-import { SQRcode } from '../pages/QRCode/SQRcode';
+import { QRcode } from '../pages/QRcode';
 
 enableScreens();
 
@@ -62,17 +61,8 @@ const AppRoutes = () => (
         />
         
         <stackRoutes.Screen 
-            name="PQRcode"
-            component={PQRcode}
-            options={{
-                headerShown: false
-                }
-            }
-        />
-
-        <stackRoutes.Screen 
-            name="SQRcode"
-            component={SQRcode}
+            name="QRcode"
+            component={QRcode}
             options={{
                 headerShown: false
                 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   View, 
   KeyboardAvoidingView, 
@@ -11,23 +11,18 @@ import {
   ScrollView, 
   FlatList,
   AsyncStorage} from 'react-native';
-import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useNavigation, useRoute } from '@react-navigation/native';
 import uuid from 'react-native-uuid'; // gerador de ip para colocar no novos produtos adicionados
 
 import { Modules } from '../components/modules';
 import { modelos } from '../lib/Modelos';
+import { QrBtn } from '../components/QrBtn'
 
 export function SMod() {
   const navigation = useNavigation();
   const route = useRoute();
-  const [prod, setProd] = useState([])
   const [codigo, setCodigo] = useState()
   const [modulo, setModelo] = useState(route.params.id);
-
-    async function readCode() { 
-      {navigation.navigate('SQRcode')};
-    }
 
     async function Confirm() {
       const newProd = {
@@ -52,12 +47,10 @@ export function SMod() {
       else{    
         await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
       }
-
-      console.log(index)
     }
 
     async function readCode() { 
-      {navigation.navigate('PQRcode')};
+      {navigation.navigate('QRcode')};
     }
 
     function setHandleMod(modelo) {
@@ -115,9 +108,9 @@ return (
               onChangeText={setCodigo}
             />
 
-              <TouchableOpacity>
-                <Icon name='qrcode-scan' style={styles.icon}/>
-              </TouchableOpacity>
+              <QrBtn
+              onPress={readCode}/>
+
             </View>
 
           <View style={styles.footer}>
@@ -159,7 +152,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 'auto',
     height: 'auto',
-    marginLeft: '13%',
+    marginLeft: '9%',
     marginTop: '20%',
   },
 
@@ -197,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B7DFE',
     alignItems: 'center',
     borderRadius: 5,
-    marginLeft: '5%',
+    marginLeft: '0%',
     marginTop: '100%',
   },
   

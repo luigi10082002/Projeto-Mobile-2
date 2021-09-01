@@ -3,14 +3,20 @@ import {
   Text, 
   View, 
   StyleSheet, 
-  TouchableOpacity, } from 'react-native';
+  TouchableOpacity, 
+  AsyncStorage} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import uuid from 'react-native-uuid'; 
 
-export function SQRcode() {
+export function QRcode() {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const [modulo, setModelo] = useState(route.params.id);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [codigo, setCodigo] = useState()
 
   async function cancelScan() {
       
@@ -23,11 +29,39 @@ export function SQRcode() {
       setHasPermission(status === 'granted');
     })();
   }, []);
-  
-    const handleBarCodeScanned = ({ type, data }) => {
-      setScanned(false);
-      
-      alert(type, data);
+
+  async function handleBarCodeScanned({ type, data }, { modelo }) {
+    setScanned(false);
+
+    const newProd = {
+      id: uuid.v4(),
+      produto: type,
+      qtd: data
+    };
+
+    const storage = await AsyncStorage.getItem('@Produtos');
+    const Prod = storage ? JSON.parse(storage) : [];
+
+    const index = Prod.findIndex(element => element.produto == codigo)
+
+      if (modelo == 2) {
+        if(index >= 0){
+          Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+        }
+        else{    
+          await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
+        }
+      }
+      else {
+        if(index >= 0){
+          Prod[index].qtd = parseInt(Prod[index].qtd) + parseInt(qtd);
+          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+        }
+        else {
+          await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
+        }
+      }
   }
 
     if (hasPermission === null) {
