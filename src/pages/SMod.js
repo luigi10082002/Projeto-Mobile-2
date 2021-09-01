@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback} from 'react';
 import { 
   View, 
   KeyboardAvoidingView, 
@@ -11,7 +11,7 @@ import {
   ScrollView, 
   FlatList,
   AsyncStorage} from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import uuid from 'react-native-uuid'; // gerador de ip para colocar no novos produtos adicionados
 
 import { Modules } from '../components/modules';
@@ -21,8 +21,14 @@ import { QrBtn } from '../components/QrBtn'
 export function SMod() {
   const navigation = useNavigation();
   const route = useRoute();
+  const paramModelo = route.params.id;
   const [codigo, setCodigo] = useState()
   const [modulo, setModelo] = useState(route.params.id);
+
+
+  useFocusEffect(useCallback(() => {
+    setModelo(paramModelo);
+  },[modulo]));
 
     async function Confirm() {
       const newProd = {
@@ -51,6 +57,11 @@ export function SMod() {
 
     async function readCode() { 
       {navigation.navigate('QRcode')};
+
+      navigation.navigate('QRcode', {
+        screen: 'QRcode',
+        id:modulo
+      }); 
     }
 
     function setHandleMod(modelo) {

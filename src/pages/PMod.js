@@ -35,7 +35,10 @@ export function PMod() {
   },[paramMod]));  
 
     async function readCode() { 
-      {navigation.navigate('QRcode')};
+      navigation.navigate('QRcode', {
+        screen: 'QRcode',
+        id:modulo
+      }); 
     }
 
     async function Confirm() {
@@ -65,9 +68,7 @@ export function PMod() {
     }
     }
   
-    async function readCode() { 
-      {navigation.navigate('QRcode')};
-    }
+   
 
     function setHandleMod(modelo) {
       setModelo(modelo);
@@ -134,11 +135,6 @@ export function PMod() {
               onChangeText={setQtd}
 
             />
-
-            <TouchableOpacity
-            onPress={readCode}>
-              <Text>Leitor</Text>
-            </TouchableOpacity>
             
             <View style={styles.footer}>
                   

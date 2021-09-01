@@ -4,9 +4,9 @@ import {
   StyleSheet } from 'react-native';
   import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export function QrBtn() {
+export function QrBtn({...res}) {
 return(
-  <TouchableOpacity>
+  <TouchableOpacity {...res}>
     <Icon name='qrcode-scan' style={styles.icon}/>
   </TouchableOpacity>
 )
