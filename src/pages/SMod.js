@@ -56,8 +56,6 @@ export function SMod() {
     }
 
     async function readCode() { 
-      {navigation.navigate('QRcode')};
-
       navigation.navigate('QRcode', {
         screen: 'QRcode',
         id:modulo
