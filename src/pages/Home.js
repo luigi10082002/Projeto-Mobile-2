@@ -3,12 +3,11 @@ import {
   View, 
   Text, 
   StyleSheet,
-  FlatList } from 'react-native';
-import AsyncStorage  from '@react-native-async-storage/async-storage';
+  FlatList,
+  AsyncStorage } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-
 import Animated, { 
   useAnimatedScrollHandler,
   useSharedValue } from 'react-native-reanimated';
@@ -57,7 +56,13 @@ export function Home() {
   }
 
   async function handleRemove() {
-    await AsyncStorage.removeItem(item.id);
+    const remover = Produto.findIndex(element => element.Produto);
+
+     alert(`Remover produto ${Produto.produto}?`);
+
+    Produto.splice(Produto.indexOf(remover));
+    await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+
   }
 
   const scrollY = useSharedValue(0);
@@ -97,7 +102,6 @@ export function Home() {
           /> 
         </View>
        
-        
 
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
@@ -143,7 +147,7 @@ export function Home() {
                             <View>
                                 <RectButton
                                     style={styles.buttonRemove}
-                                    onPress={()=>{}} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
+                                    onPress={handleRemove} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
                                 >
                                     <Feather name="trash" size={24} color='#FFF'/>
                                 </RectButton>

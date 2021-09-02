@@ -25,14 +25,27 @@ export function PMod() {
 
   const [qtd, setQtd] = useState(0)
   const [codigo, setCodigo] = useState()
+  const [Produto, setProduto] = useState([]);
   const [modulo, setModelo] = useState(route.params.id);
 
-  console.log(route.params);
-  console.log(modulo);
+  //console.log(route.params);
+  //console.log(modulo);
 
   useFocusEffect(useCallback(() => {
     setModelo(paramMod);
-  },[paramMod]));  
+  },[paramMod]));
+
+  useFocusEffect(useCallback(() => {
+    loadSpots();
+  },[]));
+
+  async function loadSpots(){
+        
+    const response = await AsyncStorage.getItem('@Produtos');
+    const storage = response ? JSON.parse(response) : [];
+   
+    setProduto(storage);
+  }
 
     async function readCode() { 
       navigation.navigate('QRcode', {
@@ -42,33 +55,30 @@ export function PMod() {
     }
 
     async function Confirm() {
-      const newProd = {
-        id: uuid.v4(),
-        //id de identificação do produto
-        produto: codigo,
-        //código do produto
-        qtd: qtd
-        //quantidade do produto 
-      };
-
-      //Verifica se tem alguma coisa na storage
-
-      const storage = await AsyncStorage.getItem('@Produtos');
-      const Prod = storage ? JSON.parse(storage) : [];
-
-      const index = Prod.findIndex(element => element.produto == codigo)
       
-      if(index >= 0){
-         Prod[index].qtd = parseInt(Prod[index].qtd) + parseInt(qtd);
-         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+        const newProd = {
+          id: uuid.v4(),
+          //id de identificação do produto
+          produto: codigo,
+          //código do produto
+          qtd: qtd
+          //quantidade do produto 
+        };
 
-      }
-      else {
-      await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
+        //Verifica se tem alguma coisa na storage
+        const storage = await AsyncStorage.getItem('@Produtos');
+        const Prod = storage ? JSON.parse(storage) : [];
+
+        const index = Prod.findIndex(element => element.produto == codigo)
+        
+        if(index >= 0){
+          Prod[index].qtd = parseInt(Prod[index].qtd) + parseInt(qtd);
+          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+        }
+        else {
+        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
+        }
     }
-    }
-  
-   
 
     function setHandleMod(modelo) {
       setModelo(modelo);
@@ -122,19 +132,18 @@ export function PMod() {
               style={styles.inputOne}
               autoCorrect={false}              
               onChangeText={setCodigo}
-            />
+            >{Produto.produto}</TextInput>
               <QrBtn
               onPress={readCode}/>
               
             </View>
 
-            <Text style={styles.label}>Quantidade</Text>
+            <Text style={styles.text}>Quantidade</Text>
               <TextInput 
               style={styles.input}
               autoCorrect={false}            
               onChangeText={setQtd}
-
-            />
+            >{Produto.qtd}</TextInput>
             
             <View style={styles.footer}>
                   
@@ -239,7 +248,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginLeft: '0%',
-    marginTop: '70%',
+    marginTop: '15%',
   },
   
   buttonText: {

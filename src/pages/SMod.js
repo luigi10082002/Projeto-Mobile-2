@@ -24,11 +24,23 @@ export function SMod() {
   const paramModelo = route.params.id;
   const [codigo, setCodigo] = useState()
   const [modulo, setModelo] = useState(route.params.id);
-
+  const [Produto, setProduto] = useState([]);
 
   useFocusEffect(useCallback(() => {
     setModelo(paramModelo);
   },[modulo]));
+
+  useFocusEffect(useCallback(() => {
+    loadSpots();
+  },[]));
+
+  async function loadSpots(){
+        
+    const response = await AsyncStorage.getItem('@Produtos');
+    const storage = response ? JSON.parse(response) : [];
+   
+    setProduto(storage);
+  }
 
     async function Confirm() {
       const newProd = {
@@ -117,7 +129,7 @@ return (
               style={styles.input}
               autoCorrect={false}              
               onChangeText={setCodigo}
-            />
+            >{Produto.produto}</TextInput>
 
               <QrBtn
               onPress={readCode}/>
@@ -202,7 +214,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginLeft: '0%',
-    marginTop: '100%',
+    marginTop: '20%',
   },
   
   confirmText: {
