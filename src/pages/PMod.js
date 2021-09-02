@@ -71,6 +71,7 @@ export function PMod() {
 
         const index = Prod.findIndex(element => element.produto == codigo)
         
+
         if(index >= 0){
           Prod[index].qtd = parseInt(Prod[index].qtd) + parseInt(qtd);
           await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));

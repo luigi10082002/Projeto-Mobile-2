@@ -16,7 +16,6 @@ export function QRcode() {
   const [modulo, setModelo] = useState(route.params.id);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [codigo, setCodigo] = useState()  
 
   useEffect(() => {
     (async () => {
@@ -25,7 +24,7 @@ export function QRcode() {
     })();
   }, []);
 
-  async function handleBarCodeScanned({ data }, { modulo }) {
+  async function handleBarCodeScanned({ data }) {
     
     const newProd = {
       id: uuid.v4(),
@@ -34,32 +33,18 @@ export function QRcode() {
     };
 
     const storage = await AsyncStorage.getItem('@Produtos');
-    const Prod = storage ? JSON.parse(storage) : [];
+    const Produto = storage ? JSON.parse(storage) : [];
 
-    alert(Prod)
+    const index = Produto.findIndex(element => element.produto == data);
 
-    const index = Prod.findIndex(element => element.produto == codigo)
-
-      if (modulo == 2) {
-        if(index >= 0){
-          Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
-          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
-        }
-        else{    
-          await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
-        }
+      if(index >= 0){
+        Produto[index].qtd = parseInt(Produto[index].qtd) + 1;
+        await AsyncStorage.setItem('@Produtos', JSON.stringify(Produto));
       }
-      else {
-        if(index >= 0){
-          Prod[index].qtd = parseInt(Prod[index].qtd) + parseInt(qtd);
-          await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
-          setScanned(true);
-        }
-        else {
-          await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
-        }
-      }
-    
+       else {
+         await AsyncStorage.setItem('@Produtos', JSON.stringify([...Produto, newProd]));
+       }
+
     if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
     }

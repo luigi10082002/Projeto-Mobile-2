@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     alignContent: 'space-around',
     width: 'auto',
     height: 'auto',
-    marginTop: '20%',
+    //marginTop: '5%',
     marginLeft: '5%',
   },
 
