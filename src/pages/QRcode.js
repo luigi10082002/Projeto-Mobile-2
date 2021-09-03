@@ -35,6 +35,14 @@ export function QRcode() {
     const storage = await AsyncStorage.getItem('@Produtos');
     const Produto = storage ? JSON.parse(storage) : [];
 
+     alert('Confirmação', 'Produto Salva Com Sucesso',
+        [
+          {
+            text: 'OK',
+            onPress: () => setScanned(false)
+          }
+        ])
+
     const index = Produto.findIndex(element => element.produto == data);
 
       if(index >= 0){
@@ -44,6 +52,8 @@ export function QRcode() {
        else {
          await AsyncStorage.setItem('@Produtos', JSON.stringify([...Produto, newProd]));
        }
+
+     
 
     if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;

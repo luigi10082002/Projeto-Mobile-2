@@ -57,12 +57,12 @@ export function Home() {
 
   async function handleRemove() {
     const remover = Produto.findIndex(element => element.Produto);
-
-     alert(`Remover produto ${Produto.produto}?`);
-
-    Produto.splice(Produto.indexOf(remover));
-    await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
-
+    
+    const removido = Produto.splice(remover, 1)
+    
+    console.log(removido)
+    
+    await AsyncStorage.setItem('@Produtos', JSON.stringify(Produto));
   }
 
   const scrollY = useSharedValue(0);

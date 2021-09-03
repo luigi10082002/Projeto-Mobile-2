@@ -77,6 +77,8 @@ export function SMod() {
     function setHandleMod(modelo) {
       setModelo(modelo);
 
+      navigation.push('Home')
+
       if (modelo == 2) {
         
         navigation.navigate('SMod', {
