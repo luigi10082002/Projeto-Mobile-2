@@ -17,7 +17,8 @@ import uuid from 'react-native-uuid';
 import { Modules } from '../components/modules';
 import { QrBtn } from '../components/QrBtn'
 import { modelos } from '../lib/Modelos';
-  
+import { Header } from '../components/Header';
+
 export function PMod() {
   const navigation = useNavigation();
   const route = useRoute();
@@ -41,10 +42,10 @@ export function PMod() {
 
   async function loadSpots(){
         
-    const response = await AsyncStorage.getItem('@Produtos');
+    const response = await AsyncStorage.getItem('@codBarras');
     const storage = response ? JSON.parse(response) : [];
    
-    setProduto(storage);
+    setCodigo(storage);
   }
 
     async function readCode() { 
@@ -103,7 +104,10 @@ export function PMod() {
     <SafeAreaView style={styles.container}>
           
       <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
-
+          <Header
+            title="Contagem de invenatario"
+            modelo={paramMod.backScreen}           
+          />
         <ScrollView>
 
         <View style={styles.formmod}>
@@ -133,6 +137,7 @@ export function PMod() {
               style={styles.inputOne}
               autoCorrect={false}              
               onChangeText={setCodigo}
+              value={codigo}
             >{Produto.produto}</TextInput>
               <QrBtn
               onPress={readCode}/>

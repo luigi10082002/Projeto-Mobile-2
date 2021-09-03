@@ -12,10 +12,9 @@ import uuid from 'react-native-uuid';
 export function QRcode() {
   const navigation = useNavigation();
   const route = useRoute();
-
-  const [modulo, setModelo] = useState(route.params.id);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+
 
   useEffect(() => {
     (async () => {
@@ -25,7 +24,7 @@ export function QRcode() {
   }, []);
 
   async function handleBarCodeScanned({ data }) {
-    
+    setScanned(true);
     const newProd = {
       id: uuid.v4(),
       produto: data,
@@ -35,25 +34,42 @@ export function QRcode() {
     const storage = await AsyncStorage.getItem('@Produtos');
     const Produto = storage ? JSON.parse(storage) : [];
 
-     alert('Confirmação', 'Produto Salva Com Sucesso',
+    //verifica o modelo que estamos 
+    if(route.params.id == '2'){
+      //pegamos index do produto 
+      const index = Produto.findIndex(element => element.produto == data);
+
+      //verificamos se existe o produto
+      if(index >= 0){
+        //se existir adicionamos um no produto isso para o modulo 1
+        Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+        await AsyncStorage.setItem('@Produtos',
+          JSON.stringify(Prod)
+        );
+      }else{
+        //caso nao exista adicionamos na storage 
+        await AsyncStorage.setItem('@Produtos',
+          JSON.stringify([...Prod, newProd])
+        );
+      }
+
+      //apos adicao exibimos a menssagem de ok
+      //setamos false para nao ficar piscando sempre
+      Alert.alert('Confirmação', 'Produto Salva Com Sucesso',
         [
           {
             text: 'OK',
             onPress: () => setScanned(false)
           }
         ])
-
-    const index = Produto.findIndex(element => element.produto == data);
-
-      if(index >= 0){
-        Produto[index].qtd = parseInt(Produto[index].qtd) + 1;
-        await AsyncStorage.setItem('@Produtos', JSON.stringify(Produto));
-      }
-       else {
-         await AsyncStorage.setItem('@Produtos', JSON.stringify([...Produto, newProd]));
-       }
-
-     
+    }else{
+      //se o modelo por 2
+      //adicionamos uma segunda storage para o codigo de barras 
+      //lembrando que o modelo 2 vai a codigo mais quantidade
+      await AsyncStorage.setItem('@codBarras', data);
+        setScanned(false);
+        navigation.navigate('PMod')
+    }    
 
     if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
@@ -63,8 +79,8 @@ export function QRcode() {
     }
   }  
 
-    async function cancelScan({ modelo }) {
-      if (modelo == 2) {
+    async function cancelScan() {
+      if (route.params.id == 2) {
         navigation.navigate('SMod')
       }
       else {
