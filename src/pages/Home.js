@@ -12,8 +12,9 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue } from 'react-native-reanimated';
 import { Feather } from '@expo/vector-icons';
+import uuid from 'react-native-uuid';
+
 import { modelos } from '../lib/Modelos';
-  
 import AddBtn from '../components/addBtn';
 import Modules from '../components/modules';
   
@@ -23,6 +24,7 @@ export function Home() {
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
 
+  const [codigo, setCodigo] = useState()
 
   useFocusEffect(useCallback(() => {
     loadSpots();
@@ -32,8 +34,10 @@ export function Home() {
         
     const response = await AsyncStorage.getItem('@Produtos');
     const storage = response ? JSON.parse(response) : [];
-   
+
     setProduto(storage);
+
+    setCodigo(JSON.parse(storage.id))
   }
 
   function setHandleMod(modelo) {
@@ -56,13 +60,11 @@ export function Home() {
   }
 
   async function handleRemove() {
-    const remover = Produto.findIndex(element => element.Produto);
+    //const remover = Produto.findIndex(element => element.Produto === id);
     
-    const removido = Produto.splice(remover, 1)
+    //const removido = Produto.splice(remover, 1)
     
-    console.log(removido)
-    
-    await AsyncStorage.setItem('@Produtos', JSON.stringify(Produto));
+    console.log(codigo)
   }
 
   const scrollY = useSharedValue(0);

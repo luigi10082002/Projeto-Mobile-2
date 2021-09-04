@@ -79,6 +79,8 @@ export function PMod() {
         else {
         await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
         }
+
+        console.log(codigo)
     }
 
     function setHandleMod(modelo) {
