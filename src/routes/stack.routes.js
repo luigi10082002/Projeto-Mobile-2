@@ -15,6 +15,7 @@ const stackRoutes = createSharedElementStackNavigator();
 
 const AppRoutes = () => (
         <stackRoutes.Navigator
+            headerMode="none"
             screenOptions={{
                 cardStyle: {
                     backgroundColor: '#fff'
@@ -33,31 +34,12 @@ const AppRoutes = () => (
 
         <stackRoutes.Screen 
             name="SMod"
-            component={SMod}
-            options={{
-                title: 'Novo Produto',
-                headerStyle: {
-                  backgroundColor: '#4B7DFE',
-                },
-                headerTintColor: '#fff',
-                headerTitleAlign: 'center'
-            }}
+            component={SMod}           
         />
 
         <stackRoutes.Screen 
             name="PMod"
-            component={PMod}
-            options={{
-                title: 'Novo Produto',
-                headerStyle: {
-                  backgroundColor: '#4B7DFE',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
-                headerTitleAlign: 'center'
-            }}
+            component={PMod}            
         />
         
         <stackRoutes.Screen 

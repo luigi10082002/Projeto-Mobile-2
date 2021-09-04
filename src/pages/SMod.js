@@ -17,6 +17,7 @@ import uuid from 'react-native-uuid'; // gerador de ip para colocar no novos pro
 import { Modules } from '../components/modules';
 import { modelos } from '../lib/Modelos';
 import { QrBtn } from '../components/QrBtn'
+import { Header } from '../components/Header';
 
 export function SMod() {
   const navigation = useNavigation();
@@ -99,7 +100,10 @@ return (
   <SafeAreaView style={styles.container}>
         
     <KeyboardAvoidingView ebehavior={Platform.OS === "ios" ? "padding" : "height"}>
-
+      <Header
+        title="Contagem de Inventario"
+        modelo={paramModelo.backScreen}            
+      />
       <ScrollView>
 
       <View style={styles.formmod}>

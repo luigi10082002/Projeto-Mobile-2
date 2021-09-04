@@ -49,12 +49,14 @@ export function Home() {
     if (modulo == 1) {
       navigation.navigate('PMod', {
         screen: 'PMod',
-        id:'1'
+        id:'1',
+        backScreen: 'Home'
       });
     }else {
       navigation.navigate('SMod', {
         screen: 'SMod',
-        id:'2'
+        id:'2',
+        backScreen: 'Home'
       });
     }
   }
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
     alignContent: 'space-around',
     width: 'auto',
     height: 'auto',
-    //marginTop: '5%',
+    marginTop: '10%',
     marginLeft: '5%',
   },
 
