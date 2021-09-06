@@ -30,7 +30,16 @@ import {
   };
 
   async function deleteAll() {
-    alert('Deseja excluir todos os itens?')
+    Alert.alert('Remover', `Deseja remover?`,[
+        {
+            text: 'Não ',
+            style: 'cancel'
+        },
+        {
+            text: 'Sim ',
+            onPress: async () => {}
+        }
+    ])
   }
   return (
     <View style={styles.container}>
