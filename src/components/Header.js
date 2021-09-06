@@ -28,6 +28,7 @@ export function Header({ title, action, modelo} ){
       name="arrow-left"
       size={24}
       color={'#fff'}
+      style={{marginTop: '7%'}}
     />    
 
       <Text style={styles.title}>
@@ -50,20 +51,21 @@ export function Header({ title, action, modelo} ){
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: 120,
+        height: '20%',
         //paddingTop: getStatusBarHeight(),
         paddingHorizontal: 24,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:'#4B7DFE',
-        
+        //marginTop: '15%',
       },
       title: {
         flex: 1,
         textAlign: 'center',
         fontSize: 20,
         color: '#fff',
+        marginTop: '7%',
       }
   });
   

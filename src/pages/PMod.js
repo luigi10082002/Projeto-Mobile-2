@@ -139,7 +139,7 @@ export function PMod() {
               style={styles.inputOne}
               autoCorrect={false}              
               onChangeText={setCodigo}
-              value={codigo}
+              value={String(codigo)}
               >{Produto.produto}</TextInput>
               <QrBtn
               onPress={readCode}/>

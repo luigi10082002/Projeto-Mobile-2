@@ -1,81 +1,72 @@
-import React, { useState, useCallback } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet,
-  FlatList,
-  AsyncStorage, } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import Animated, { 
+import React, { useState, useCallback } from "react";
+import { View, Text, StyleSheet, FlatList, AsyncStorage } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import Animated, {
   useAnimatedScrollHandler,
-  useSharedValue } from 'react-native-reanimated';
-import { Feather } from '@expo/vector-icons';
+  useSharedValue,
+} from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
 
-import { modelos } from '../lib/Modelos';
-import AddBtn from '../components/addBtn';
-import Modules from '../components/modules';
-  
+import { modelos } from "../lib/Modelos";
+import AddBtn from "../components/addBtn";
+import Modules from "../components/modules";
+
 export function Home() {
   const navigation = useNavigation();
 
-  const [modulo, setModelo] = useState('1');
+  const [modulo, setModelo] = useState("1");
   const [Produto, setProduto] = useState([]);
 
-  useFocusEffect(useCallback(() => {
-    loadSpots();
-  },[Produto]));
+  useFocusEffect(
+    useCallback(() => {
+      loadSpots();
+    }, [Produto])
+  );
 
-  async function loadSpots(){
-        
-    const response = await AsyncStorage.getItem('@Produtos');
+  async function loadSpots() {
+    const response = await AsyncStorage.getItem("@Produtos");
     const storage = response ? JSON.parse(response) : [];
 
     setProduto(storage);
-
-  };
+  }
 
   function setHandleMod(modelo) {
     setModelo(modelo);
-    
-  };
+  }
 
-  function plus() { 
+  function plus() {
     if (modulo == 1) {
-      navigation.navigate('PMod', {
-        screen: 'PMod',
-        id:'1',
-        backScreen: 'Home'
+      navigation.navigate("PMod", {
+        screen: "PMod",
+        id: "1",
+        backScreen: "Home",
       });
-    }else {
-      navigation.navigate('SMod', {
-        screen: 'SMod',
-        id:'2',
-        backScreen: 'Home'
+    } else {
+      navigation.navigate("SMod", {
+        screen: "SMod",
+        id: "2",
+        backScreen: "Home",
       });
     }
   }
 
   async function handleRemove(item) {
-    const id = Produto.findIndex(element => element.id == item.id)    
-    Produto.splice(id, 1)
-    
-    await AsyncStorage.setItem('@Produtos', JSON.stringify(Produto));
+    const id = Produto.findIndex((element) => element.id == item.id);
+    Produto.splice(id, 1);
 
-    console.log(Produto)
+    await AsyncStorage.setItem("@Produtos", JSON.stringify(Produto));
   }
 
   const scrollY = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler(event => {
-      scrollY.value = event.contentOffset.y;
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
   });
 
-
   return (
-    
+    <View style={styles.container}>
       <View style={styles.form}>
-        
         <View style={styles.user}>
           <Text style={styles.txt}>Olá,</Text>
           <Text style={styles.txtuser}>User</Text>
@@ -87,22 +78,21 @@ export function Home() {
         </View>
 
         <View style={styles.formmod}>
-          <FlatList 
+          <FlatList
             data={modelos}
             keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => (  
-                <Modules 
-                  title={item.name}
-                  active={item.id === modulo}
-                  onPress={() => setHandleMod(item.id)}                        
-                /> 
-              )}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.modelotList}
-          /> 
+            renderItem={({ item }) => (
+              <Modules
+                title={item.name}
+                active={item.id === modulo}
+                onPress={() => setHandleMod(item.id)}
+              />
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.modelotList}
+          />
         </View>
-       
 
         <View style={styles.listaProdutos}>
           <Text style={styles.total}>Total de Produtos</Text>
@@ -112,70 +102,65 @@ export function Home() {
         <View style={styles.prodlist}>
           <View>
             <Text style={styles.list}>Produtos listados</Text>
-            </View>
-            <AddBtn onPress={plus} />
+          </View>
+          <AddBtn onPress={plus} />
         </View>
 
-
         <View style={styles.legenda}>
-            <View>
-                <Text style={styles.prodlisttitle}>Produtos</Text>
-            </View>
-            <View>
-                <Text style={styles.prodlisttitle}>Quantidade</Text>
-            </View>                    
+          <View>
+            <Text style={styles.prodlisttitle}>Produtos</Text>
+          </View>
+          <View>
+            <Text style={styles.prodlisttitle}>Quantidade</Text>
+          </View>
         </View>
         {/*exemplo de listagem com storage apartir dai e com vc*/}
         <Animated.ScrollView
-            style={{ 
-              width: '90%',
-              alignSelf: 'center'
-            }}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingTop: 1 }}
-            onScroll={scrollHandler}
-            scrollEventThrottle={16} // 1000 / 60 = 16. (1 segundo / 60 que é a quantidade de frames por segundo para ter uma animação de 60 frames)
+          style={{
+            width: "90%",
+            alignSelf: "center",
+          }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingTop: 1 }}
+          onScroll={scrollHandler}
+          scrollEventThrottle={16} // 1000 / 60 = 16. (1 segundo / 60 que é a quantidade de frames por segundo para ter uma animação de 60 frames)
         >
           <View style={styles.swiper}>
-              <FlatList
-                  data={Produto}
-                  keyExtractor={(item) => String(item.id)}
-                  renderItem={({ item }) => (
-                    <Swipeable
-                      overshootRight={false}
-                      renderRightActions={() => (
-                        <Animated.View>
-                            <View>
-                                <RectButton
-                                    style={styles.buttonRemove}
-                                    onPress={(e)=>{handleRemove (item)}} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
-                                >
-                                    <Feather name="trash" size={24} color='#FFF'/>
-                                </RectButton>
-                            </View>
-                        </Animated.View>
-        
-                      )}
-                    >
-
-                      <RectButton
-                        style={styles.containerbuttomremover}
-                      >
-                        <Text style={styles.title}>
-                          {item.produto}
-                        </Text>
-                        <View style={styles.details}>
-                          <Text style={styles.qtd}>
-                              {item.qtd}
-                          </Text>
-                        </View>
-                      </RectButton>
-                    </Swipeable>    
+            <FlatList
+              data={Produto}
+              keyExtractor={(item) => String(item.id)}
+              renderItem={({ item }) => (
+                <Swipeable
+                  overshootRight={false}
+                  renderRightActions={() => (
+                    <Animated.View>
+                      <View>
+                        <RectButton
+                          style={styles.buttonRemove}
+                          onPress={(e) => {
+                            handleRemove(item);
+                          }} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
+                        >
+                          <Feather name="trash" size={24} color="#FFF" />
+                        </RectButton>
+                      </View>
+                    </Animated.View>
                   )}
-            showsVerticalScrollIndicator={false} />
+                >
+                  <RectButton style={styles.containerbuttomremover}>
+                    <Text style={styles.title}>{item.produto}</Text>
+                    <View style={styles.details}>
+                      <Text style={styles.qtd}>{item.qtd}</Text>
+                    </View>
+                  </RectButton>
+                </Swipeable>
+              )}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
         </Animated.ScrollView>
       </View>
+    </View>
   );
 }
 
@@ -185,28 +170,28 @@ const styles = StyleSheet.create({
   },
 
   form: {
-    width: 'auto',
-    height: 'auto',
+    width: "auto",
+    height: "auto",
   },
 
   formmod: {
-    flexDirection: 'row',
-    width: 'auto',
-    height: 'auto',
-    marginLeft: '13%',
-    marginTop: '2%',
+    flexDirection: "row",
+    width: "auto",
+    height: "auto",
+    marginLeft: "13%",
+    marginTop: "2%",
   },
 
   user: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    alignSelf: 'flex-start',
-    alignContent: 'space-around',
-    width: 'auto',
-    height: 'auto',
-    marginTop: '18%',
-    marginLeft: '5%',
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    alignSelf: "flex-start",
+    alignContent: "space-around",
+    width: "auto",
+    height: "auto",
+    marginTop: "18%",
+    marginLeft: "5%",
   },
 
   txt: {
@@ -215,316 +200,140 @@ const styles = StyleSheet.create({
 
   txtuser: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   text: {
-    flexDirection: 'column',
-    direction: 'ltr',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    alignSelf: 'flex-start',
-    alignContent: 'flex-start',
-    width: 'auto',
-    height: 'auto',
-    marginTop: '5%',
-    marginLeft: '5%',
+    flexDirection: "column",
+    direction: "ltr",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    alignSelf: "flex-start",
+    alignContent: "flex-start",
+    width: "auto",
+    height: "auto",
+    marginTop: "5%",
+    marginLeft: "5%",
   },
 
   listaProdutos: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    alignContent: 'space-around',
-    width: 'auto',
-    height: 'auto',
-    marginLeft: '5%',
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    alignContent: "space-around",
+    width: "auto",
+    height: "auto",
+    marginLeft: "5%",
   },
 
   total: {
-    fontWeight: 'bold',
-    fontSize: 18
+    fontWeight: "bold",
+    fontSize: 18,
   },
 
   num: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 26,
   },
-  
+
   list: {
     fontSize: 15,
-    marginLeft: '18%',
-    alignItems: 'center',
-  },
-
-  button: {
-    height: '58%',
-    width: '35%',
-    backgroundColor: '#E8E8E8',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 13,
-    marginTop: '2%',
-    marginLeft: '13%',
-  },
-
-  buttonText: {
-    color: '#606060'
+    marginLeft: "18%",
+    alignItems: "center",
   },
 
   prodlist: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-    width: '100%',
-    height: '5%',
-    marginRight: '90%',
-  }, 
-  
-  buttonplustext: {
-    fontSize: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: '#fff',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    width: "100%",
+    height: "5%",
+    marginRight: "90%",
   },
 
   modeloList: {
     height: 40,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingBottom: 5,
     marginLeft: 30,
     marginVertical: 15,
-    paddingRight: 30
-},
-
-/*css do bottom modulos */
-  containermodutos: {
-    backgroundColor: "#F0F0F0",
-    width: 140,
-    height: 40,   
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 12,
-    marginHorizontal: 5
-  },
-  containerActive: {        
-    backgroundColor: "#BDDEFD"
-  },
-  textmodulo: {
-    color: "#DDE3F0",
-  },
-  textActive: {
-    color: "#2F80ED",
-  },
-  
-  /*css do bottom modulos */
-
-  modeloList: {
-    height: 40,
-    justifyContent: 'center',
-    paddingBottom: 5,
-    marginLeft: 30,
-    marginVertical: 15,
-    paddingRight: 30
-},
-
-  /*css do bottom modulos */
-  containermodutos: {
-    backgroundColor: "#F0F0F0",
-    width: 140,
-    height: 40,   
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 12,
-    marginHorizontal: 5
-  },
-  containerActive: {        
-    backgroundColor: "#BDDEFD"
-  },
-  textmodulo: {
-    color: "#DDE3F0",
-  },
-  textActive: {
-    color: "#2F80ED",
-  },
-    
-    /*css do bottom modulos */
-
-  Produtos: {
-    width: '85%',
-    height: '70%',
-    alignSelf: 'center',
+    paddingRight: 30,
   },
 
   legenda: {
-    width:'100%',
-    flexDirection:'row',
-    justifyContent:"space-between",
-    alignItems:'center',
-    paddingVertical:5,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 5,
     paddingHorizontal: 32,
-  },
-
-  textSwipe: {
-    alignSelf: 'center',
-  }, 
-
-  legenda: {
-    width:'100%',
-    flexDirection:'row',
-    justifyContent:"space-between",
-    alignItems:'center',
-    paddingVertical:5,
-    paddingHorizontal: 32,
-    marginTop: '5%'
-  },
-
-  prod: {
-  fontSize: 18
-  },
-
-  qtd: {
-    fontSize: 18,
-    marginLeft: '45%'
+    marginTop: "5%",
   },
 
   legendaProdutos: {
-    backgroundColor: '#BDDEFD',
-    flexDirection: 'row',
+    backgroundColor: "#BDDEFD",
+    flexDirection: "row",
     borderRadius: 10,
     fontSize: 10,
-    margin: '5%',
-    width: '85%',
-    height: '70%',
-    marginTop: '2%'
+    margin: "5%",
+    width: "85%",
+    height: "70%",
+    marginTop: "2%",
   },
 
-  textSwipe: {
-    fontSize: 18,
-    marginLeft: '4%',
-  },
-
-  textSwipeB: {
-    fontSize: 18,
-    marginLeft: '77%',
-  },
-
-  //swipe 
+  //swipe
   swiper: {
     flex: 1,
-    width: '90%',
-    marginLeft: '5%',
-  },
-  swiperTitle: {
-    fontSize: 24,
-    color: '#DDE3F0',
-    marginVertical: 20
+    width: "90%",
+    marginLeft: "5%",
   },
 
-  //buttom remover swipe
   containerbuttomremover: {
-    width: '100%',
+    width: "100%",
     height: 40,
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderRadius: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
     marginVertical: 2,
     marginLeft: 2,
-    marginRight: 2
+    marginRight: 2,
   },
   title: {
     flex: 1,
     marginLeft: 32,
     fontSize: 17,
-    color: '#738078'
+    color: "#738078",
   },
   details: {
-    alignItems: 'flex-end',
-    right:20 
+    alignItems: "flex-end",
+    right: 20,
   },
   qtd: {
     marginTop: 5,
     fontSize: 16,
-    color: '#738078',
-    right: 5
+    color: "#738078",
+    right: 5,
   },
   buttonRemove: {
     width: 100,
     height: 30,
-    backgroundColor: '#E83F5B',
+    backgroundColor: "#E83F5B",
     marginTop: 8,
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
     right: 20,
-    paddingLeft: 15
+    paddingLeft: 15,
   },
 
-
-  textSwipeB: {
-    fontSize: 18,
-    marginLeft: '77%',
-  },
-
-//swipe 
-  swiper: {
-    flex: 1,
-    width: '100%'
-  },
-  swiperTitle: {
-    fontSize: 24,
-    color: '#DDE3F0',
-    marginVertical: 20
-  },
-
-  //buttom remover swipe
-  containerbuttomremover: {
-    width: '100%',
-    height: 40,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    marginVertical: 2,
-    marginLeft: 2,
-    marginRight: 2
-  },
-  title: {
-    flex: 1,
-    marginLeft: 32,
-    fontSize: 17,
-    color: '#738078'
-  },
-  details: {
-    alignItems: 'flex-end',
-    right:20 
-  },
-  qtd: {
-    marginTop: 5,
+  prodlisttitle: {
     fontSize: 16,
-    color: '#738078',
-    right: 5
   },
-  buttonRemove: {
-    width: 100,
-    height: 30,
-    backgroundColor: '#E83F5B',
-    marginTop: 8,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    right: 20,
-    paddingLeft: 15
-  } 
-
 });
 
 export default Home;
