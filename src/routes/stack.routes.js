@@ -26,10 +26,6 @@ const AppRoutes = () => (
         <stackRoutes.Screen 
             name="Home"
             component={TabNavi}
-            options={{
-                headerShown: false
-                }
-            }
         />
 
         <stackRoutes.Screen 

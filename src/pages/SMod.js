@@ -53,18 +53,18 @@ export function SMod() {
 
       //verifica se tem alguma coisa na storage se
       const storage = await AsyncStorage.getItem('@Produtos');
-      const Prod = storage ? JSON.parse(storage) : [];
+      const Produto = storage ? JSON.parse(storage) : [];
 
-      const index = Prod.findIndex(element => element.produto == codigo)
+      const index = Produto.findIndex(element => element.produto == codigo)
 
       //em vez de add no array vamos adicionar na storage
 
       if(index >= 0){
-         Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
-         await AsyncStorage.setItem('@Produtos', JSON.stringify(Prod));
+        Produto[index].qtd  = parseInt(Produto[index].qtd)  + 1;  
+         await AsyncStorage.setItem('@Produtos', JSON.stringify(Produto));
       }
       else{    
-        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Prod, newProd]));
+        await AsyncStorage.setItem('@Produtos', JSON.stringify([...Produto, newProd]));
       }
     }
 
@@ -170,9 +170,11 @@ const styles = StyleSheet.create({
   },
   
   form: {
+    width: 'auto',
+    height: 'auto',
     alignSelf: 'stretch',
     paddingHorizontal: 30,
-    marginTop: '10%',
+    marginTop: '5%',
   },
 
   formmod: {
@@ -217,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B7DFE',
     alignItems: 'center',
     borderRadius: 5,
-    marginLeft: '0%',
+    marginLeft: '5%',
     marginTop: '20%',
   },
   

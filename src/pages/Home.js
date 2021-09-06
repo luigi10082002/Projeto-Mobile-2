@@ -4,7 +4,7 @@ import {
   Text, 
   StyleSheet,
   FlatList,
-  AsyncStorage } from 'react-native';
+  AsyncStorage, } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -12,7 +12,6 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue } from 'react-native-reanimated';
 import { Feather } from '@expo/vector-icons';
-import uuid from 'react-native-uuid';
 
 import { modelos } from '../lib/Modelos';
 import AddBtn from '../components/addBtn';
@@ -24,11 +23,9 @@ export function Home() {
   const [modulo, setModelo] = useState('1');
   const [Produto, setProduto] = useState([]);
 
-  const [codigo, setCodigo] = useState()
-
   useFocusEffect(useCallback(() => {
     loadSpots();
-  },[]));
+  },[Produto]));
 
   async function loadSpots(){
         
@@ -37,8 +34,7 @@ export function Home() {
 
     setProduto(storage);
 
-    setCodigo(JSON.parse(storage.id))
-  }
+  };
 
   function setHandleMod(modelo) {
     setModelo(modelo);
@@ -61,12 +57,13 @@ export function Home() {
     }
   }
 
-  async function handleRemove() {
-    //const remover = Produto.findIndex(element => element.Produto === id);
+  async function handleRemove(item) {
+    const id = Produto.findIndex(element => element.id == item.id)    
+    Produto.splice(id, 1)
     
-    //const removido = Produto.splice(remover, 1)
-    
-    console.log(codigo)
+    await AsyncStorage.setItem('@Produtos', JSON.stringify(Produto));
+
+    console.log(Produto)
   }
 
   const scrollY = useSharedValue(0);
@@ -151,7 +148,7 @@ export function Home() {
                             <View>
                                 <RectButton
                                     style={styles.buttonRemove}
-                                    onPress={handleRemove} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
+                                    onPress={(e)=>{handleRemove (item)}} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
                                 >
                                     <Feather name="trash" size={24} color='#FFF'/>
                                 </RectButton>
@@ -208,7 +205,7 @@ const styles = StyleSheet.create({
     alignContent: 'space-around',
     width: 'auto',
     height: 'auto',
-    marginTop: '10%',
+    marginTop: '18%',
     marginLeft: '5%',
   },
 

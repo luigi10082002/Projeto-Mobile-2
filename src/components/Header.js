@@ -50,13 +50,14 @@ export function Header({ title, action, modelo} ){
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: 65,
+        height: 120,
         //paddingTop: getStatusBarHeight(),
         paddingHorizontal: 24,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'#4B7DFE'
+        backgroundColor:'#4B7DFE',
+        
       },
       title: {
         flex: 1,

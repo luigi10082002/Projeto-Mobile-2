@@ -4,7 +4,8 @@ import {
   View, 
   StyleSheet, 
   TouchableOpacity, 
-  AsyncStorage} from 'react-native';
+  AsyncStorage,
+  Alert} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import uuid from 'react-native-uuid'; 
@@ -42,14 +43,14 @@ export function QRcode() {
       //verificamos se existe o produto
       if(index >= 0){
         //se existir adicionamos um no produto isso para o modulo 1
-        Prod[index].qtd  = parseInt(Prod[index].qtd)  + 1;  
+        Produto[index].qtd  = parseInt(Produto[index].qtd)  + 1;  
         await AsyncStorage.setItem('@Produtos',
-          JSON.stringify(Prod)
+          JSON.stringify(Produto)
         );
       }else{
         //caso nao exista adicionamos na storage 
         await AsyncStorage.setItem('@Produtos',
-          JSON.stringify([...Prod, newProd])
+          JSON.stringify([...Produto, newProd])
         );
       }
 
@@ -63,7 +64,7 @@ export function QRcode() {
           }
         ])
     }else{
-      //se o modelo por 2
+      //se o modelo for 2
       //adicionamos uma segunda storage para o codigo de barras 
       //lembrando que o modelo 2 vai a codigo mais quantidade
       await AsyncStorage.setItem('@codBarras', data);
