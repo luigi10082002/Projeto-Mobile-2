@@ -114,7 +114,7 @@ export function Home() {
             <Text style={styles.prodlisttitle}>Quantidade</Text>
           </View>
         </View>
-        {/*exemplo de listagem com storage apartir dai e com vc*/}
+
         <Animated.ScrollView
           style={{
             width: "90%",
@@ -139,7 +139,7 @@ export function Home() {
                           style={styles.buttonRemove}
                           onPress={(e) => {
                             handleRemove(item);
-                          }} //funcao onde vai remover usar o nome handleRemove passando como parametro todo o item
+                          }}
                         >
                           <Feather name="trash" size={24} color="#FFF" />
                         </RectButton>

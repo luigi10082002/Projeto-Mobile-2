@@ -15,8 +15,14 @@ function settingsScreen() {
   const navigation = useNavigation();
 
   const [Produto, setProduto] = useState([]);
+
+  //Switch que exclui todos os itens do inventário 
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  //Switch que sincroniza o inventário
+  const [isEnabled2, setIsEnabled2] = useState(false);
+  const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState); 
 
   useFocusEffect(
     useCallback(() => {
@@ -77,15 +83,15 @@ function settingsScreen() {
       </View>
       <View style={styles.separador}/>
       <View style={styles.form}>
-        <Text style={styles.text}>Sincronizar inventário</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "#00ff00" }}
-          thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-          onChange={setServer}
-        />
+      <Text style={styles.text}>Sincronizar inventário</Text>
+      <Switch
+        trackColor={{ false: "#767577", true: "#00ff00" }}
+        thumbColor={isEnabled2 ? "#f4f3f4" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch2}
+        value={isEnabled2}
+        onChange={setServer}
+      />
       </View>
       <View style={styles.separador} />
     </View>
