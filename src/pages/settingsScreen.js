@@ -7,13 +7,11 @@ import {
   AsyncStorage,
   Alert,
 } from "react-native";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { Header } from "../components/Header";
 
 function settingsScreen() {
-  const navigation = useNavigation();
-
   const [Produto, setProduto] = useState([]);
 
   //Switch que exclui todos os itens do inventário 
@@ -42,6 +40,9 @@ function settingsScreen() {
       {
         text: "Não ",
         style: "cancel",
+        onPress: async () => {
+          setIsEnabled(false);
+        }
       },
       {
         text: "Sim ",
@@ -58,6 +59,9 @@ function settingsScreen() {
       {
         text: "Não ",
         style: "cancel",
+        onPress: async () => {
+          setIsEnabled(false);
+        }
       },
       {
         text: "Sim ",

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import Home  from '../pages/Home';
 import settingsScreen from '../pages/settingsScreen';
+import Historic from '../pages/historic';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +24,12 @@ export const TabNavi = () => {
                 iconName = 'home';
               break;
 
-          case 'Settings':
-            iconName = 'settings';
+              case 'Settings':
+                iconName = 'settings';
+              break;
+
+              case 'Historic':
+                iconName = 'clock';
               break;
         }
 
@@ -38,6 +43,7 @@ export const TabNavi = () => {
     >
       <Tab.Screen name="Home" component={Home}/>
       <Tab.Screen name="Settings" component={settingsScreen}/>
+      <Tab.Screen name="Historic" component={Historic}/>
     </Tab.Navigator>
   );
 }

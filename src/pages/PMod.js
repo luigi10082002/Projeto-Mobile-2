@@ -11,6 +11,7 @@ import {
   ScrollView,
   AsyncStorage,
   FlatList,
+  Alert
 } from "react-native";
 import {
   useNavigation,
@@ -29,13 +30,11 @@ export function PMod() {
   const route = useRoute();
   const paramMod = route.params.id;
 
-  const [qtd, setQtd] = useState(0);
+  const [qtd, setQtd] = useState(1);
   const [codigo, setCodigo] = useState();
   const [Produto, setProduto] = useState([]);
-  const [modulo, setModelo] = useState(route.params.id);
 
-  //console.log(route.params);
-  //console.log(modulo);
+  const [modulo, setModelo] = useState(route.params.id);
 
   useFocusEffect(
     useCallback(() => {
@@ -88,8 +87,6 @@ export function PMod() {
         JSON.stringify([...Produto, newProd])
       );
     }
-
-    //console.log(codigo)
   }
 
   function setHandleMod(modelo) {

@@ -75,6 +75,12 @@ export function SMod() {
         JSON.stringify([...Produto, newProd])
       );
     }
+
+    alert("Produto salvo", [
+      {
+        text: "Ok"
+      }
+    ])
   }
 
   async function readCode() {

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet, FlatList, AsyncStorage } from "react-native";
+import { View, Text, StyleSheet, FlatList, AsyncStorage, Alert } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -18,6 +18,7 @@ export function Home() {
 
   const [modulo, setModelo] = useState("1");
   const [Produto, setProduto] = useState([]);
+  const [Historic, setHistoric] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -54,9 +55,20 @@ export function Home() {
 
   async function handleRemove(item) {
     const id = Produto.findIndex((element) => element.id == item.id);
-    Produto.splice(id, 1);
 
-    await AsyncStorage.setItem("@Produtos", JSON.stringify(Produto));
+    Alert.alert("Remover", `Deseja remover este produto?`, [
+      {
+        text: "Não ",
+        style: "cancel",
+      },
+      {
+        text: "Sim ",
+        onPress: async () => {
+          Produto.splice(id, 1);
+          await AsyncStorage.setItem("@Produtos", JSON.stringify(Produto));
+        },
+      },
+    ]); 
   }
 
   const scrollY = useSharedValue(0);
