@@ -24,12 +24,12 @@ export const TabNavi = () => {
                 iconName = 'home';
               break;
 
-              case 'Settings':
-                iconName = 'settings';
-              break;
-
               case 'Historic':
                 iconName = 'clock';
+              break;
+
+              case 'Settings':
+                iconName = 'settings';
               break;
         }
 
@@ -42,8 +42,8 @@ export const TabNavi = () => {
 }}
     >
       <Tab.Screen name="Home" component={Home}/>
-      <Tab.Screen name="Settings" component={settingsScreen}/>
       <Tab.Screen name="Historic" component={Historic}/>
+      <Tab.Screen name="Settings" component={settingsScreen}/>
     </Tab.Navigator>
   );
 }

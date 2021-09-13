@@ -32,6 +32,20 @@ export function PMod() {
 
   const [qtd, setQtd] = useState(1);
   const [codigo, setCodigo] = useState();
+
+  const registro = 
+    new Date().getDate()
+    + '/' +
+    (new Date().getMonth() + 1)
+    + '/' +
+    new Date().getFullYear()
+    + '   ' + 
+    new Date().getHours() 
+    + ':' + 
+    new Date().getMinutes() 
+    + ':' + 
+    new Date().getSeconds()
+
   const [Produto, setProduto] = useState([]);
 
   const [modulo, setModelo] = useState(route.params.id);
@@ -70,6 +84,7 @@ export function PMod() {
       //código do produto
       qtd: qtd,
       //quantidade do produto
+      date: registro
     };
 
     //Verifica se tem alguma coisa na storage
@@ -84,6 +99,21 @@ export function PMod() {
     } else {
       await AsyncStorage.setItem(
         "@Produtos",
+        JSON.stringify([...Produto, newProd])
+      );
+    }
+
+    const delet = await AsyncStorage.getItem("@Historic");
+    const Historic = delet ? JSON.parse(delet) : [];
+
+    const list = Historic.findIndex((element) => element.produto == codigo);
+
+    if (list >= 0) {
+      Historic[list].qtd = parseInt(Historic[list].qtd) + parseInt(qtd);
+      await AsyncStorage.setItem("@Historic", JSON.stringify(Produto));
+    } else {
+      await AsyncStorage.setItem(
+        "@Historic",
         JSON.stringify([...Produto, newProd])
       );
     }

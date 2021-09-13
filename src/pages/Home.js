@@ -346,6 +346,7 @@ const styles = StyleSheet.create({
   prodlisttitle: {
     fontSize: 16,
   },
+
 });
 
 export default Home;

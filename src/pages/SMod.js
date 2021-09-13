@@ -11,6 +11,7 @@ import {
   ScrollView,
   FlatList,
   AsyncStorage,
+  Alert
 } from "react-native";
 import {
   useNavigation,
@@ -76,11 +77,22 @@ export function SMod() {
       );
     }
 
-    alert("Produto salvo", [
-      {
-        text: "Ok"
-      }
-    ])
+    const delet = await AsyncStorage.getItem("@Historic");
+    const Historic = delet ? JSON.parse(delet) : [];
+
+    const list = Historic.findIndex((element) => element.produto == codigo);
+
+    //em vez de add no array vamos adicionar na storage
+
+    if (list >= 0) {
+      Historic[list].qtd = parseInt(Historic[list].qtd) + 1;
+      await AsyncStorage.setItem("@Historic", JSON.stringify(Produto));
+    } else {
+      await AsyncStorage.setItem(
+        "@Produtos",
+        JSON.stringify([...Produto, newProd])
+      );
+    }
   }
 
   async function readCode() {

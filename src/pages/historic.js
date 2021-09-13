@@ -11,16 +11,17 @@ import { Feather } from "@expo/vector-icons";
 import { Header } from "../components/Header";
 
 export function Historic() {
+  const [Produto, setProduto] = useState([]);
   const [Historic, setHistoric] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
       loadSpots();
-    }, [Historic])
+    }, [Produto])
   );
 
   async function loadSpots() {
-    const response = await AsyncStorage.getItem("@Produtos");
+    const response = await AsyncStorage.getItem("@Historic");
     const storage = response ? JSON.parse(response) : [];
 
     setHistoric(storage);
@@ -34,6 +35,19 @@ export function Historic() {
   return (
     <View style={styles.container}>
       <Header title={"Historico"} modelo="Home"/>
+
+      <View style={styles.legenda}>
+          <View>
+            <Text style={styles.prodlisttitle}>Produtos</Text>
+          </View>
+          <View>
+            <Text style={styles.prodlisttitle}>Registro</Text>
+          </View>
+          <View>
+            <Text style={styles.prodlisttitle}>Quantidade</Text>
+          </View>
+        </View>
+
         <View style={styles.form}>
         <Animated.ScrollView
           style={{
@@ -68,9 +82,10 @@ export function Historic() {
                   )}
                 >
                   <RectButton style={styles.containerbuttomremover}>
-                    <Text style={styles.title}>{item.produto}</Text>
+                  <Text style={styles.title}>{item.produto}</Text>
+                  <Text style={styles.date}>{item.date}</Text>                    
                     <View style={styles.details}>
-                      <Text style={styles.qtd}>{item.qtd}</Text>
+                      <Text style={styles.qtd}>{item.qtd}</Text>                    
                     </View>
                   </RectButton>
                 </Swipeable>
@@ -92,14 +107,15 @@ container: {
 form: {
   justifyContent: "space-between",
   flexDirection: "row",
-  marginLeft: "5%",
+  marginLeft: "2%",
+  marginTop: "5%",
   height: "auto",
   width: "auto",
 },
 swiper: {
   flex: 1,
   width: "90%",
-  marginLeft: "5%",
+  marginLeft: "4%",
 },
 buttonRemove: {
   width: 100,
@@ -127,6 +143,8 @@ containerbuttomremover: {
   marginRight: 2,
 },
 title: {
+  width: "auto",
+  height: "auto",
   flex: 1,
   marginLeft: 32,
   fontSize: 17,
@@ -141,6 +159,30 @@ qtd: {
   fontSize: 16,
   color: "#738078",
   right: 5,
+},
+
+date: {
+  marginHorizontal: '5%',
+  color: "#738078",
+  alignItems: "center",
+  marginRight: '25%',
+  width: 'auto',
+  height: 'auto'
+},
+
+legenda: {
+  width: "auto",
+  height: "auto",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingVertical: 5,
+  paddingHorizontal: 32,
+  marginTop: "5%",
+},
+
+prodlisttitle: {
+  fontSize: 14,
 },
 });
 

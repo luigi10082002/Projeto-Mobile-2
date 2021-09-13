@@ -3,6 +3,8 @@ import React from 'react';
 import { enableScreens } from 'react-native-screens';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
+import { Details } from '../pages/details'
+import Intro from '../pages/intro';
 import { TabNavi } from './TabNavi';
 import { SMod } from '../pages/SMod';
 import { PMod } from '../pages/PMod';
@@ -23,6 +25,11 @@ const AppRoutes = () => (
             }}
         >
         
+        <stackRoutes.Screen 
+            name="Intro"
+            component={Intro}
+        />
+
         <stackRoutes.Screen 
             name="Home"
             component={TabNavi}
