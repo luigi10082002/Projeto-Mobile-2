@@ -1,10 +1,12 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native'
-import CarouselCards from './carouselcard'
+import { SafeAreaView, StyleSheet } from 'react-native';
+
+import CarouselCards from './carouselcard';
+
 export default function Intro() {
   return (
     <SafeAreaView style={styles.container}>
-      <CarouselCards />
+      <CarouselCards/>
     </SafeAreaView>
   );
 }

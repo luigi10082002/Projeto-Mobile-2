@@ -6,18 +6,19 @@ import { useNavigation } from "@react-navigation/native";
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../components/carousel'
 import data from '../lib/data'
 
-
 const CarouselCards = () => {
   const navigation = useNavigation();
 
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
+  //const [img, setImg] = data[0]
 
-  function startApp() {
-    if (data.length < 3) {
-      data.length + 1;
-    } else {
-      navigation.navigate("Home")
+  function dots({ item }) {
+    if(index < 2) {
+      setIndex(index + 1)
+    } 
+    else {
+      //navigation.navigate("Home")
     }
   }
 
@@ -34,7 +35,7 @@ const CarouselCards = () => {
         itemWidth={ITEM_WIDTH}
         onSnapToItem={(index) => setIndex(index)}
         useScrollView={true}
-      />
+        />
       <Pagination
         dotsLength={data.length}
         activeDotIndex={index}
@@ -51,7 +52,7 @@ const CarouselCards = () => {
         tappableDots={true}
       />
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.next} onPress={startApp}>
+        <TouchableOpacity style={styles.next} onPress={dots}>
           <Text style={styles.txt}>Next</Text>
         </TouchableOpacity>
       </View>
