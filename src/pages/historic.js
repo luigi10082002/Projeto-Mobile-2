@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet, FlatList, AsyncStorage } from "react-native";
+import { View, Text, StyleSheet, FlatList, AsyncStorage, TextInput, TouchableOpacity } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -35,6 +35,22 @@ export function Historic() {
   return (
     <View style={styles.container}>
       <Header title={"Historico"} modelo="Home"/>
+
+      <View style={styles.filter}>
+        <TextInput
+          style={styles.input}
+          autoCorrect={false}
+          //onChangeText={}
+          //value={String()}
+        >
+          <Text style={styles.label}>
+            
+          </Text>
+        </TextInput>
+        <TouchableOpacity style={styles.search}>
+          <Feather name="search" size={24} color="#000"/>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.legenda}>
           <View>
@@ -183,6 +199,26 @@ legenda: {
 
 prodlisttitle: {
   fontSize: 14,
+},
+input: {
+  borderColor: "#fff",
+  backgroundColor: "#CACACA",
+  fontSize: 16,
+  color: "#444",
+  height: "85%",
+  width: "70%",
+  borderRadius: 5,
+  marginLeft: "10%",
+  marginTop: "5%",
+},
+filter: {
+  flexDirection: 'row',
+},
+search: {
+  backgroundColor: "#CACACA",
+  marginTop: "5%",
+  height: "85%",
+  paddingHorizontal: 0,
 },
 });
 

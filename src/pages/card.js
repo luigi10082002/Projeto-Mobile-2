@@ -73,28 +73,28 @@ function MyCarousel({ props }) {
         hasParallaxImages={true}
         onSnapToItem={(index) => setIndex(index)}
       />
-      <Pagination
-        dotsLength={entries.length}
-        activeDotIndex={index}
-        carouselRef={carouselRef}
-        dotStyle={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          marginHorizontal: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.92)'
-        }}
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-        tappableDots={true}
-      />
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.btn} >
-            <Entypo name="arrow-long-left" size={65} color="#FFF" style={styles.arrow}/>
-          </TouchableOpacity>
 
+      <View style={styles.footer}>
+        
+
+        <Pagination
+          dotsLength={entries.length}
+          activeDotIndex={index}
+          carouselRef={carouselRef}
+          dotStyle={{
+            width: 10,
+            height: 10,
+            marginTop: '50%',
+            borderRadius: 5,
+            marginHorizontal: 0,
+            backgroundColor: '#4B7DFE'
+          }}
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+          tappableDots={true}
+        />
           <TouchableOpacity style={styles.btn} onPress={goForward}>
-            <Entypo name="arrow-long-right" size={65} color="#FFF" style={styles.arrow}/>
+            <Entypo name="arrow-long-right" size={40} color="#FFF" style={styles.arrow}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -107,11 +107,11 @@ export default MyCarousel;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 80
+    marginTop: '15%'
   },
   item: {
-    width: screenWidth - 60,
-    height: screenWidth - 80,
+    width: screenWidth - 50,
+    height: screenWidth - 0,
   },
   titel: {
     fontSize: 50
@@ -127,16 +127,16 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   footer: {
-    marginTop: '40%',
-    flexDirection: 'row',
+    marginTop: '5%',
+    flexDirection: 'column',
     justifyContent: 'center'
   },
   btn: {
-    backgroundColor: '#000',
-    width: 'auto',
-    height: '90%',
+    backgroundColor: '#4B7DFE',
+    width: '20%',
+    height: '23%',
     borderRadius: 5,
-    marginHorizontal: '20%'
+    marginLeft: '40%'
   },
   txt: {
     fontSize: 25,
@@ -147,5 +147,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     margin: '5%',
+  },
+  pagination: {
+    marginTop: '10%',
+    height: '15%',
+    width: '20%',
+    backgroundColor: '#000'
   },
 });
