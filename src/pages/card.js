@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import Carousel, {ParallaxImage} from 'react-native-snap-carousel';
+import Carousel, {ParallaxImage, Pagination } from 'react-native-snap-carousel';
 import {
   View,
   Text,
@@ -17,18 +17,24 @@ const {width: screenWidth} = Dimensions.get('window');
 
 function MyCarousel({ props }) {
   const [entries, setEntries] = useState([]);
+  const [index, setIndex] = useState(0);
   const carouselRef = useRef(null);
   const carousel = useRef(true);
 
   const navigation = useNavigation();
 
   function goForward() {
-    if(data.id == 3){
-      navigation.navigate("Home")
-  }
-  else {
-    carouselRef.current.snapToNext();
-  }
+    
+    if(index < entries.length - 1){
+      carouselRef.current.snapToNext();
+    }else{
+
+      navigation.navigate("Home", {
+        screen: "OnBoarding"
+    });
+     
+       
+    }
   };
 
 
@@ -44,6 +50,7 @@ function MyCarousel({ props }) {
           containerStyle={styles.imageContainer}
           style={styles.image}
           parallaxFactor={0.4}
+          
           {...parallaxProps}
         />
         <Text style={styles.title} numberOfLines={7} size={20}>
@@ -64,6 +71,22 @@ function MyCarousel({ props }) {
         data={entries}
         renderItem={renderItem}
         hasParallaxImages={true}
+        onSnapToItem={(index) => setIndex(index)}
+      />
+      <Pagination
+        dotsLength={entries.length}
+        activeDotIndex={index}
+        carouselRef={carouselRef}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          marginHorizontal: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.92)'
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+        tappableDots={true}
       />
         <View style={styles.footer}>
           <TouchableOpacity style={styles.btn} >
@@ -88,7 +111,7 @@ const styles = StyleSheet.create({
   },
   item: {
     width: screenWidth - 60,
-    height: screenWidth - 60,
+    height: screenWidth - 80,
   },
   titel: {
     fontSize: 50
@@ -104,7 +127,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   footer: {
-    marginTop: '70%',
+    marginTop: '40%',
     flexDirection: 'row',
     justifyContent: 'center'
   },
