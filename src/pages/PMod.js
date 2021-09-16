@@ -33,13 +33,14 @@ export function PMod() {
   const [qtd, setQtd] = useState(1);
   const [codigo, setCodigo] = useState();
 
-  const registro = 
+  const data = 
     new Date().getDate()
     + '/' +
     (new Date().getMonth() + 1)
     + '/' +
-    new Date().getFullYear()
-    + '   ' + 
+    new Date().getFullYear() 
+
+  const hora =
     new Date().getHours() 
     + ':' + 
     new Date().getMinutes() 
@@ -84,7 +85,8 @@ export function PMod() {
       //código do produto
       qtd: qtd,
       //quantidade do produto
-      date: registro
+      date: data,
+      hora: hora
     };
 
     //Verifica se tem alguma coisa na storage

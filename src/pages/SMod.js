@@ -33,6 +33,19 @@ export function SMod() {
   const [modulo, setModelo] = useState(route.params.id);
   const [Produto, setProduto] = useState([]);
 
+  const registro = 
+    new Date().getDate()
+    + '/' +
+    (new Date().getMonth() + 1)
+    + '/' +
+    new Date().getFullYear()
+    + '   ' + 
+    new Date().getHours() 
+    + ':' + 
+    new Date().getMinutes() 
+    + ':' + 
+    new Date().getSeconds()
+
   useFocusEffect(
     useCallback(() => {
       setModelo(paramModelo);
@@ -57,6 +70,7 @@ export function SMod() {
       id: uuid.v4(),
       produto: codigo,
       qtd: 1,
+      date: registro
     };
 
     //verifica se tem alguma coisa na storage se
@@ -89,7 +103,7 @@ export function SMod() {
       await AsyncStorage.setItem("@Historic", JSON.stringify(Produto));
     } else {
       await AsyncStorage.setItem(
-        "@Produtos",
+        "@Historic",
         JSON.stringify([...Produto, newProd])
       );
     }
