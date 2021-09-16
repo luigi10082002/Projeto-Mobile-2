@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native"
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native"
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 80
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7)
 
 export default function CarouselCardItem ({ item, index }) {
+
   return (
     <View style={styles.container}>
       <Image
@@ -14,6 +15,12 @@ export default function CarouselCardItem ({ item, index }) {
       />
       <Text style={styles.header}>{item.title}</Text>
       <Text style={styles.body}>{item.body}</Text>
+
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.next} >
+          <Text style={styles.txt}>Next</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }

@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native"
+import React, { useRef } from 'react'
+import { View, StyleSheet, Text } from "react-native"
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { useNavigation } from "@react-navigation/native";
 
@@ -11,14 +11,14 @@ const CarouselCards = () => {
 
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
-  //const [img, setImg] = data[0]
+  const carouselRef = useRef(null);
 
-  function dots({ item }) {
+  function dots() {
     if(index < 2) {
       setIndex(index + 1)
     } 
     else {
-      //navigation.navigate("Home")
+      navigation.navigate("Home")
     }
   }
 
@@ -51,11 +51,6 @@ const CarouselCards = () => {
         inactiveDotScale={0.6}
         tappableDots={true}
       />
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.next} onPress={dots}>
-          <Text style={styles.txt}>Next</Text>
-        </TouchableOpacity>
-      </View>
     </View>
     </View>
   )

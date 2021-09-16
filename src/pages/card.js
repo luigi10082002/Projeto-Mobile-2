@@ -9,23 +9,28 @@ import {
   Platform,
 } from 'react-native';
 import { Entypo } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import data from '../lib/data';
 
-
 const {width: screenWidth} = Dimensions.get('window');
 
-const MyCarousel = props => {
+function MyCarousel({ props }) {
   const [entries, setEntries] = useState([]);
   const carouselRef = useRef(null);
+  const carousel = useRef(true);
 
-  const goForward = () => {
+  const navigation = useNavigation();
+
+  function goForward() {
+    if(data.id == 3){
+      navigation.navigate("Home")
+  }
+  else {
     carouselRef.current.snapToNext();
+  }
   };
 
-  const goBack = () => {
-    carouselRef.current.snapToBack();
-  }
 
   useEffect(() => {
     setEntries(data);
@@ -61,12 +66,12 @@ const MyCarousel = props => {
         hasParallaxImages={true}
       />
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.previous} onPress={goBack}>
-            <Entypo name="arrow-long-left" size={40} color="#FFF"/>
+          <TouchableOpacity style={styles.btn} >
+            <Entypo name="arrow-long-left" size={65} color="#FFF" style={styles.arrow}/>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.next} onPress={goForward}>
-            <Entypo name="arrow-long-right" size={40} color="#FFF"/>
+          <TouchableOpacity style={styles.btn} onPress={goForward}>
+            <Entypo name="arrow-long-right" size={65} color="#FFF" style={styles.arrow}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -101,24 +106,23 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: '70%',
     flexDirection: 'row',
+    justifyContent: 'center'
   },
-  next: {
+  btn: {
     backgroundColor: '#000',
-    width: '30%',
-    height: 'auto',
-    marginLeft: '10%',
-    borderRadius: 5
-  },
-  previous: {
-    backgroundColor: '#E83F5B',
-    width: '30%',
-    height: 'auto',
-    marginLeft: '15%',
-    borderRadius: 5
+    width: 'auto',
+    height: '90%',
+    borderRadius: 5,
+    marginHorizontal: '20%'
   },
   txt: {
     fontSize: 25,
     color: "#fff",
     alignSelf: 'center',
-  }
+  },
+  arrow: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    margin: '5%',
+  },
 });

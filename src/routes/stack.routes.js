@@ -7,6 +7,7 @@ import { TabNavi } from './TabNavi';
 import { SMod } from '../pages/SMod';
 import { PMod } from '../pages/PMod';
 import { QRcode } from '../pages/QRcode';
+import Intro from '../pages/intro';
 import Carousel from '../pages/card';
 
 enableScreens();
